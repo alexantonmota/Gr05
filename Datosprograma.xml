@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2020-11-04T19:41:15.644293Z</date>
+  <millis>1604518875644</millis>
+  <nanos>293000</nanos>
+  <sequence>0</sequence>
+  <logger>logger</logger>
+  <level>INFO</level>
+  <class>InicioSesion</class>
+  <method>main</method>
+  <thread>1</thread>
+  <message>Inicio del programa Wed Nov 04 20:41:15 CET 2020</message>
+</record>
+</log>
