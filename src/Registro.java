@@ -1,4 +1,5 @@
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
@@ -9,7 +10,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.PrintStream;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.logging.Level;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
 /**
@@ -28,7 +33,7 @@ public class Registro {
 	private JTextField txtFecha;
 	private JPasswordField passContr;
 	static PrintStream log;
-	HashMap<String, String> usuarios = new HashMap<String, String>();
+	HashMap<String, String> clientes = new HashMap<String, String>();
 	private static final String EMAIL_PATTER = 
 		    "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
 		    + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
@@ -119,16 +124,9 @@ public class Registro {
 		btnCancelar.setBounds(254, 362, 155, 29);
 		frame1.getContentPane().add(btnCancelar);
 		
-		JButton btnRegis = new JButton("Registrarse\r\n");
-		btnRegis.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 15));
-		btnRegis.setBackground(Color.ORANGE);
-		btnRegis.setForeground(Color.GRAY);
-		btnRegis.setOpaque(true);
-		btnRegis.setBorderPainted(false);
 		
 		
-		btnRegis.setBounds(46, 362, 155, 29);
-		frame1.getContentPane().add(btnRegis);
+		
 		
 		txtUser = new JTextField();
 		txtUser.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 13));
@@ -265,6 +263,77 @@ public class Registro {
 		passContr.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 13));
 		passContr.setBounds(250, 292, 146, 26);
 		frame1.getContentPane().add(passContr);
+		
+		JButton btnRegis = new JButton("Registrarse\r\n");
+		btnRegis.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 15));
+		btnRegis.setBackground(Color.ORANGE);
+		btnRegis.setForeground(Color.GRAY);
+		btnRegis.setOpaque(true);
+		btnRegis.setBorderPainted(false);
+		
+		
+		btnRegis.setBounds(46, 362, 155, 29);
+		frame1.getContentPane().add(btnRegis);
+		btnRegis.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Conexion conexion = new Conexion();
+				Connection cn = conexion.conectar();
+				String username;
+				String password;
+				String nombre;
+				String apellido1;
+				String apellido2;
+				String fecha;
+				String email;
+				String sql="";
+				
+				username=txtUser.getText();
+				password=String.valueOf(passContr.getPassword());
+				nombre=txtNombre.getText();
+				apellido1=txtApe1.getText();
+				apellido2=txtApe2.getText();
+				fecha=txtFecha.getText();
+				email=txtEmail.getText();
+				
+				GestionClientes2 gestionusuario2 = new GestionClientes2();
+				Cliente cliente2 = new Cliente();
+				cliente2.setUsername(username);
+				
+				
+				Cliente cli = gestionusuario2.obtenerusuario2(cliente2);
+					
+				if(cli!=null) {
+					JOptionPane.showMessageDialog(null, "Usuario ya utilizado","ERROR", JOptionPane.ERROR_MESSAGE);
+				}else{
+					if (!email.matches(EMAIL_PATTER)) {
+						JOptionPane.showMessageDialog(null, "Email no valido", "ERROR", JOptionPane.ERROR_MESSAGE);
+					}else {
+						sql = "INSERT INTO Usuario (Username, contr, nombre, apellido1, apellido2, Fechanac, email) VALUES(?,?,?,?,?,?,?)";
+						try {
+							PreparedStatement pst = cn.prepareStatement(sql);
+							pst.setString(1, username);
+							pst.setString(2, password);
+							pst.setString(3, nombre);
+							pst.setString(4, apellido1);
+							pst.setString(5, apellido2);
+							pst.setString(6, fecha);
+							pst.setString(7, email);
+							int n = pst.executeUpdate();
+							if(n>0) {
+								JOptionPane.showMessageDialog(null, "Usuario registrado");
+								InicioSesion.log.log(Level.FINER,"Usuario registrado: "+username);
+								clientes.put(txtUser.getText(),String.valueOf(passContr.getPassword()));
+								frame1.dispose();
+								new InicioSesion();
+							}
+							}catch (SQLException l) {
+								l.printStackTrace();
+								JOptionPane.showMessageDialog(null, "Los datos no son validos" +l.getMessage(),"ERROR", JOptionPane.ERROR_MESSAGE);
+							}
+						}	
+				}
+				}});
+				
 		
 	}
 }
