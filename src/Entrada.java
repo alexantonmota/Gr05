@@ -65,7 +65,7 @@ public void setCantidad(int cantidad) {
 
 public void mostrarInfoEntrada() {
 	 System.out.println();               
-     System.out.println("Película:" + "<" + infoPelicula.titulo + ">");
+     System.out.println("Película:" + "<" + infoPelicula.getTitulo() + ">");
      System.out.println("Sesion:" + "<" + infoSesion.hora + ">");
      System.out.println("Sala:" + "<" + infoSala.nombre + ">");
      System.out.println("Asiento:" + "<" + infoSala.numAsientos+ ">");
