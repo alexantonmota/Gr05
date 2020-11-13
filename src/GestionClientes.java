@@ -20,6 +20,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
 import javax.swing.SwingConstants;
 /**
  * Ventana donde se gestionan los clientes
@@ -345,4 +349,33 @@ public class GestionClientes extends JDialog {
 			}
 		}
 	}
+
+	public Usuario obtenerusuario(Cliente cli) {
+		
+		Cliente cliente= null;
+		Conexion conexion2 = new Conexion();
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+		
+		try {
+			Connection cn2 = conexion2.conectar();
+			String sql = "select * from usuario where Username = ? and contr = ?";
+			pst = cn2.prepareStatement(sql);
+			pst.setString(1, cli.getUsername());
+			pst.setString(2, cli.getPassword());
+			rs = pst.executeQuery();
+			
+			while(rs.next()) {
+				cliente = new Cliente(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7));
+			}
+			
+		}catch (Exception e) {
+			System.out.println("error en obtener usuario");
+		}
+		
+		// TODO Auto-generated method stub
+		return cliente;
+	}
+
+	
 }

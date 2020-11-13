@@ -130,8 +130,7 @@ public class InicioSesion {
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				frame.dispose();
-				MenuPrincipal menuprincipal= new MenuPrincipal();
-				menuprincipal.setVisible(true);
+				ingresar();
 			}
 		});
 		btnNewButton_1.setForeground(Color.GRAY);
@@ -205,6 +204,29 @@ public class InicioSesion {
 		btnNewButton_2.setFont(new Font(".AppleSystemUIFont", Font.BOLD, 15));
 		btnNewButton_2.setBounds(254, 242, 138, 29);
 		frame.getContentPane().add(btnNewButton_2);
+	}
+	protected void ingresar() {
+		String usuario = textField.getText();
+		String contraseña = String.valueOf(passwordField.getPassword());
+		
+		GestionClientes gestionusuario = new GestionClientes();
+		Cliente cl2 = new Cliente();
+		cl2.setUsername(usuario);
+		cl2.setPassword(contraseña);
+		
+		Usuario usu = gestionusuario.obtenerusuario(cl2);
+			
+		if(usu!=null) {
+			frame.dispose();
+			JOptionPane.showMessageDialog(frame, "BIENVENIDO");
+			MenuPrincipal menu= new MenuPrincipal();
+			menu.setVisible(true);
+			InicioSesion.log.log(Level.FINER,"Usuario conectado: " + usuario);
+			
+		}else{
+			JOptionPane.showMessageDialog(frame, "Datos no validos", "error", JOptionPane.ERROR_MESSAGE);
+		}
+		
 	}
 	
 	

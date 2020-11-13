@@ -78,6 +78,10 @@ public class GestionPelis extends JDialog {
 		//Lista donde se mostraran los datos de  la base de datos de Clientes
 		JList listPel = new JList();
 		
+		
+		
+		
+		
 		txtTit = new JTextField();
 		txtTit.setEditable(false);
 		txtTit.setColumns(10);
@@ -235,6 +239,8 @@ public class GestionPelis extends JDialog {
 		btnGuardar.setForeground(Color.ORANGE);
 		btnGuardar.setOpaque(true);
 		btnGuardar.setBorderPainted(false);
+		
+		
 		
 		
 		JLabel lblMod = new JLabel("");
@@ -475,6 +481,8 @@ public class GestionPelis extends JDialog {
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
+			
 		}
+		
 	}
 }

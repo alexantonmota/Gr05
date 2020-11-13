@@ -1,3 +1,4 @@
+import java.awt.Image;
 import java.io.FileInputStream;
 /**
  * Clase Pelicula
@@ -8,90 +9,94 @@ import java.io.FileInputStream;
 
 public class Pelicula 
 {
-	protected FileInputStream cartel;
-    protected String titulo;
-    protected int anyo;
-    protected String sinopsis;           
-    protected Genero genero;  
-    protected String trailer;
+    private String titulo;
+    private Genero genero; 
+    private int anyo;
+    private String sinopsis;           
+    private int duracion;
+    private String trailer;
+    private String rutaFoto;
+    private String rutaFotoMenu;
+    
 
    
-                              
+                        
    
-    public Pelicula(FileInputStream cartel, String titulo, int anyo, String sinopsis, Genero genero, String trailer) {
+   	public Pelicula(String titulo, Genero genero, int anyo, String sinopsis, int duracion, String trailer,String rutaFoto, String rutaFotoMenu) {
 		super();
-		this.cartel = cartel;
 		this.titulo = titulo;
+		this.genero = genero;
 		this.anyo = anyo;
 		this.sinopsis = sinopsis;
-		this.genero = genero;
-		this.trailer= trailer;
+		this.duracion = duracion;
+		this.trailer = trailer;
+		this.rutaFoto = rutaFoto;
+		this.rutaFotoMenu = rutaFotoMenu;
 	}
-
-
-	public FileInputStream getCartel() {
-		return cartel;
+	public Pelicula(){
+		
 	}
-
-
-
-	public void setCartel(FileInputStream cartel) {
-		this.cartel = cartel;
-	}
-
-
-
+	
+	
+	
 	public String getTitulo() {
 		return titulo;
 	}
-
-
-
 	public void setTitulo(String titulo) {
 		this.titulo = titulo;
 	}
-
-
-	public int getAnyo() {
-		return anyo;
-	}
-
-
-	public void setAnyo(int anyo) {
-		this.anyo = anyo;
-	}
-
-
-
-	public String getSinopsis() {
-		return sinopsis;
-	}
-
-
-
-	public void setSinopsis(String sinopsis) {
-		this.sinopsis = sinopsis;
-	}
-
-
 	public Genero getGenero() {
 		return genero;
 	}
-
-
-
 	public void setGenero(Genero genero) {
 		this.genero = genero;
 	}
-
-
+	public int getAnyo() {
+		return anyo;
+	}
+	public void setAnyo(int anyo) {
+		this.anyo = anyo;
+	}
+	public String getSinopsis() {
+		return sinopsis;
+	}
+	public void setSinopsis(String sinopsis) {
+		this.sinopsis = sinopsis;
+	}
+	public int getDuracion() {
+		return duracion;
+	}
+	public void setDuracion(int duracion) {
+		this.duracion = duracion;
+	}
+	public String getTrailer() {
+		return trailer;
+	}
+	public void setTrailer(String trailer) {
+		this.trailer = trailer;
+	}
+	
+	public String getRutaFoto() {
+		return rutaFoto;
+	}
+	public void setRutaFoto(String rutaFoto) {
+		this.rutaFoto = rutaFoto;
+	}
+	public String getRutaFotoMenu() {
+		return rutaFotoMenu;
+	}
+	public void setRutaFotoMenu(String rutaFotoMenu) {
+		this.rutaFotoMenu = rutaFotoMenu;
+	}
+	
+	
 	public void mostrarInfoPelicula()
     {
         System.out.println();               
         System.out.println("Película:" + "<" + titulo + ">");
-        System.out.println("Año:" + "<" + anyo + ">");
         System.out.println("Género:" + "<" + genero + ">");
         System.out.println("Sinopsis:" + "<" + sinopsis + ">");
+        System.out.println("Duracion:" + "<" + duracion + ">");
         
     }
        

@@ -110,8 +110,7 @@ public class InicioSesionAdmin {
 		btnAcep.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
-				Gestion gestion= new Gestion();
-				gestion.setVisible(true);
+				ingresaradmin();
 				
 			}
 		});
@@ -121,7 +120,27 @@ public class InicioSesionAdmin {
 		passContr = new JPasswordField();
 		passContr.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 20));
 		passContr.setBounds(235, 169, 163, 29);
-		frame.getContentPane().add(passContr);
+		frame.getContentPane().add(passContr);}
+		
+		protected void ingresaradmin() {
+			String usuario = txtUser.getText();
+			String contraseña = String.valueOf(passContr.getPassword());
+			
+			GestionAdministrador gestionadministrador = new GestionAdministrador();
+			Administrador administrador2 = new Administrador();
+			administrador2.setUsername(usuario);
+			administrador2.setPassword(contraseña);
+			
+			Administrador admin = gestionadministrador.obteneradministrador(administrador2);
+				
+			if(admin!=null) {
+				frame.dispose();
+				JOptionPane.showMessageDialog(frame, "BIENVENIDO");
+				Gestion gestion = new Gestion();
+				gestion.setVisible(true);
+			}else{
+				JOptionPane.showMessageDialog(frame, "Datos no validos", "error", JOptionPane.ERROR_MESSAGE);
+			}
 	}
 	
 	
