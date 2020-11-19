@@ -1,4 +1,5 @@
 import java.awt.BorderLayout;
+
 import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.FlowLayout;
@@ -30,6 +31,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import java.awt.event.ActionListener;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -59,10 +61,9 @@ public class GestionPelicula extends JDialog {
 	private JTextField txtPosMenu;
 	private Image foto;
 	private Image fotomenu;
-	private String ruta1=null;
-	private String ruta2=null;
-	private FileInputStream fotoarchivo=null;
-	private FileInputStream fotoarchivomenu= null;
+	File file;
+	File file2;
+	
 	
 	DefaultListModel<String> listmodel = new DefaultListModel<String>();
 
@@ -204,8 +205,8 @@ public class GestionPelicula extends JDialog {
 			    int r=archivo.showOpenDialog(null);
 				if(r == JFileChooser.APPROVE_OPTION) {
 						
-					File file = archivo.getSelectedFile();
-					txtPosMenu.setText(String.valueOf(file));
+					 file2 = archivo.getSelectedFile();
+					txtPosMenu.setText(String.valueOf(file2));
 					fotomenu= getToolkit().getImage(txtPosMenu.getText());
 					fotomenu= fotomenu.getScaledInstance(300, 125, Image.SCALE_DEFAULT);
 					lblPosMenu.setIcon(new ImageIcon(fotomenu));
@@ -320,7 +321,7 @@ public class GestionPelicula extends JDialog {
 				    int r=archivo.showOpenDialog(null);
 					if(r == JFileChooser.APPROVE_OPTION) {
 							
-						File file = archivo.getSelectedFile();
+					 file = archivo.getSelectedFile();
 						textNomPoster.setText(String.valueOf(file));
 						foto= getToolkit().getImage(textNomPoster.getText());
 						foto= foto.getScaledInstance(380, 830, Image.SCALE_DEFAULT);
@@ -362,6 +363,9 @@ public class GestionPelicula extends JDialog {
 						Image poster;
 						Image posterMenu;
 						
+						ByteArrayOutputStream bos= null;
+						
+						
 						String sql1 = "";
 						titulo = textTitulo.getText();
 						genero = comboBox.getSelectedItem().toString();
@@ -374,34 +378,40 @@ public class GestionPelicula extends JDialog {
 						fotoPosterMenu= txtPosMenu.getText();
 						posterMenu= fotomenu;
 						
-						sql1 = "INSERT INTO Pelicula (titulo, anyo, genero, sinopsis, duracion, trailer, nomPoster, Poster, nomPMenu, PMenu) VALUES(?,?,?,?,?,?,?,?,?,?)";
+						FileInputStream fi= null;
+						FileInputStream fi2= null;
+						
+						
 						
 						GestionPeliculas gestionpeliculas = new GestionPeliculas();
 						Pelicula peli2 = new Pelicula();
 						peli2.setTitulo(titulo);
+						
 						Pelicula peli = gestionpeliculas.obtenerpeliculas(peli2);
+						
+						sql1 = "INSERT INTO pelicula (titulo, anyo, genero, sinopsis, duracion, trailer, nomPoster, poster, nomPMenu, pMenu) VALUES(?,?,?,?,?,?,?,?,?,?)";
 						
 						PreparedStatement ps1= null;
 					
 							try {
-								File file = new File(ruta1);
-								File file2= new File(ruta2);
 								
-								fotoarchivo= new FileInputStream(file);
-								fotoarchivomenu= new FileInputStream(file2);
 								
+								file= new File(fotoPoster);
+								file2=  new File(fotoPosterMenu);
+								fi= new FileInputStream(file);	
+								fi2=new FileInputStream(file2);
 								
 								PreparedStatement pst1 = cn1.prepareStatement(sql1);
 								pst1.setString(1, titulo);
-								pst1.setString(2, genero);
-								pst1.setString(3, anyo);
+								pst1.setString(2, anyo);
+								pst1.setString(3, genero);
 								pst1.setString(4, sinopsis);
 								pst1.setString(5, duracion);
 								pst1.setString(6, url);
 								pst1.setString(7, fotoPoster);
-								pst1.setBinaryStream(8, fotoarchivo);
+								pst1.setBinaryStream(8, fi);
 								pst1.setString(9, fotoPosterMenu);
-								pst1.setBinaryStream(10, fotoarchivomenu);
+								pst1.setBinaryStream(10, fi2);
 								pst1.executeUpdate();
 								
 								

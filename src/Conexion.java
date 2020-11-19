@@ -10,8 +10,8 @@ private Connection conn = null;
 	
 	public Connection conectar() {
 		try {
-			Class.forName("org.sqlite.JDBC");
-			conn = DriverManager.getConnection("jdbc:sqlite:database/Usuario.db");
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/proyecto","root","boobooga70");
 			
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Error al conectar la base de datos");

@@ -10,19 +10,16 @@ import java.io.FileInputStream;
 public class Pelicula 
 {
     private String titulo;
-    private Genero genero; 
+    private String genero; 
     private int anyo;
     private String sinopsis;           
     private int duracion;
     private String trailer;
     private String rutaFoto;
     private String rutaFotoMenu;
-    
-
+                 
    
-                        
-   
-   	public Pelicula(String titulo, Genero genero, int anyo, String sinopsis, int duracion, String trailer,String rutaFoto, String rutaFotoMenu) {
+   	public Pelicula(String titulo, String genero, int anyo, String sinopsis, int duracion, String trailer,String rutaFoto, String rutaFotoMenu) {
 		super();
 		this.titulo = titulo;
 		this.genero = genero;
@@ -45,11 +42,11 @@ public class Pelicula
 	public void setTitulo(String titulo) {
 		this.titulo = titulo;
 	}
-	public Genero getGenero() {
-		return genero;
+	public String getGenero() {
+		return String.valueOf(Genero.values());
 	}
-	public void setGenero(Genero genero) {
-		this.genero = genero;
+	public void setGenero(String genero) {
+		this.genero = String.valueOf(Genero.values());
 	}
 	public int getAnyo() {
 		return anyo;

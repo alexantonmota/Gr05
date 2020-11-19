@@ -13,7 +13,7 @@ public class GestionPeliculas {
 		
 		try {
 			Connection cn2 = conexion2.conectar();
-			String sql = "select * from pelicula where titulo = ?";
+			String sql = "select * from pelicula";
 			pst = cn2.prepareStatement(sql);
 			
 			pst.setString(1, peli.getTitulo());
