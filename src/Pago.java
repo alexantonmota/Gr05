@@ -1,5 +1,4 @@
 import javax.swing.JFrame;
-
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
@@ -83,7 +82,7 @@ public class Pago {
 		lblDniCliente.setFont(new Font(".AppleSystemUIFont", Font.BOLD, 15));
 		lblDniCliente.setBounds(55, 92, 126, 20);
 		frame3.getContentPane().add(lblDniCliente);
-		
+
 
 		JLabel lblIntroduceLosDatos = new JLabel("PAGO");
 		lblIntroduceLosDatos.setForeground(Color.ORANGE);
@@ -103,7 +102,7 @@ public class Pago {
 				char c= e.getKeyChar();
 				if (textTarjeta.getText().length()== limiteTarjeta | !Character.isDigit(c))
 
-			     e.consume();
+					e.consume();
 
 			}
 
@@ -112,7 +111,7 @@ public class Pago {
 
 			public void keyReleased(KeyEvent arg0) {
 			}
-			});
+		});
 
 		textCCV = new JTextField();
 		textCCV.setBounds(263, 182, 62, 26);
@@ -127,7 +126,7 @@ public class Pago {
 				char c=e.getKeyChar();
 				if (textCCV.getText().length()== limiteCCV| !Character.isDigit(c)) {
 
-			     e.consume();}
+					e.consume();}
 			}
 
 			public void keyPressed(KeyEvent arg0) {
@@ -135,7 +134,7 @@ public class Pago {
 
 			public void keyReleased(KeyEvent arg0) {
 			}
-			});
+		});
 
 		JButton btnPagar = new JButton("Aceptar");
 		btnPagar.setBackground(UIManager.getColor("Button.select"));
@@ -145,8 +144,8 @@ public class Pago {
 		btnPagar.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 15));
 		btnPagar.setBounds(80, 247, 138, 29);
 		frame3.getContentPane().add(btnPagar);
-		
-		
+
+
 
 
 		JButton btnCancel = new JButton("Cancelar");
@@ -161,42 +160,42 @@ public class Pago {
 				new JButton("Vuelta al login");
 				String cmd20 = e.getActionCommand();
 
-		        if(cmd20.equals("Open20"))
-		        {
-		            frame3.dispose();
-		            
-		        }
+				if(cmd20.equals("Open20"))
+				{
+					frame3.dispose();
+
+				}
 			}});
-		
+
 		btnCancel.setBounds(263, 247, 152, 29);
 		frame3.getContentPane().add(btnCancel);
-		
-		
-		
+
+
+
 		JComboBox MescomboBox = new JComboBox();
 		MescomboBox.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"}));
 		MescomboBox.setMaximumRowCount(12);
 		MescomboBox.setBounds(263, 153, 72, 27);
 		frame3.getContentPane().add(MescomboBox);
-		
+
 		JComboBox AnyocomboBox_1 = new JComboBox();
 		AnyocomboBox_1.setBackground(Color.GRAY);
 		AnyocomboBox_1.setMaximumRowCount(40);
 		AnyocomboBox_1.setModel(new DefaultComboBoxModel(new String[] {"20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40"}));
 		AnyocomboBox_1.setBounds(351, 153, 72, 27);
 		frame3.getContentPane().add(AnyocomboBox_1);
-		
+
 		JLabel lblFecha = new JLabel("Fecha cad.");
 		lblFecha.setFont(new Font(".AppleSystemUIFont", Font.BOLD, 15));
 		lblFecha.setForeground(Color.ORANGE);
 		lblFecha.setBounds(55, 156, 126, 16);
 		frame3.getContentPane().add(lblFecha);
-		
+
 		textNombre = new JTextField();
 		textNombre.setBounds(263, 90, 152, 22);
 		frame3.getContentPane().add(textNombre);
 		textNombre.setColumns(10);
-		
+
 		JLabel lblB = new JLabel("/");
 		lblB.setForeground(Color.ORANGE);
 		lblB.setFont(new Font(".AppleSystemUIFont", Font.BOLD, 15));

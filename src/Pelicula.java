@@ -1,5 +1,4 @@
-import java.awt.Image;
-import java.io.FileInputStream;
+
 /**
  * Clase Pelicula
  * @author alex
@@ -9,17 +8,17 @@ import java.io.FileInputStream;
 
 public class Pelicula 
 {
-    private String titulo;
-    private String genero; 
-    private int anyo;
-    private String sinopsis;           
-    private int duracion;
-    private String trailer;
-    private String rutaFoto;
-    private String rutaFotoMenu;
-                 
-   
-   	public Pelicula(String titulo, String genero, int anyo, String sinopsis, int duracion, String trailer,String rutaFoto, String rutaFotoMenu) {
+	private String titulo;
+	private String genero; 
+	private int anyo;
+	private String sinopsis;           
+	private int duracion;
+	private String trailer;
+	private String rutaFoto;
+	private String rutaFotoMenu;
+
+
+	public Pelicula(String titulo, String genero, int anyo, String sinopsis, int duracion, String trailer,String rutaFoto, String rutaFotoMenu) {
 		super();
 		this.titulo = titulo;
 		this.genero = genero;
@@ -31,11 +30,11 @@ public class Pelicula
 		this.rutaFotoMenu = rutaFotoMenu;
 	}
 	public Pelicula(){
-		
+
 	}
-	
-	
-	
+
+
+
 	public String getTitulo() {
 		return titulo;
 	}
@@ -72,7 +71,7 @@ public class Pelicula
 	public void setTrailer(String trailer) {
 		this.trailer = trailer;
 	}
-	
+
 	public String getRutaFoto() {
 		return rutaFoto;
 	}
@@ -85,16 +84,16 @@ public class Pelicula
 	public void setRutaFotoMenu(String rutaFotoMenu) {
 		this.rutaFotoMenu = rutaFotoMenu;
 	}
-	
-	
+
+
 	public void mostrarInfoPelicula()
-    {
-        System.out.println();               
-        System.out.println("Película:" + "<" + titulo + ">");
-        System.out.println("Género:" + "<" + genero + ">");
-        System.out.println("Sinopsis:" + "<" + sinopsis + ">");
-        System.out.println("Duracion:" + "<" + duracion + ">");
-        
-    }
-       
+	{
+		System.out.println();               
+		System.out.println("Película:" + "<" + titulo + ">");
+		System.out.println("Género:" + "<" + genero + ">");
+		System.out.println("Sinopsis:" + "<" + sinopsis + ">");
+		System.out.println("Duracion:" + "<" + duracion + ">");
+
+	}
+
 }

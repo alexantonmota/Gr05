@@ -4,10 +4,10 @@
  *
  */
 abstract class Usuario {
-	
+
 	private String username;
 	private String password;
-	
+
 	public Usuario(String username, String password) {
 		super();
 		this.username = username;
@@ -35,8 +35,8 @@ abstract class Usuario {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
-	
-	
+
+
+
 
 }

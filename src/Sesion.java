@@ -4,7 +4,7 @@
  *
  */
 public class Sesion {
-	
+
 	protected double hora;
 
 	public Sesion(double hora) {
@@ -17,14 +17,14 @@ public class Sesion {
 	}
 
 	public void setHora(double hora) {
-		
+
 		if(hora==16.00||hora==18.00||hora==20.00||hora==22.00) {
-		this.hora = hora;
+			this.hora = hora;
 		}else {
 			System.out.println("Selecciona un horario disponible");
 		}
 	}
-	
-	
+
+
 
 }

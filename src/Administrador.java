@@ -6,7 +6,7 @@
  *
  */
 public class Administrador extends Usuario {
-	
+
 	private boolean esAdmin;
 
 	public Administrador(String username, String password, boolean esAdmin) {
@@ -26,7 +26,7 @@ public class Administrador extends Usuario {
 	public void setEsAdmin(boolean esAdmin) {
 		this.esAdmin = esAdmin;
 	}
-	
-	
+
+
 
 }

@@ -2,51 +2,15 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2020-11-09T09:35:19.825707Z</date>
-  <millis>1604914519825</millis>
-  <nanos>707000</nanos>
+  <date>2020-11-19T15:28:52.332360Z</date>
+  <millis>1605799732332</millis>
+  <nanos>360000</nanos>
   <sequence>0</sequence>
   <logger>logger</logger>
   <level>INFO</level>
   <class>InicioSesion</class>
   <method>main</method>
   <thread>1</thread>
-  <message>Inicio del programa Mon Nov 09 10:35:19 CET 2020</message>
-</record>
-<record>
-  <date>2020-11-09T09:35:28.545563Z</date>
-  <millis>1604914528545</millis>
-  <nanos>563000</nanos>
-  <sequence>1</sequence>
-  <logger>logger</logger>
-  <level>FINER</level>
-  <class>InicioSesion</class>
-  <method>ingresar</method>
-  <thread>16</thread>
-  <message>Usuario conectado: alex10</message>
-</record>
-<record>
-  <date>2020-11-09T09:36:51.928497Z</date>
-  <millis>1604914611928</millis>
-  <nanos>497000</nanos>
-  <sequence>2</sequence>
-  <logger>logger</logger>
-  <level>FINER</level>
-  <class>Registro$7</class>
-  <method>actionPerformed</method>
-  <thread>16</thread>
-  <message>Usuario registrado: lusisomerhalder</message>
-</record>
-<record>
-  <date>2020-11-09T09:37:08.852010Z</date>
-  <millis>1604914628852</millis>
-  <nanos>10000</nanos>
-  <sequence>3</sequence>
-  <logger>logger</logger>
-  <level>FINER</level>
-  <class>InicioSesion</class>
-  <method>ingresar</method>
-  <thread>16</thread>
-  <message>Usuario conectado: lusisomerhalder</message>
+  <message>Inicio del programa Thu Nov 19 16:28:52 CET 2020</message>
 </record>
 </log>

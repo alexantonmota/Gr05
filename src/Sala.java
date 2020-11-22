@@ -4,9 +4,9 @@
  *
  */
 public class Sala {
-	
+
 	protected String nombre;
-	
+
 	protected int numAsientos;
 
 	public Sala(String nombre, int numAsientos) {
@@ -30,7 +30,7 @@ public class Sala {
 	public void setNumAsientos(int numAsientos) {
 		this.numAsientos = numAsientos;
 	}
-	
-	
-	
+
+
+
 }

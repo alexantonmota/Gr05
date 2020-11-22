@@ -4,13 +4,13 @@
  *
  */
 public class Cliente extends Usuario {
-	
+
 	private String email;
 	private String nombre;
 	private String apellido_1;
 	private String apellido_2;
 	private String fecha_nac;
-	
+
 	public Cliente(String username, String password, String email, String nombre, String apellido_1, String apellido_2,
 			String fecha_nac) {
 		super(username, password);
@@ -69,7 +69,7 @@ public class Cliente extends Usuario {
 	public void setFecha_nac(String fecha_nac) {
 		this.fecha_nac = fecha_nac;
 	}
-	
-	
+
+
 
 }
