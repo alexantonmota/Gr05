@@ -2,15 +2,27 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2020-11-25T11:50:32.139980Z</date>
-  <millis>1606305032139</millis>
-  <nanos>980000</nanos>
+  <date>2020-11-25T18:12:32.264533Z</date>
+  <millis>1606327952264</millis>
+  <nanos>533000</nanos>
   <sequence>0</sequence>
   <logger>logger</logger>
   <level>INFO</level>
-  <class>InicioSesion</class>
+  <class>VistaCliente.InicioSesion</class>
   <method>main</method>
   <thread>1</thread>
-  <message>Inicio del programa Wed Nov 25 12:50:32 CET 2020</message>
+  <message>Inicio del programa Wed Nov 25 19:12:32 CET 2020</message>
+</record>
+<record>
+  <date>2020-11-25T18:12:58.208659Z</date>
+  <millis>1606327978208</millis>
+  <nanos>659000</nanos>
+  <sequence>1</sequence>
+  <logger>logger</logger>
+  <level>FINER</level>
+  <class>VistaCliente.InicioSesion</class>
+  <method>ingresar</method>
+  <thread>16</thread>
+  <message>Usuario conectado: alexaml</message>
 </record>
 </log>

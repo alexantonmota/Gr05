@@ -23,14 +23,22 @@ public class Cliente extends Usuario {
 	}
 
 	public Cliente() {
-		super();
+		super("","");
 		this.email = "";
 		this.nombre = "";
 		this.apellido_1 = "";
 		this.apellido_2 = "";
 		this.fecha_nac = "";
 	}
-
+	public Cliente(Cliente c) {
+		super(c.username, c.password);
+		this.email = c.email;
+		this.nombre = c.nombre;
+		this.apellido_1 = c.apellido_1;
+		this.apellido_2 =c. apellido_2;
+		this.fecha_nac = c.fecha_nac;
+	}
+	
 	public String getEmail() {
 		return email;
 	}

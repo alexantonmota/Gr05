@@ -6,8 +6,8 @@ package model;
  */
 abstract class Usuario {
 
-	private String username;
-	private String password;
+	protected String username;
+	protected String password;
 
 	public Usuario(String username, String password) {
 		super();
@@ -21,6 +21,11 @@ abstract class Usuario {
 		this.password = "";
 	}
 
+	public Usuario(Usuario u) {
+		super();
+		this.username = u.username;
+		this.password = u.password;
+	}
 	public String getUsername() {
 		return username;
 	}
