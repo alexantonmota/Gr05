@@ -1,12 +1,12 @@
 package model;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import org.junit.Before;
 import org.junit.Test;
 
-public class testAdmin {
-
+public class AdminTest {
 
 	private Administrador a;
 	private Administrador prueba;
@@ -62,3 +62,4 @@ public class testAdmin {
 		}
 	}
 }
+
