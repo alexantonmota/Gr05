@@ -14,6 +14,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.GroupLayout.Alignment;
@@ -325,7 +326,11 @@ public class GestionAdministrador extends JDialog {
 	private static void mostrarTabla() {
 		DefaultTableModel modelo= new DefaultTableModel();
 		ResultSet rs= Conexion.getTabla("select username, contr from Admin");
-		modelo.setColumnIdentifiers(new Object[] {"Nombre de usuario","Contraseña"});
+		modelo.addColumn("Nombre de usuario");
+		modelo.addColumn("Contraseña");
+		
+		
+		
 		try {
 			while(rs.next()) {
 				modelo.addRow(new Object[] {rs.getString("username"),rs.getString("contr")});
