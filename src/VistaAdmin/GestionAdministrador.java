@@ -14,6 +14,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -36,14 +37,10 @@ public class GestionAdministrador extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JLabel lblGA;
-	private JTextField textNom;
-	private JTextField textApe1;
-	private JTextField textApe2;
-	private JTextField textFecha;
+	private JTextField textUsu;
 	private JTextField textCont;
-	private JTextField textNomU;
-	private JTextField textEmail;
 	private JTextField textBus;
+	private JTable table;
 
 	/**
 	 * Launch the application.
@@ -77,64 +74,29 @@ public class GestionAdministrador extends JDialog {
 		//Lista donde se mostraran los datos de  la base de datos de Administradores
 		JList listAdmin = new JList();
 
-		textNom = new JTextField();
-		textNom.setEditable(false);
-		textNom.setColumns(10);
 
-		textApe1 = new JTextField();
-		textApe1.setEditable(false);
-		textApe1.setColumns(10);
+		textUsu = new JTextField();
+		textUsu.setEditable(false);
+		textUsu.setColumns(10);
 
-		textApe2 = new JTextField();
-		textApe2.setEditable(false);
-		textApe2.setColumns(10);
-
-		textFecha = new JTextField();
-		textFecha.setEditable(false);
-		textFecha.setColumns(10);
 
 		textCont = new JTextField();
 		textCont.setEditable(false);
 		textCont.setColumns(10);
 
-		textNomU = new JTextField();
-		textNomU.setEditable(false);
-		textNomU.setColumns(10);
-
-		textEmail = new JTextField();
-		textEmail.setEditable(false);
-		textEmail.setColumns(10);
 
 		textBus = new JTextField();
 		textBus.setColumns(10);
 
-		JLabel lblNom = new JLabel("Nombre");
-		lblNom.setForeground(Color.ORANGE);
-		lblNom.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 18));
 
-		JLabel lblApe1 = new JLabel("1er Apellido");
-		lblApe1.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 18));
-		lblApe1.setForeground(new Color(255, 200, 0));
+		JLabel lblUsu = new JLabel("Nombre de usuario");
+		lblUsu.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 18));
+		lblUsu.setForeground(Color.ORANGE);
 
-		JLabel lblApe2 = new JLabel("2ndo Apellido");
-		lblApe2.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 18));
-		lblApe2.setForeground(Color.ORANGE);
-
-		JLabel lblFecha = new JLabel("Fecha nacimiento");
-		lblFecha.setForeground(Color.ORANGE);
-		lblFecha.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 18));
-
-		JLabel lblNomU = new JLabel("Nombre de usuario");
-		lblNomU.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 18));
-		lblNomU.setForeground(Color.ORANGE);
 
 		JLabel lblCont = new JLabel("Contraseña");
 		lblCont.setForeground(Color.ORANGE);
 		lblCont.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 18));
-
-		JLabel lblEmail = new JLabel("Email");
-		lblEmail.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 18));
-		lblEmail.setForeground(Color.ORANGE);
 
 		JLabel lblBus = new JLabel("Buscar");
 		lblBus.setForeground(Color.ORANGE);
@@ -155,13 +117,10 @@ public class GestionAdministrador extends JDialog {
 
 			//Al pulsar habilito edicion de los campos y se verá botón guardar
 			public void mouseClicked(MouseEvent e) {
-				textNom.setEditable(true);
-				textApe1.setEditable(true);
-				textApe2.setEditable(true);
-				textFecha.setEditable(true);
+
+				textUsu.setEditable(true);
 				textCont.setEditable(true);
-				textNomU.setEditable(true);
-				textEmail.setEditable(true);
+				
 				btnGuardar.setBackground(Color.GRAY);
 			}
 		});
@@ -182,13 +141,8 @@ public class GestionAdministrador extends JDialog {
 			//Al pulsar habilito edicion de los campos y se verá botón guardar
 			public void mouseClicked(MouseEvent e) {
 
-				textNom.setEditable(true);
-				textApe1.setEditable(true);
-				textApe2.setEditable(true);
-				textFecha.setEditable(true);
+				textUsu.setEditable(true);
 				textCont.setEditable(true);
-				textNomU.setEditable(true);
-				textEmail.setEditable(true);
 				btnGuardar.setBackground(Color.GRAY);
 			}
 		});
@@ -208,126 +162,91 @@ public class GestionAdministrador extends JDialog {
 		JLabel lblEliA = new JLabel("Eliminar Admin");
 		lblEliA.setForeground(Color.ORANGE);
 		lblEliA.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 18));
+		table = new JTable();
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
 		gl_contentPanel.setHorizontalGroup(
-				gl_contentPanel.createParallelGroup(Alignment.LEADING)
+			gl_contentPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPanel.createSequentialGroup()
-						.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_contentPanel.createSequentialGroup()
-										.addGap(184)
-										.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-												.addComponent(lblNom)
-												.addComponent(lblApe1)
-												.addComponent(lblApe2)
-												.addComponent(lblFecha))
-										.addGap(59)
-										.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-												.addComponent(textFecha, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-												.addComponent(textApe1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-												.addComponent(textNom, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-												.addComponent(textApe2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-										.addGap(186)
-										.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-												.addComponent(lblEmail)
-												.addComponent(lblCont)
-												.addComponent(lblNomU))
-										.addPreferredGap(ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
-										.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-												.addComponent(textCont, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-												.addComponent(textEmail, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-												.addComponent(textNomU, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-										.addGap(92))
-								.addGroup(gl_contentPanel.createSequentialGroup()
-										.addGap(149)
-										.addComponent(listAdmin, GroupLayout.PREFERRED_SIZE, 708, GroupLayout.PREFERRED_SIZE)
-										.addGap(41)
-										.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
-												.addComponent(lblAny, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-												.addComponent(lblMod, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-												.addComponent(lblEli, GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE))
-										.addPreferredGap(ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
-										.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-												.addComponent(lblAnyA)
-												.addComponent(lblEliA)
-												.addComponent(lblModA)))
-								.addGroup(gl_contentPanel.createSequentialGroup()
-										.addGap(365)
-										.addComponent(lblBus)
-										.addGap(36)
-										.addComponent(textBus, GroupLayout.PREFERRED_SIZE, 281, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_contentPanel.createSequentialGroup()
-										.addGap(361)
-										.addComponent(lblGA, GroupLayout.PREFERRED_SIZE, 502, GroupLayout.PREFERRED_SIZE)))
-						.addContainerGap(33, GroupLayout.PREFERRED_SIZE))
-				);
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGap(184)
+							.addComponent(lblUsu)
+							.addGap(93)
+							.addComponent(textUsu, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addGap(186)
+							.addComponent(lblCont)
+							.addPreferredGap(ComponentPlacement.RELATED, 111, Short.MAX_VALUE)
+							.addComponent(textCont, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addGap(92))
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGap(147)
+							.addComponent(table, GroupLayout.PREFERRED_SIZE, 636, GroupLayout.PREFERRED_SIZE)
+							.addGap(115)
+							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
+								.addComponent(lblAny, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(lblMod, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(lblEli, GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE))
+							.addPreferredGap(ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
+							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblAnyA)
+								.addComponent(lblEliA)
+								.addComponent(lblModA)))
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGap(365)
+							.addComponent(lblBus)
+							.addGap(36)
+							.addComponent(textBus, GroupLayout.PREFERRED_SIZE, 281, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGap(361)
+							.addComponent(lblGA, GroupLayout.PREFERRED_SIZE, 502, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap(33, GroupLayout.PREFERRED_SIZE))
+		);
 		gl_contentPanel.setVerticalGroup(
-				gl_contentPanel.createParallelGroup(Alignment.LEADING)
+			gl_contentPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPanel.createSequentialGroup()
-						.addGap(28)
-						.addComponent(lblGA)
-						.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
-								.addGroup(gl_contentPanel.createSequentialGroup()
-										.addGap(56)
-										.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-												.addComponent(lblNom)
-												.addComponent(textNom, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-												.addComponent(lblApe1)
-												.addComponent(textApe1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-										.addPreferredGap(ComponentPlacement.RELATED))
-								.addGroup(Alignment.TRAILING, gl_contentPanel.createSequentialGroup()
-										.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-										.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-												.addComponent(lblNomU)
-												.addComponent(textNomU, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-										.addGap(18)))
-						.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
-										.addComponent(lblApe2)
-										.addComponent(textApe2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_contentPanel.createSequentialGroup()
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
-												.addComponent(textCont, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-												.addComponent(lblCont))))
-						.addPreferredGap(ComponentPlacement.RELATED)
+					.addGap(28)
+					.addComponent(lblGA)
+					.addGap(120)
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
-								.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-										.addComponent(textFecha, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-										.addComponent(lblEmail)
-										.addComponent(textEmail, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-								.addComponent(lblFecha))
-						.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+							.addComponent(lblUsu)
+							.addComponent(textUsu, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
+								.addComponent(textCont, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblCont))))
+					.addGap(28)
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGap(114)
+							.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblBus)
+								.addComponent(textBus, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGap(190)
+							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
 								.addGroup(gl_contentPanel.createSequentialGroup()
-										.addGap(114)
-										.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-												.addComponent(lblBus)
-												.addComponent(textBus, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-								.addGroup(gl_contentPanel.createSequentialGroup()
-										.addGap(190)
-										.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
-												.addGroup(gl_contentPanel.createSequentialGroup()
-														.addGap(66)
-														.addComponent(lblAny, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)
-														.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-														.addComponent(lblMod, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
-														.addPreferredGap(ComponentPlacement.UNRELATED)
-														.addComponent(lblEli, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)
-														.addGap(11))
-												.addGroup(gl_contentPanel.createSequentialGroup()
-														.addGap(53)
-														.addComponent(listAdmin, GroupLayout.PREFERRED_SIZE, 292, GroupLayout.PREFERRED_SIZE))
-												.addGroup(gl_contentPanel.createSequentialGroup()
-														.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-														.addComponent(lblAnyA)
-														.addGap(69)
-														.addComponent(lblModA)
-														.addGap(78)
-														.addComponent(lblEliA)
-														.addGap(36)))))
-						.addContainerGap(25, Short.MAX_VALUE))
-				);
+									.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+									.addComponent(lblAnyA)
+									.addGap(69)
+									.addComponent(lblModA)
+									.addGap(78)
+									.addComponent(lblEliA)
+									.addGap(36))
+								.addGroup(Alignment.TRAILING, gl_contentPanel.createSequentialGroup()
+									.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
+										.addComponent(table, GroupLayout.PREFERRED_SIZE, 319, GroupLayout.PREFERRED_SIZE)
+										.addGroup(gl_contentPanel.createSequentialGroup()
+											.addGap(66)
+											.addComponent(lblAny, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)
+											.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+											.addComponent(lblMod, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+											.addPreferredGap(ComponentPlacement.UNRELATED)
+											.addComponent(lblEli, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)))
+									.addGap(11)))))
+					.addContainerGap(25, Short.MAX_VALUE))
+		);
 		contentPanel.setLayout(gl_contentPanel);
 		{
 			JPanel buttonPane = new JPanel();
