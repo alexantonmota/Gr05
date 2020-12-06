@@ -20,6 +20,10 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
+
+import com.mysql.jdbc.ResultSetMetaData;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Connection;
@@ -40,7 +44,7 @@ public class GestionAdministrador extends JDialog {
 	private JTextField textUsu;
 	private JTextField textCont;
 	private JTextField textBus;
-	private JTable table;
+	private static JTable table;
 
 	/**
 	 * Launch the application.
@@ -50,6 +54,8 @@ public class GestionAdministrador extends JDialog {
 			GestionAdministrador dialog = new GestionAdministrador();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
+			mostrarTabla();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -72,7 +78,7 @@ public class GestionAdministrador extends JDialog {
 		}
 
 		//Lista donde se mostraran los datos de  la base de datos de Administradores
-		JList listAdmin = new JList();
+		
 
 
 		textUsu = new JTextField();
@@ -162,7 +168,14 @@ public class GestionAdministrador extends JDialog {
 		JLabel lblEliA = new JLabel("Eliminar Admin");
 		lblEliA.setForeground(Color.ORANGE);
 		lblEliA.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 18));
+		
+
+		
+		
+		
 		table = new JTable();
+		
+		
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
 		gl_contentPanel.setHorizontalGroup(
 			gl_contentPanel.createParallelGroup(Alignment.LEADING)
@@ -277,13 +290,15 @@ public class GestionAdministrador extends JDialog {
 		}
 
 	}
+	
 	public Administrador obteneradministrador(Administrador admin) {
 		Administrador administrador = null;
 
 		Conexion conexion1 = new Conexion();
 		PreparedStatement pst = null;
 		ResultSet rs = null;
-
+		
+		
 		try {
 			Connection cn1 = conexion1.conectar();
 			String sql = "select * from admin where Username = ? and contr = ?";
@@ -291,14 +306,34 @@ public class GestionAdministrador extends JDialog {
 			pst.setString(1, admin.getUsername());
 			pst.setString(2, admin.getPassword());
 			rs = pst.executeQuery();
+			
+			
+		
+			
 
 			while(rs.next()) {
 				administrador = new Administrador(rs.getString(1), rs.getString(2), rs.getBoolean(3));
+			
 			}
 
 		}catch (Exception e) {
 			System.out.println("Error en obtener Administrador");
 		}
 		return administrador;
+	}
+	
+	private static void mostrarTabla() {
+		DefaultTableModel modelo= new DefaultTableModel();
+		ResultSet rs= Conexion.getTabla("select username, contr from Admin");
+		modelo.setColumnIdentifiers(new Object[] {"Nombre de usuario","Contraseña"});
+		try {
+			while(rs.next()) {
+				modelo.addRow(new Object[] {rs.getString("username"),rs.getString("contr")});
+			}
+			table.setModel(modelo);
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		
 	}
 }
