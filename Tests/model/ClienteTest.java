@@ -14,12 +14,24 @@ public class ClienteTest {
 	@Before
 	public void setUp() {
 
-		c=  new Cliente("alex","1234","alex@gmail.com","Alex","Anton","Mota","27/09/1999");
+		c=  new Cliente(1,"alex","1234","alex@gmail.com","Alex","Anton","Mota","27/09/1999");
 		prueba=  new Cliente(c);
 		empty= new Cliente();
 
 	}	
 
+	@Test
+	public void testGetId() {
+		assertEquals(1, c.getId());
+		assertEquals(1, prueba.getId());
+		assertEquals(0, empty.getId());
+	}@Test
+	public void testSetId() {
+		c.setId(2);
+		assertEquals(2, c.getId());
+		
+	}
+	
 	@Test
 	public void testGetUsername() {
 		assertEquals("alex", c.getUsername());
