@@ -381,7 +381,7 @@ public class GestionClientes extends JDialog {
 			rs = pst.executeQuery();
 
 			while(rs.next()) {
-				cliente = new Cliente(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7));
+				cliente = new Cliente(rs.getInt(1),rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8));
 			}
 
 		}catch (Exception e) {
@@ -393,7 +393,8 @@ public class GestionClientes extends JDialog {
 	}
 	private static void mostrarTabla() {
 		DefaultTableModel modelo= new DefaultTableModel();
-		ResultSet rs= Conexion.getTabla("select Username, contr, nombre, apellido1, apellido2, Fechanac, email from Usuario");
+		ResultSet rs= Conexion.getTabla("select id,Username, contr, nombre, apellido1, apellido2, Fechanac, email from Usuario");
+		modelo.addColumn("Id");
 		modelo.addColumn("Nombre de usuario");
 		modelo.addColumn("Contraseña");
 		modelo.addColumn("Nombre");
@@ -406,7 +407,7 @@ public class GestionClientes extends JDialog {
 		
 		try {
 			while(rs.next()) {
-				modelo.addRow(new Object[] {rs.getString("Username"),rs.getString("contr"),rs.getString("nombre"),rs.getString("apellido1"),rs.getString("apellido2"),rs.getString("Fechanac"),rs.getString("email")});
+				modelo.addRow(new Object[] {rs.getInt("id"),rs.getString("Username"),rs.getString("contr"),rs.getString("nombre"),rs.getString("apellido1"),rs.getString("apellido2"),rs.getString("Fechanac"),rs.getString("email")});
 			}
 			table.setModel(modelo);
 		} catch (Exception e) {
