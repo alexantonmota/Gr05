@@ -30,8 +30,12 @@ import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
+
 import model.Administrador;
 import Conexion.Conexion;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 /**
  * Ventana donde se gestionan los Admins
  * @author alex
@@ -44,8 +48,9 @@ public class GestionAdministrador extends JDialog {
 	private JLabel lblGA;
 	private JTextField textUsu;
 	private JTextField textCont;
-	private JTextField textBus;
-	private static JTable table;
+	private static JTextField textBus;
+	private static  JTable table;
+	 static DefaultTableModel modelo;
 
 	/**
 	 * Launch the application.
@@ -56,6 +61,7 @@ public class GestionAdministrador extends JDialog {
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 			mostrarTabla();
+
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -93,6 +99,39 @@ public class GestionAdministrador extends JDialog {
 
 
 		textBus = new JTextField();
+		textBus.addKeyListener(new KeyAdapter() {
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				String[]titulos= {"Nombre de uasuario","Contraseña"};
+				String[]datos= new String[50];
+				
+				
+				String sql= "SELECT *FROM Admin WHERE username LIKE '%"+ textBus.getText()+ "%'" +
+						"OR contr LIKE '%"+ textBus.getText()+"%'";
+				modelo= new DefaultTableModel(null,titulos);
+			Conexion cc= new Conexion();
+			Connection conect= cc.conectar();
+			
+			
+			
+			try {
+				Statement stmt= (Statement) conect.createStatement();
+				ResultSet rs= stmt.executeQuery(sql);
+				while(rs.next()) {
+					datos[0]= rs.getString("username");
+					datos[1]= rs.getString("contr");
+					modelo.addRow(datos);
+					
+					
+					
+				}
+				table.setModel(modelo);
+			} catch (Exception ex) {
+				System.out.println("error en búsqueda");
+				}
+			}
+		});
 		textBus.setColumns(10);
 
 
@@ -301,7 +340,7 @@ public class GestionAdministrador extends JDialog {
 		
 		
 		try {
-			Connection cn1 = conexion1.conectar();
+			Connection cn1 = Conexion.conectar();
 			String sql = "select * from admin where Username = ? and contr = ?";
 			pst = cn1.prepareStatement(sql);
 			pst.setString(1, admin.getUsername());
@@ -323,22 +362,34 @@ public class GestionAdministrador extends JDialog {
 		return administrador;
 	}
 	
-	private static void mostrarTabla() {
-		DefaultTableModel modelo= new DefaultTableModel();
-		ResultSet rs= Conexion.getTabla("select username, contr from Admin");
-		modelo.addColumn("Nombre de usuario");
-		modelo.addColumn("Contraseña");
+	public static void mostrarTabla() {
+		String[] titulos= {"Nombre de usuario", "Contraseña"};
+		String[] datos= new String[50];
 		
-		
-		
+		String sql= "SELECT username, contr from Admin";
+		modelo= new DefaultTableModel(null,titulos);
+		Conexion cc= new Conexion();
+		Connection conect= Conexion.conectar();
 		try {
+			Statement stmt= (Statement) conect.createStatement();
+			ResultSet rs= stmt.executeQuery(sql);
 			while(rs.next()) {
-				modelo.addRow(new Object[] {rs.getString("username"),rs.getString("contr")});
+				datos[0]= rs.getString("username");
+				datos[1]= rs.getString("contr");
+				modelo.addRow(datos);
 			}
 			table.setModel(modelo);
+			
 		} catch (Exception e) {
 			System.out.println(e);
 		}
+			// TODO: handle exception
+		}
+		
+	public static void buscarTabla(JTable Table){
+		
+	
+		
 		
 	}
 }
