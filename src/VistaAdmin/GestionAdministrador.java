@@ -50,7 +50,7 @@ public class GestionAdministrador extends JDialog {
 	private JTextField textCont;
 	private static JTextField textBus;
 	private static  JTable table;
-	 static DefaultTableModel modelo;
+	static DefaultTableModel modelo;
 
 	/**
 	 * Launch the application.
@@ -62,7 +62,7 @@ public class GestionAdministrador extends JDialog {
 			dialog.setVisible(true);
 			mostrarTabla();
 
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -85,12 +85,13 @@ public class GestionAdministrador extends JDialog {
 		}
 
 		//Lista donde se mostraran los datos de  la base de datos de Administradores
-		
+
 
 
 		textUsu = new JTextField();
 		textUsu.setEditable(false);
 		textUsu.setColumns(10);
+
 
 
 		textCont = new JTextField();
@@ -100,35 +101,35 @@ public class GestionAdministrador extends JDialog {
 
 		textBus = new JTextField();
 		textBus.addKeyListener(new KeyAdapter() {
-			
+
 			@Override
 			public void keyPressed(KeyEvent e) {
 				String[]titulos= {"Nombre de uasuario","Contraseña"};
 				String[]datos= new String[50];
-				
-				
+
+
 				String sql= "SELECT *FROM Admin WHERE username LIKE '%"+ textBus.getText()+ "%'" +
 						"OR contr LIKE '%"+ textBus.getText()+"%'";
 				modelo= new DefaultTableModel(null,titulos);
-			Conexion cc= new Conexion();
-			Connection conect= cc.conectar();
-			
-			
-			
-			try {
-				Statement stmt= (Statement) conect.createStatement();
-				ResultSet rs= stmt.executeQuery(sql);
-				while(rs.next()) {
-					datos[0]= rs.getString("username");
-					datos[1]= rs.getString("contr");
-					modelo.addRow(datos);
-					
-					
-					
-				}
-				table.setModel(modelo);
-			} catch (Exception ex) {
-				System.out.println("error en búsqueda");
+				Conexion cc= new Conexion();
+				Connection conect= cc.conectar();
+
+
+
+				try {
+					Statement stmt= (Statement) conect.createStatement();
+					ResultSet rs= stmt.executeQuery(sql);
+					while(rs.next()) {
+						datos[0]= rs.getString("username");
+						datos[1]= rs.getString("contr");
+						modelo.addRow(datos);
+
+
+
+					}
+					table.setModel(modelo);
+				} catch (Exception ex) {
+					System.out.println("error en búsqueda");
 				}
 			}
 		});
@@ -166,7 +167,7 @@ public class GestionAdministrador extends JDialog {
 
 				textUsu.setEditable(true);
 				textCont.setEditable(true);
-				
+
 				btnGuardar.setBackground(Color.GRAY);
 			}
 		});
@@ -176,6 +177,34 @@ public class GestionAdministrador extends JDialog {
 		lblMod.setBorder(new LineBorder(new Color(255, 200, 0), 3, true));
 
 		JLabel lblEli = new JLabel("");
+		lblEli.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Conexion cc= new Conexion();
+				Connection conect= cc.conectar();
+
+				int fila= table.getSelectedRow();
+				String codigo= table.getValueAt(fila, 0).toString();
+
+				String sql= "DELETE FROM Admin WHERE username='"+textUsu.getText()+"'";
+				if(fila>0) {
+					PreparedStatement ps=null;
+
+					try {
+
+						ps= conect.prepareStatement("Delete from Admin where username=?");
+						ps.setString(1, codigo);
+						ps.execute();
+
+					} catch (Exception e2) {
+						System.out.println(e2);					}
+					modelo.removeRow(fila);
+
+				}else {
+
+				}
+			}
+		});
 		lblEli.setIcon(new ImageIcon("/Users/alex/eclipse-workspace5/CineDeusto/Imagenes/dsjn.png"));
 		lblEli.setOpaque(true);
 		lblEli.setBackground(Color.orange);
@@ -208,98 +237,125 @@ public class GestionAdministrador extends JDialog {
 		JLabel lblEliA = new JLabel("Eliminar Admin");
 		lblEliA.setForeground(Color.ORANGE);
 		lblEliA.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 18));
-		
 
-		
-		
-		
+
+
+
+
 		table = new JTable();
-		
-		
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int seleccion= table.rowAtPoint(e.getPoint());
+				textUsu.setText(String.valueOf(table.getValueAt(seleccion, 0)));
+				textCont.setText(String.valueOf(table.getValueAt(seleccion, 1)));
+			}
+
+		});
+
+		JLabel lblNewLabel = new JLabel("Nombre de usuario");
+		lblNewLabel.setForeground(Color.ORANGE);
+		lblNewLabel.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 18));
+
+		JLabel lblNewLabel_1 = new JLabel("Contraseña");
+		lblNewLabel_1.setForeground(Color.ORANGE);
+		lblNewLabel_1.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 18));
+
+
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
 		gl_contentPanel.setHorizontalGroup(
-			gl_contentPanel.createParallelGroup(Alignment.LEADING)
+				gl_contentPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addGap(184)
-							.addComponent(lblUsu)
-							.addGap(93)
-							.addComponent(textUsu, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addGap(186)
-							.addComponent(lblCont)
-							.addPreferredGap(ComponentPlacement.RELATED, 111, Short.MAX_VALUE)
-							.addComponent(textCont, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addGap(92))
-						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addGap(147)
-							.addComponent(table, GroupLayout.PREFERRED_SIZE, 636, GroupLayout.PREFERRED_SIZE)
-							.addGap(115)
-							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
-								.addComponent(lblAny, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(lblMod, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(lblEli, GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE))
-							.addPreferredGap(ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
-							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblAnyA)
-								.addComponent(lblEliA)
-								.addComponent(lblModA)))
-						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addGap(365)
-							.addComponent(lblBus)
-							.addGap(36)
-							.addComponent(textBus, GroupLayout.PREFERRED_SIZE, 281, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addGap(361)
-							.addComponent(lblGA, GroupLayout.PREFERRED_SIZE, 502, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(33, GroupLayout.PREFERRED_SIZE))
-		);
-		gl_contentPanel.setVerticalGroup(
-			gl_contentPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addGap(28)
-					.addComponent(lblGA)
-					.addGap(120)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
-							.addComponent(lblUsu)
-							.addComponent(textUsu, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
-								.addComponent(textCont, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblCont))))
-					.addGap(28)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addGap(114)
-							.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblBus)
-								.addComponent(textBus, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addGap(190)
-							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
+						.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_contentPanel.createSequentialGroup()
-									.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addComponent(lblAnyA)
-									.addGap(69)
-									.addComponent(lblModA)
-									.addGap(78)
-									.addComponent(lblEliA)
-									.addGap(36))
-								.addGroup(Alignment.TRAILING, gl_contentPanel.createSequentialGroup()
-									.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
-										.addComponent(table, GroupLayout.PREFERRED_SIZE, 319, GroupLayout.PREFERRED_SIZE)
-										.addGroup(gl_contentPanel.createSequentialGroup()
-											.addGap(66)
-											.addComponent(lblAny, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)
-											.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-											.addComponent(lblMod, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
-											.addPreferredGap(ComponentPlacement.UNRELATED)
-											.addComponent(lblEli, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)))
-									.addGap(11)))))
-					.addContainerGap(25, Short.MAX_VALUE))
-		);
+										.addGap(184)
+										.addComponent(lblUsu)
+										.addGap(93)
+										.addComponent(textUsu, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addGap(186)
+										.addComponent(lblCont)
+										.addPreferredGap(ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
+										.addComponent(textCont, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addGap(92))
+								.addGroup(gl_contentPanel.createSequentialGroup()
+										.addGap(147)
+										.addComponent(table, GroupLayout.PREFERRED_SIZE, 636, GroupLayout.PREFERRED_SIZE)
+										.addGap(115)
+										.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
+												.addComponent(lblAny, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+												.addComponent(lblMod, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+												.addComponent(lblEli, GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE))
+										.addPreferredGap(ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
+										.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+												.addComponent(lblAnyA)
+												.addComponent(lblEliA)
+												.addComponent(lblModA)))
+								.addGroup(gl_contentPanel.createSequentialGroup()
+										.addGap(361)
+										.addComponent(lblGA, GroupLayout.PREFERRED_SIZE, 502, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_contentPanel.createSequentialGroup()
+										.addGap(365)
+										.addComponent(lblBus)
+										.addGap(36)
+										.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+												.addComponent(lblNewLabel_1)
+												.addComponent(textBus, GroupLayout.PREFERRED_SIZE, 281, GroupLayout.PREFERRED_SIZE))))
+						.addContainerGap(9, GroupLayout.PREFERRED_SIZE))
+				.addGroup(gl_contentPanel.createSequentialGroup()
+						.addGap(162)
+						.addComponent(lblNewLabel)
+						.addContainerGap(885, Short.MAX_VALUE))
+				);
+		gl_contentPanel.setVerticalGroup(
+				gl_contentPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPanel.createSequentialGroup()
+						.addGap(28)
+						.addComponent(lblGA)
+						.addGap(120)
+						.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
+										.addComponent(lblUsu)
+										.addComponent(textUsu, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_contentPanel.createSequentialGroup()
+										.addPreferredGap(ComponentPlacement.RELATED)
+										.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
+												.addComponent(textCont, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+												.addComponent(lblCont))))
+						.addGap(28)
+						.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING, false)
+								.addGroup(gl_contentPanel.createSequentialGroup()
+										.addGap(171)
+										.addComponent(lblNewLabel))
+								.addGroup(gl_contentPanel.createSequentialGroup()
+										.addGap(114)
+										.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
+												.addComponent(lblBus)
+												.addComponent(textBus, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+										.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+										.addComponent(lblNewLabel_1)))
+						.addGap(18)
+						.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING, false)
+								.addGroup(gl_contentPanel.createSequentialGroup()
+										.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+										.addComponent(lblAnyA)
+										.addGap(69)
+										.addComponent(lblModA)
+										.addGap(78)
+										.addComponent(lblEliA)
+										.addGap(36))
+								.addGroup(gl_contentPanel.createSequentialGroup()
+										.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
+												.addComponent(table, GroupLayout.PREFERRED_SIZE, 319, GroupLayout.PREFERRED_SIZE)
+												.addGroup(gl_contentPanel.createSequentialGroup()
+														.addGap(66)
+														.addComponent(lblAny, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)
+														.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+														.addComponent(lblMod, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
+														.addPreferredGap(ComponentPlacement.UNRELATED)
+														.addComponent(lblEli, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)))
+										.addGap(11)))
+						.addContainerGap(25, Short.MAX_VALUE))
+				);
 		contentPanel.setLayout(gl_contentPanel);
 		{
 			JPanel buttonPane = new JPanel();
@@ -330,15 +386,15 @@ public class GestionAdministrador extends JDialog {
 		}
 
 	}
-	
+
 	public Administrador obteneradministrador(Administrador admin) {
 		Administrador administrador = null;
 
 		Conexion conexion1 = new Conexion();
 		PreparedStatement pst = null;
 		ResultSet rs = null;
-		
-		
+
+
 		try {
 			Connection cn1 = Conexion.conectar();
 			String sql = "select * from admin where Username = ? and contr = ?";
@@ -346,14 +402,14 @@ public class GestionAdministrador extends JDialog {
 			pst.setString(1, admin.getUsername());
 			pst.setString(2, admin.getPassword());
 			rs = pst.executeQuery();
-			
-			
-		
-			
+
+
+
+
 
 			while(rs.next()) {
 				administrador = new Administrador(rs.getString(1), rs.getString(2), rs.getBoolean(3));
-			
+
 			}
 
 		}catch (Exception e) {
@@ -361,11 +417,11 @@ public class GestionAdministrador extends JDialog {
 		}
 		return administrador;
 	}
-	
+
 	public static void mostrarTabla() {
 		String[] titulos= {"Nombre de usuario", "Contraseña"};
 		String[] datos= new String[50];
-		
+
 		String sql= "SELECT username, contr from Admin";
 		modelo= new DefaultTableModel(null,titulos);
 		Conexion cc= new Conexion();
@@ -376,20 +432,17 @@ public class GestionAdministrador extends JDialog {
 			while(rs.next()) {
 				datos[0]= rs.getString("username");
 				datos[1]= rs.getString("contr");
+
 				modelo.addRow(datos);
 			}
 			table.setModel(modelo);
-			
+
+
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-			// TODO: handle exception
-		}
-		
-	public static void buscarTabla(JTable Table){
-		
-	
-		
-		
+		// TODO: handle exception
 	}
+
+
 }
