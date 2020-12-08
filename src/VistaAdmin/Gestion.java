@@ -77,6 +77,7 @@ public class Gestion extends JDialog {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					GestionClientes gestionclientes= new GestionClientes();
+					gestionclientes.mostrarTabla();
 					gestionclientes.setVisible(true);
 
 
@@ -84,12 +85,13 @@ public class Gestion extends JDialog {
 			});
 		}
 		{
-			//Abre GestionAdministrado
+			//Abre GestionAdministrador
 			lblAd = new JLabel("");
 			lblAd.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					GestionAdministrador gestionadmin= new GestionAdministrador();
+					gestionadmin.mostrarTabla();
 					gestionadmin.setVisible(true);
 				}
 			});

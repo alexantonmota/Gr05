@@ -48,6 +48,10 @@ import javax.swing.SwingConstants;
 public class GestionAdministrador extends JDialog {
 
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JLabel lblGA;
 	private JTextField textUsu;
@@ -176,7 +180,7 @@ public class GestionAdministrador extends JDialog {
 				int fila= table.getSelectedRow();
 				String codigo= table.getValueAt(fila, 0).toString();
 
-				String sql= "DELETE FROM Admin WHERE username='"+textUsu.getText()+"'";
+				
 				if(fila>0) {
 					PreparedStatement ps=null;
 
@@ -185,6 +189,7 @@ public class GestionAdministrador extends JDialog {
 						ps= conect.prepareStatement("Delete from Admin where username=?");
 						ps.setString(1, codigo);
 						ps.execute();
+						JOptionPane.showMessageDialog(null, "Administrador Eliminado");
 
 					} catch (Exception e2) {
 						System.out.println(e2);					}
@@ -270,6 +275,7 @@ public class GestionAdministrador extends JDialog {
 		});
 
 		table = new JTable();
+		table.setSelectionBackground(Color.ORANGE);
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {

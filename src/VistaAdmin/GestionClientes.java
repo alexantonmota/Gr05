@@ -12,14 +12,17 @@ import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JLabel;
+import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JTextField;
 import javax.swing.ImageIcon;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -28,10 +31,15 @@ import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
+
 import model.Cliente;
 import Conexion.Conexion;
 
 import javax.swing.SwingConstants;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.Component;
 /**
  * Ventana donde se gestionan los clientes
  * @author alex
@@ -53,8 +61,10 @@ public class GestionClientes extends JDialog {
 	private JTextField txtCont;
 	private JTextField txtEmail;
 	private JTextField txtBus;
-	private static JTable table= new JTable();
-
+	private static JTable table;
+	static DefaultTableModel modelo;
+	DefaultListModel<String> listmodel2 = new DefaultListModel<String>();
+	private JTextField textID;
 	/**
 	 * Launch the application.
 	 */
@@ -84,8 +94,7 @@ public class GestionClientes extends JDialog {
 			lblGC.setForeground(Color.ORANGE);
 		}
 		//Lista donde se mostraran los datos de  la base de datos de Clientes
-		JList listCli = new JList();
-
+		
 		txtNom = new JTextField();
 		txtNom.setEditable(false);
 		txtNom.setColumns(10);
@@ -115,6 +124,54 @@ public class GestionClientes extends JDialog {
 		txtEmail.setColumns(10);
 
 		txtBus = new JTextField();
+		txtBus.setBackground(Color.ORANGE);
+		txtBus.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+
+				String[]titulos= {"ID","Nombre de usuario","Contraseña","Nombre","Apellido 1","Apellido 2", "Fecha de nacimiento","Email"};
+				String[]datos= new String[50];
+
+
+				String sql= "SELECT *FROM Usuario WHERE username LIKE '%"+ txtBus.getText()+ "%'" + "OR ID like '%"+txtBus.getText()+"%'"+
+						"OR contr LIKE '%"+ txtBus.getText()+"%'"+	"OR nombre LIKE '%"+ txtBus.getText()+"%'" +
+						"OR apellido1 LIKE '%"+ txtBus.getText()+"%'"+
+						"OR apellido2 LIKE '%"+ txtBus.getText()+"%'"+
+						"OR Fechanac LIKE '%"+ txtBus.getText()+"%'"+
+						"OR email LIKE '%"+ txtBus.getText()+"%'";
+				modelo= new DefaultTableModel(null,titulos);
+
+				Conexion cc= new Conexion();
+				Connection conect= cc.conectar();
+
+
+
+				try {
+					Statement stmt= (Statement) conect.createStatement();
+					ResultSet rs= stmt.executeQuery(sql);
+					while(rs.next()) {
+						datos[0]= rs.getString("ID");
+						datos[1]= rs.getString("username");
+						datos[2]= rs.getString("contr");
+						datos[3]= rs.getString("nombre");
+						datos[4]= rs.getString("apellido1");
+						datos[5]= rs.getString("apellido2");
+						datos[6]= rs.getString("Fechanac");
+						datos[7]= rs.getString("email");
+						modelo.addRow(datos);
+
+
+
+					}
+					table.setModel(modelo);
+					TableColumnModel columnmodel= table.getColumnModel();
+					columnmodel.getColumn(0).setPreferredWidth(15);
+
+				} catch (Exception ex) {
+					System.out.println("error en búsqueda");
+
+				}
+			}});
 		txtBus.setColumns(10);
 
 		JLabel lblNom = new JLabel("Nombre");
@@ -150,19 +207,103 @@ public class GestionClientes extends JDialog {
 		lblBus.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 18));
 
 		JLabel lblEli = new JLabel("");
-		lblEli.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblEli.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Conexion cc= new Conexion();
+				Connection conect= cc.conectar();
+
+				int fila= table.getSelectedRow();
+				String codigo= table.getValueAt(fila, 0).toString();
+
+
+				if(fila>0) {
+					PreparedStatement ps=null;
+
+					try {
+
+						ps= conect.prepareStatement("Delete from Usuario where ID=?");
+						ps.setString(1, codigo);
+						int n= ps.executeUpdate();
+						
+						if(n>0) {
+							JOptionPane.showMessageDialog(null, "Cliente Eliminado");
+						}
+
+					} catch (Exception e2) {
+						System.out.println(e2);					}
+					modelo.removeRow(fila);
+
+				}else {
+
+				}
+			
+		}
+	});
+		lblEli.setHorizontalAlignment(SwingConstants.CENTER);
 		lblEli.setIcon(new ImageIcon("/Users/alex/eclipse-workspace5/CineDeusto/Imagenes/dsjn.png"));
 		lblEli.setOpaque(true);
 		lblEli.setBackground(Color.orange);
 		lblEli.setBorder(new LineBorder(new Color(255, 200, 0), 3, true));
 
 		//Añado un botón del color del panel para que no se vea
-		JButton btnGuardar = new JButton("Guardar");
-		btnGuardar.setBackground(Color.ORANGE);
-		btnGuardar.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 15));
-		btnGuardar.setForeground(Color.ORANGE);
-		btnGuardar.setOpaque(true);
-		btnGuardar.setBorderPainted(false);
+		JButton btnAnyadir = new JButton("Añadir");
+		btnAnyadir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Conexion conexion1 = new Conexion();
+				Connection cn1 = conexion1.conectar();
+				
+				String username= txtNomU.getText();
+				String contra= txtCont.getText();
+				String nombre= txtNom.getText();
+				String apellido1= txtApe1.getText();
+				String apellido2= txtApe2.getText();
+				String fecha= txtFecha.getText();
+				String email= txtEmail.getText();
+				
+				String sql= "INSERT INTO Usuario (username, contr, nombre, apellido1, apellido2, Fechanac, email) VALUES(?,?,?,?,?,?,?)";
+				PreparedStatement ps1= null;
+				
+				try {
+					PreparedStatement pst1 = cn1.prepareStatement(sql);
+				
+					pst1.setString(1, username);
+					pst1.setString(2, contra);
+					pst1.setString(3, nombre);
+					pst1.setString(4, apellido1);
+					pst1.setString(5, apellido2);
+					pst1.setString(6, fecha);
+					pst1.setString(7, email);
+					
+					
+					
+					int n = pst1.executeUpdate();
+					if(n>0) {
+						JOptionPane.showMessageDialog(null, "Cliente añadido");
+						if(!txtNomU.getText().isEmpty() && !txtCont.getText().isEmpty() && !txtApe1.getText().isEmpty()&& !txtApe2.getText().isEmpty()&& !txtFecha.getText().isEmpty()&& !txtEmail.getText().isEmpty()) {
+							listmodel2.addElement("Nombre de usuario:"+txtNomU.getText()+","+"Contraseña:"+txtCont.getText());
+						}}
+				mostrarTabla();
+				txtNomU.setEditable(false);
+				txtCont.setEditable(false);
+				txtApe1.setEditable(false);
+				txtApe2.setEditable(false);
+				txtFecha.setEditable(false);
+				txtEmail.setEditable(false);
+				
+				btnAnyadir.setBackground(Color.ORANGE);
+
+				} catch (Exception e2) {
+					JOptionPane.showMessageDialog(null, "ERROR");
+				}
+			}
+			
+		});
+		btnAnyadir.setBackground(Color.ORANGE);
+		btnAnyadir.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 15));
+		btnAnyadir.setForeground(Color.ORANGE);
+		btnAnyadir.setOpaque(true);
+		btnAnyadir.setBorderPainted(false);
 		JLabel lblAny = new JLabel("");
 		lblAny.addMouseListener(new MouseAdapter() {
 			@Override
@@ -177,7 +318,8 @@ public class GestionClientes extends JDialog {
 				txtCont.setEditable(true);;
 				txtEmail.setEditable(true);;
 				txtBus.setEditable(true);;
-				btnGuardar.setBackground(Color.GRAY);
+				btnAnyadir.setBackground(Color.GRAY);
+				
 
 
 			}
@@ -187,6 +329,46 @@ public class GestionClientes extends JDialog {
 		lblAny.setBackground(Color.orange);
 		lblAny.setBorder(new LineBorder(new Color(255, 200, 0), 3, true));
 
+		JButton btnModificar = new JButton("Modificar");
+		btnModificar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				Conexion conexion1 = new Conexion();
+				Connection cn1 = conexion1.conectar();
+				PreparedStatement ps3 =null;
+				try {
+					
+					ps3= cn1.prepareStatement("UPDATE Usuario SET username='"+txtNomU.getText()+"',contr='"+txtCont.getText()+"',nombre='"+txtNom.getText()+"',apellido1='"+txtApe1.getText()+"',apellido2='"+txtApe2.getText()+"',Fechanac='"+txtFecha.getText()+"',email='"+txtEmail.getText()+"'where id='"+textID.getText()+"'");
+				
+					mostrarTabla();
+					int n= ps3.executeUpdate();
+					if(n>0) {
+						JOptionPane.showMessageDialog(null, "Cliente Modificado");
+					}
+					
+				} catch (Exception e) {
+					System.out.println(e);
+					// TODO: handle exception
+				}
+		txtNomU.setEditable(false);
+		txtCont.setEditable(false);
+		txtNom.setEditable(false);
+		txtApe1.setEditable(false);
+		txtApe2.setEditable(false);
+		txtFecha.setEditable(false);
+		txtEmail.setEditable(false);
+		btnModificar.setBackground(Color.ORANGE);
+		
+			}
+		});
+		btnModificar.setBackground(Color.ORANGE);
+		btnModificar.setForeground(Color.ORANGE);
+		btnModificar.setOpaque(true);
+		btnModificar.setBorderPainted(false);
+		
+		btnModificar.setForeground(Color.ORANGE);
+		btnModificar.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 15));
+		
 
 
 		JLabel lblMod = new JLabel("");
@@ -203,7 +385,7 @@ public class GestionClientes extends JDialog {
 				txtCont.setEditable(true);;
 				txtEmail.setEditable(true);;
 				txtBus.setEditable(true);;
-				btnGuardar.setBackground(Color.GRAY);
+				btnModificar.setBackground(Color.GRAY);
 
 
 
@@ -226,6 +408,66 @@ public class GestionClientes extends JDialog {
 		JLabel lblEliC = new JLabel("Eliminar cliente");
 		lblEliC.setForeground(Color.ORANGE);
 		lblEliC.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 18));
+		
+		table= new JTable();
+		table.setAlignmentY(Component.BOTTOM_ALIGNMENT);
+		table.setSelectionBackground(Color.ORANGE);
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				int seleccion= table.rowAtPoint(e.getPoint());
+				txtNomU.setText(String.valueOf(table.getValueAt(seleccion, 1)));
+				txtCont.setText(String.valueOf(table.getValueAt(seleccion, 2)));
+				txtNom.setText(String.valueOf(table.getValueAt(seleccion, 3)));
+				txtApe1.setText(String.valueOf(table.getValueAt(seleccion, 4)));
+				txtApe2.setText(String.valueOf(table.getValueAt(seleccion, 5)));
+				txtFecha.setText(String.valueOf(table.getValueAt(seleccion, 6)));
+				txtEmail.setText(String.valueOf(table.getValueAt(seleccion, 7)));
+				textID.setText(String.valueOf(table.getValueAt(seleccion,0)));
+			}
+		});
+		
+		textID = new JTextField();
+		textID.setBackground(Color.GRAY);
+		textID.setForeground(Color.GRAY);
+		textID.setOpaque(true);
+		textID.setBorder(null);
+	
+		textID.setEditable(false);
+		textID.setColumns(10);
+		
+		JLabel lblNewLabel = new JLabel("ID");
+		lblNewLabel.setForeground(Color.ORANGE);
+		lblNewLabel.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 13));
+		
+		JLabel lblNewLabel_1 = new JLabel("Usuario");
+		lblNewLabel_1.setForeground(Color.ORANGE);
+		lblNewLabel_1.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 13));
+		
+		JLabel lblNewLabel_2 = new JLabel("Nombre");
+		lblNewLabel_2.setForeground(Color.ORANGE);
+		lblNewLabel_2.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 13));
+		
+		JLabel lblNewLabel_3 = new JLabel("Apellido 1");
+		lblNewLabel_3.setForeground(Color.ORANGE);
+		lblNewLabel_3.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 13));
+		
+		JLabel lblNewLabel_4 = new JLabel("Apellido 2");
+		lblNewLabel_4.setForeground(Color.ORANGE);
+		lblNewLabel_4.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 13));
+		
+		JLabel lblNewLabel_5 = new JLabel("Fecha Nacimiento");
+		lblNewLabel_5.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 13));
+		lblNewLabel_5.setForeground(Color.ORANGE);
+		
+		JLabel lblNewLabel_6 = new JLabel("Email");
+		lblNewLabel_6.setForeground(Color.ORANGE);
+		lblNewLabel_6.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 13));
+		
+		JLabel lblNewLabel_7 = new JLabel("Contraseña");
+		lblNewLabel_7.setForeground(Color.ORANGE);
+		lblNewLabel_7.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 13));
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
 		gl_contentPanel.setHorizontalGroup(
 			gl_contentPanel.createParallelGroup(Alignment.LEADING)
@@ -233,54 +475,84 @@ public class GestionClientes extends JDialog {
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPanel.createSequentialGroup()
 							.addGap(140)
-							.addComponent(table, GroupLayout.PREFERRED_SIZE, 686, GroupLayout.PREFERRED_SIZE)
-							.addGap(34)
 							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblEli, GroupLayout.DEFAULT_SIZE, 64, Short.MAX_VALUE)
-								.addComponent(lblMod, GroupLayout.DEFAULT_SIZE, 64, Short.MAX_VALUE)
-								.addComponent(lblAny, GroupLayout.DEFAULT_SIZE, 64, Short.MAX_VALUE))
-							.addGap(32)
-							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblEliC)
-								.addComponent(lblAnyC)
-								.addComponent(lblModC))
-							.addGap(32))
-						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addGap(202)
-							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblApe1)
-								.addComponent(lblApe2)
-								.addComponent(lblFecha)
 								.addGroup(gl_contentPanel.createSequentialGroup()
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(lblNom)))
-							.addGap(27)
-							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-								.addComponent(txtNom, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(txtApe1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(txtApe2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(txtFecha, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addGap(47)
-							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblNomU)
-								.addComponent(lblContr)
-								.addComponent(lblEmail))
-							.addGap(18)
-							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-								.addComponent(txtCont, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(txtEmail, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(txtNomU, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
-					.addGap(49))
-				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addGap(357)
-					.addComponent(lblBus)
-					.addGap(27)
-					.addComponent(txtBus, GroupLayout.PREFERRED_SIZE, 281, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(461, Short.MAX_VALUE))
-				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addGap(347)
-					.addComponent(lblGC, GroupLayout.PREFERRED_SIZE, 432, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(411, Short.MAX_VALUE))
+									.addComponent(lblNewLabel)
+									.addGap(0)
+									.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
+										.addGroup(gl_contentPanel.createSequentialGroup()
+											.addGap(18)
+											.addComponent(lblNewLabel_1)
+											.addGap(11)
+											.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+												.addGroup(gl_contentPanel.createSequentialGroup()
+													.addPreferredGap(ComponentPlacement.RELATED)
+													.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+														.addComponent(lblApe1)
+														.addComponent(lblApe2)
+														.addComponent(lblFecha)
+														.addComponent(lblNom))
+													.addGap(27)
+													.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+														.addComponent(txtNom, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+														.addComponent(txtApe1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+														.addComponent(txtApe2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+														.addComponent(txtFecha, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+												.addGroup(gl_contentPanel.createSequentialGroup()
+													.addGap(30)
+													.addComponent(lblNewLabel_7)
+													.addGap(18)
+													.addComponent(lblNewLabel_2)
+													.addGap(41)
+													.addComponent(lblNewLabel_3)
+													.addGap(27)
+													.addComponent(lblNewLabel_4)))
+											.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+												.addGroup(gl_contentPanel.createSequentialGroup()
+													.addGap(18)
+													.addComponent(lblNewLabel_5)
+													.addGap(18)
+													.addComponent(lblNewLabel_6))
+												.addGroup(gl_contentPanel.createSequentialGroup()
+													.addGap(88)
+													.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+														.addComponent(lblContr)
+														.addComponent(lblNomU)
+														.addComponent(lblEmail))))
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+												.addGroup(gl_contentPanel.createSequentialGroup()
+													.addPreferredGap(ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
+													.addComponent(textID, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+												.addGroup(gl_contentPanel.createSequentialGroup()
+													.addGap(18)
+													.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+														.addComponent(txtNomU, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+														.addComponent(txtCont, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+														.addComponent(txtEmail, GroupLayout.PREFERRED_SIZE, 168, GroupLayout.PREFERRED_SIZE)))))
+										.addGroup(gl_contentPanel.createSequentialGroup()
+											.addGap(193)
+											.addComponent(lblBus)
+											.addGap(18)
+											.addComponent(txtBus, GroupLayout.PREFERRED_SIZE, 281, GroupLayout.PREFERRED_SIZE))))
+								.addGroup(gl_contentPanel.createSequentialGroup()
+									.addComponent(table, GroupLayout.PREFERRED_SIZE, 686, GroupLayout.PREFERRED_SIZE)
+									.addGap(34)
+									.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+										.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING, false)
+											.addComponent(lblMod, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+											.addComponent(lblEli, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 66, Short.MAX_VALUE))
+										.addComponent(lblAny, GroupLayout.PREFERRED_SIZE, 64, GroupLayout.PREFERRED_SIZE))
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+										.addComponent(lblModC)
+										.addComponent(lblEliC)
+										.addComponent(lblAnyC))))
+							.addGap(14))
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGap(347)
+							.addComponent(lblGC, GroupLayout.PREFERRED_SIZE, 432, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		gl_contentPanel.setVerticalGroup(
 			gl_contentPanel.createParallelGroup(Alignment.TRAILING)
@@ -290,51 +562,65 @@ public class GestionClientes extends JDialog {
 					.addGap(55)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(txtNom, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(txtNomU, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblNom)
 						.addComponent(lblNomU)
-						.addComponent(lblNom))
+						.addComponent(txtNomU, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(txtApe1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(txtCont, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblApe1)
-						.addComponent(lblContr))
+						.addComponent(lblContr)
+						.addComponent(txtCont, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(txtApe2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(txtEmail, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblApe2)
-						.addComponent(lblEmail))
+						.addComponent(lblEmail)
+						.addComponent(txtEmail, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(txtFecha, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblFecha))
-					.addGap(101)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblFecha)
+						.addComponent(textID, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(55)
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
 						.addComponent(txtBus, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblBus))
-					.addPreferredGap(ComponentPlacement.RELATED, 96, Short.MAX_VALUE)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING, false)
+					.addGap(95)
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
 						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addComponent(lblAnyC)
-							.addGap(81)
-							.addComponent(lblModC)
-							.addGap(89)
-							.addComponent(lblEliC)
-							.addGap(89))
-						.addGroup(Alignment.LEADING, gl_contentPanel.createSequentialGroup()
-							.addGap(13)
-							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+							.addComponent(lblAny, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(lblMod, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE)
+							.addGap(97))
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
+								.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
+									.addComponent(lblNewLabel)
+									.addComponent(lblNewLabel_7)
+									.addComponent(lblNewLabel_2)
+									.addComponent(lblNewLabel_1))
+								.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
+									.addComponent(lblNewLabel_3)
+									.addComponent(lblNewLabel_4)
+									.addComponent(lblNewLabel_5)
+									.addComponent(lblNewLabel_6)))
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
 								.addGroup(gl_contentPanel.createSequentialGroup()
-									.addComponent(table, GroupLayout.PREFERRED_SIZE, 282, GroupLayout.PREFERRED_SIZE)
-									.addContainerGap())
-								.addGroup(gl_contentPanel.createSequentialGroup()
-									.addComponent(lblAny, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addComponent(lblMod, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE)
-									.addGap(18)
-									.addComponent(lblEli, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE)
-									.addGap(60))))))
+									.addComponent(lblAnyC)
+									.addGap(75)
+									.addComponent(lblModC)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
+										.addGroup(gl_contentPanel.createSequentialGroup()
+											.addGap(41)
+											.addComponent(lblEli, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE))
+										.addGroup(Alignment.TRAILING, gl_contentPanel.createSequentialGroup()
+											.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+											.addComponent(lblEliC)
+											.addGap(39))))
+								.addComponent(table, GroupLayout.PREFERRED_SIZE, 285, GroupLayout.PREFERRED_SIZE)))))
 		);
 		contentPanel.setLayout(gl_contentPanel);
 		{
@@ -342,7 +628,7 @@ public class GestionClientes extends JDialog {
 			buttonPane.setBackground(Color.ORANGE);
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
-
+			buttonPane.add(btnModificar);
 			{
 				JButton cancelButton = new JButton("Salir");
 				cancelButton.addActionListener(new ActionListener() {
@@ -350,9 +636,10 @@ public class GestionClientes extends JDialog {
 						dispose();
 					}
 				});
+				
+				
 
-
-				buttonPane.add(btnGuardar);
+				buttonPane.add(btnAnyadir);
 
 				cancelButton.setForeground(Color.ORANGE);
 				cancelButton.setBackground(Color.GRAY);
@@ -363,57 +650,58 @@ public class GestionClientes extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
-	}
+}
 
-	public Cliente obtenerusuario(Cliente cli) {
+public Cliente obtenerusuario(Cliente cli) {
 
-		Cliente cliente= null;
-		Conexion conexion2 = new Conexion();
-		PreparedStatement pst = null;
-		ResultSet rs = null;
+	Cliente cliente= null;
+	Conexion conexion2 = new Conexion();
+	PreparedStatement pst = null;
+	ResultSet rs = null;
 
-		try {
-			Connection cn2 = conexion2.conectar();
-			String sql = "select * from usuario where Username = ? and contr = ?";
-			pst = cn2.prepareStatement(sql);
-			pst.setString(1, cli.getUsername());
-			pst.setString(2, cli.getPassword());
-			rs = pst.executeQuery();
+	try {
+		Connection cn2 = conexion2.conectar();
+		String sql = "select * from usuario where Username = ? and contr = ?";
+		pst = cn2.prepareStatement(sql);
+		pst.setString(1, cli.getUsername());
+		pst.setString(2, cli.getPassword());
+		rs = pst.executeQuery();
 
-			while(rs.next()) {
-				cliente = new Cliente(rs.getInt(1),rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8));
-			}
-
-		}catch (Exception e) {
-			System.out.println("error en obtener usuario");
+		while(rs.next()) {
+			cliente = new Cliente(rs.getInt(1),rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8));
 		}
 
-		// TODO Auto-generated method stub
-		return cliente;
-	}
-	private static void mostrarTabla() {
-		DefaultTableModel modelo= new DefaultTableModel();
-		ResultSet rs= Conexion.getTabla("select id,Username, contr, nombre, apellido1, apellido2, Fechanac, email from Usuario");
-		modelo.addColumn("Id");
-		modelo.addColumn("Nombre de usuario");
-		modelo.addColumn("Contraseña");
-		modelo.addColumn("Nombre");
-		modelo.addColumn("Apellido 1");
-		modelo.addColumn("Apellido 2");
-		modelo.addColumn("Fecha de Nacimiento");
-		modelo.addColumn("Email");
-		
-		
-		
-		try {
-			while(rs.next()) {
-				modelo.addRow(new Object[] {rs.getInt("id"),rs.getString("Username"),rs.getString("contr"),rs.getString("nombre"),rs.getString("apellido1"),rs.getString("apellido2"),rs.getString("Fechanac"),rs.getString("email")});
-			}
-			table.setModel(modelo);
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-		
+	}catch (Exception e) {
+		System.out.println("error en obtener usuario");
 	}
 
+	// TODO Auto-generated method stub
+	return cliente;
+}
+static void mostrarTabla() {
+	DefaultTableModel modelo= new DefaultTableModel();
+	ResultSet rs= Conexion.getTabla("select id,Username, contr, nombre, apellido1, apellido2, Fechanac, email from Usuario");
+	modelo.addColumn("Id");
+	modelo.addColumn("Nombre de usuario");
+	modelo.addColumn("Contraseña");
+	modelo.addColumn("Nombre");
+	modelo.addColumn("Apellido 1");
+	modelo.addColumn("Apellido 2");
+	modelo.addColumn("Fecha de Nacimiento");
+	modelo.addColumn("Email");
+
+
+
+	try {
+		while(rs.next()) {
+			modelo.addRow(new Object[] {rs.getInt("id"),rs.getString("Username"),rs.getString("contr"),rs.getString("nombre"),rs.getString("apellido1"),rs.getString("apellido2"),rs.getString("Fechanac"),rs.getString("email")});
+		}
+		table.setModel(modelo);
+		TableColumnModel columnmodel= table.getColumnModel();
+		columnmodel.getColumn(0).setPreferredWidth(15);
+	} catch (Exception e) {
+		System.out.println(e);
+	}
+
+}
 }
