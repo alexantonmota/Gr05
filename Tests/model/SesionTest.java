@@ -20,17 +20,17 @@ public class SesionTest {
 
 	}	
 	@Test
-	@Deprecated
+
 	public void testGetHora() {
 		assertEquals(22.00, s.getHora(),20.00);
 		assertEquals(20.00, prueba.getHora(),20.00);
 		assertEquals(18.00, empty.getHora(),20.00);
 	}
-	@SuppressWarnings("deprecation")
+
 	@Test
 	public void testSetHora() {
 		s.setHora(18.00);
 		assertEquals(18.00, s.getHora(),20.00);
-		
+
 	}
 }

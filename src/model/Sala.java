@@ -15,6 +15,16 @@ public class Sala {
 		this.nombre = nombre;
 		this.numAsientos = numAsientos;
 	}
+	public Sala() {
+		super();
+		this.nombre = "";
+		this.numAsientos = 0;
+	}
+	public Sala(Sala s) {
+		super();
+		this.nombre = s.nombre;
+		this.numAsientos = s.numAsientos;
+	}
 
 	public String getNombre() {
 		return nombre;
