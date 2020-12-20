@@ -10,12 +10,15 @@ import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.UIManager;
 /**
- * Ventana de pago 
+ * Ventana de pago que genera un pdf (no terminado) al realizar una compra
  * @author alex
  *
  */
@@ -137,7 +140,22 @@ public class Pago {
 			}
 		});
 
+		//Al clickar genera la entrada en un pdf (Contenido del fichero no terminado)
 		JButton btnPagar = new JButton("Aceptar");
+		btnPagar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+
+				try{
+					FileWriter archivo = new FileWriter("entrada.pdf", true);
+
+					PrintWriter escribir = new PrintWriter(archivo);
+
+
+				}catch(IOException e6) {
+					e6.printStackTrace();
+				}}
+		});
 		btnPagar.setBackground(UIManager.getColor("Button.select"));
 		btnPagar.setForeground(Color.ORANGE);
 		btnPagar.setOpaque(true);
