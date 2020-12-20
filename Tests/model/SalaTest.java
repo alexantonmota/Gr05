@@ -5,6 +5,11 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Test Sala con sus métodos
+ * @author alex
+ *
+ */
 public class SalaTest {
 
 	private Sala s;

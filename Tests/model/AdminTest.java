@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Test Administrador
+ * Test Administrador con sus métodos
  * @author alex
  *
  */

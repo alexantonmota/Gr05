@@ -5,7 +5,11 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
-
+/**
+ * Test Cliente con sus métodos
+ * @author alex
+ *
+ */
 public class ClienteTest {
 
 	private Cliente c;

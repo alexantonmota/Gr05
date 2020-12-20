@@ -5,6 +5,11 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Test Sesion con sus métodos
+ * @author alex
+ *
+ */
 public class SesionTest {
 
 	private Sesion s;
