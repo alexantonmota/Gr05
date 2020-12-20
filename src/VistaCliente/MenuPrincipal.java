@@ -13,6 +13,7 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.awt.event.ActionEvent;
 /**
  * Ventana Principal donde se accede a cartelera y peliculas
@@ -126,6 +127,26 @@ public class MenuPrincipal extends JDialog {
 
 
 	}
+	
+	//Metodo recursivo para recorrer los archivos de una carpeta
+	public void mostrarCarpetaImagenes(File fichero) {
+		if (fichero.isDirectory()) {
+		      File[] lista = fichero.listFiles();
+		      for (int i = 0; i < lista.length; i++) {
+		        System.out.println(lista[i].getName());
+		        if (lista[i].isDirectory()) {
+		          mostrarCarpetaImagenes(lista[i]);
+		        }
+		      }
+		}
+		
+	}
+	//metodo para visualizar los archivos de una carpeta (Sin terminar)
+public void verImagenes() {
+	
+	
+	}
+	
 	public static void main(String[] args) {
 		try {
 			MenuPrincipal dialog = new MenuPrincipal();
