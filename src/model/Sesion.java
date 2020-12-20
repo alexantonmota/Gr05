@@ -6,13 +6,21 @@ package model;
  */
 public class Sesion {
 
-	protected double hora;
+	private double hora;
 
 	public Sesion(double hora) {
 		super();
 		this.hora = hora;
 	}
+	public Sesion() {
+		this.hora=18.00;
+	}
 
+	public Sesion(Sesion s) {
+		
+		this.hora= s.hora;
+		
+	}
 	public double getHora() {
 		return hora;
 	}

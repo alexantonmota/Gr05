@@ -67,7 +67,7 @@ public class Entrada{
 	public void mostrarInfoEntrada() {
 		System.out.println();               
 		System.out.println("Película:" + "<" + infoPelicula.getTitulo() + ">");
-		System.out.println("Sesion:" + "<" + infoSesion.hora + ">");
+		System.out.println("Sesion:" + "<" + infoSesion.getHora() + ">");
 		System.out.println("Sala:" + "<" + infoSala.nombre + ">");
 		System.out.println("Asiento:" + "<" + infoSala.numAsientos+ ">");
 		System.out.println("Cantidad:" + "<" + cantidad + ">");
