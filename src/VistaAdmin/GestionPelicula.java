@@ -149,8 +149,8 @@ public class GestionPelicula extends JDialog {
 				} catch (URISyntaxException | IOException ex) {
 
 				}
-			
-				
+
+
 			}
 
 		});

@@ -41,7 +41,9 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.Component;
 /**
- * Ventana donde se gestionan los clientes
+ * Ventana donde se gestionan los clientes, en la tabla aparecerán los valores que contenga la tabla de usuarios de la base de datos,
+ *  con esta se podra: añadir, modificar o eliminar clickando sus respectivos botones,
+ *  además de un cambo para búsquedas con cualquier filtro.
  * @author alex
  *
  */
@@ -246,7 +248,7 @@ public class GestionClientes extends JDialog {
 		lblEli.setBackground(Color.orange);
 		lblEli.setBorder(new LineBorder(new Color(255, 200, 0), 3, true));
 
-		//Añado un botón del color del panel para que no se vea
+		//Añado un botón del color del panel para que no se vea, se añadirán valores a la tabla y a la base de datos y se añaden en una lista
 		JButton btnAnyadir = new JButton("Añadir");
 		btnAnyadir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -288,6 +290,8 @@ public class GestionClientes extends JDialog {
 									listmodel2.addElement("Nombre de usuario:"+txtNomU.getText()+","+"Contraseña:"+txtCont.getText());
 								}}
 							mostrarTabla();
+
+							//Una vez añadidos los campos se deshabilitarán y el botón se ocultará
 							txtNomU.setEditable(false);
 							txtCont.setEditable(false);
 							txtApe1.setEditable(false);
@@ -335,40 +339,44 @@ public class GestionClientes extends JDialog {
 		lblAny.setBackground(Color.orange);
 		lblAny.setBorder(new LineBorder(new Color(255, 200, 0), 3, true));
 
+
+		//Al clickar el botón se modifcará cualquiera de los valores del usuario elegido en base a su id mediante un hilo
 		JButton btnModificar = new JButton("Modificar");
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Thread t= new Thread(new Runnable() {
 					@Override
 					public void run() {
-				Conexion conexion1 = new Conexion();
-				Connection cn1 = conexion1.conectar();
-				PreparedStatement ps3 =null;
-				try {
+						Conexion conexion1 = new Conexion();
+						Connection cn1 = conexion1.conectar();
+						PreparedStatement ps3 =null;
+						try {
 
-					ps3= cn1.prepareStatement("UPDATE Usuario SET username='"+txtNomU.getText()+"',contr='"+txtCont.getText()+"',nombre='"+txtNom.getText()+"',apellido1='"+txtApe1.getText()+"',apellido2='"+txtApe2.getText()+"',Fechanac='"+txtFecha.getText()+"',email='"+txtEmail.getText()+"'where id='"+textID.getText()+"'");
+							ps3= cn1.prepareStatement("UPDATE Usuario SET username='"+txtNomU.getText()+"',contr='"+txtCont.getText()+"',nombre='"+txtNom.getText()+"',apellido1='"+txtApe1.getText()+"',apellido2='"+txtApe2.getText()+"',Fechanac='"+txtFecha.getText()+"',email='"+txtEmail.getText()+"'where id='"+textID.getText()+"'");
 
-					mostrarTabla();
-					int n= ps3.executeUpdate();
-					if(n>0) {
-						JOptionPane.showMessageDialog(null, "Cliente Modificado");
+							mostrarTabla();
+							int n= ps3.executeUpdate();
+							if(n>0) {
+								JOptionPane.showMessageDialog(null, "Cliente Modificado");
+							}
+
+						} catch (Exception e) {
+							System.out.println(e);
+							// TODO: handle exception
+						}
+
+						//Una vez clickado se deshabilitarán las ediciones de los campos y el botón se ocultará
+						txtNomU.setEditable(false);
+						txtCont.setEditable(false);
+						txtNom.setEditable(false);
+						txtApe1.setEditable(false);
+						txtApe2.setEditable(false);
+						txtFecha.setEditable(false);
+						txtEmail.setEditable(false);
+						btnModificar.setBackground(Color.ORANGE);
+
 					}
-
-				} catch (Exception e) {
-					System.out.println(e);
-					// TODO: handle exception
-				}
-				txtNomU.setEditable(false);
-				txtCont.setEditable(false);
-				txtNom.setEditable(false);
-				txtApe1.setEditable(false);
-				txtApe2.setEditable(false);
-				txtFecha.setEditable(false);
-				txtEmail.setEditable(false);
-				btnModificar.setBackground(Color.ORANGE);
-
-			}
-					});
+				});
 				t.start();
 			}
 		});
@@ -385,7 +393,7 @@ public class GestionClientes extends JDialog {
 		JLabel lblMod = new JLabel("");
 		lblMod.addMouseListener(new MouseAdapter() {
 			@Override
-			//Al pulsar se podrán editar los campos y además se verá el boton Guardar
+			//Al pulsar se podrán editar los campos y además se verá el boton Modificar
 			public void mouseClicked(MouseEvent e) {
 
 				txtNom.setEditable(true);;
@@ -424,6 +432,8 @@ public class GestionClientes extends JDialog {
 		table.setAlignmentY(Component.BOTTOM_ALIGNMENT);
 		table.setSelectionBackground(Color.ORANGE);
 		table.addMouseListener(new MouseAdapter() {
+
+			//Al clickar cualquier usuario de la tabla sus valores aparecerán en los campos superiores
 			@Override
 			public void mouseClicked(MouseEvent e) {
 
@@ -689,6 +699,8 @@ public class GestionClientes extends JDialog {
 		// TODO Auto-generated method stub
 		return cliente;
 	}
+
+	//Creamos la tabla de usuario
 	static void mostrarTabla() {
 		DefaultTableModel modelo= new DefaultTableModel();
 		ResultSet rs= Conexion.getTabla("select id,Username, contr, nombre, apellido1, apellido2, Fechanac, email from Usuario");

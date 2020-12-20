@@ -6,6 +6,11 @@ import java.sql.Statement;
 
 import javax.swing.JOptionPane;
 
+/**
+ * Clase Conexion que conecta con la base de datos
+ * @author alex
+ *
+ */
 public class Conexion {
 
 

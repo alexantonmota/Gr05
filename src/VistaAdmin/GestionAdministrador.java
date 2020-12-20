@@ -41,7 +41,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.SwingConstants;
 /**
- * Ventana donde se gestionan los Admins
+ * Ventana donde se gestionan los Admins con una Tabla que se conecta a la base de datos para añadir o eliminar uno de estos, 
+ * una vez seleccionados de la tabla se mostarán en sus respectivos campos, he añadido un campo para hacer una búsqueda filtrando por cualquiera de sus atributos
  * @author alex
  *
  */
@@ -170,6 +171,7 @@ public class GestionAdministrador extends JDialog {
 		btnAny.setOpaque(true);
 		btnAny.setBorderPainted(false);
 
+		//Boton que al pulsar una fila de datos de la tabla y clickar en el elimina de la tabla y a su vez de la base de datos los valores seleccionador
 		JLabel lblEli = new JLabel("");
 		lblEli.addMouseListener(new MouseAdapter() {
 			@Override
@@ -234,7 +236,7 @@ public class GestionAdministrador extends JDialog {
 		lblEliA.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 18));
 
 
-
+		//Botón que al pulsar añade un administrador a la tabla (JTable) y a su vez en la base datos mediante un hilo y se añade a una lista
 		btnAny.addMouseListener(new MouseAdapter() {
 
 			public void mouseClicked(MouseEvent e) {
@@ -265,7 +267,7 @@ public class GestionAdministrador extends JDialog {
 								}
 							}
 
-
+							//Una vez pulsado el boton de añadir deshabilitamos la edición de los campos y ocultamos el boton de añadir
 							mostrarTabla();
 							textUsu.setEditable(false);
 							textCont.setEditable(false);
@@ -283,6 +285,8 @@ public class GestionAdministrador extends JDialog {
 
 		});
 
+		//Creación de una Tabla
+
 		table = new JTable();
 
 		table.setSelectionBackground(Color.ORANGE);
@@ -296,6 +300,8 @@ public class GestionAdministrador extends JDialog {
 			}
 
 		});
+
+		//Labels que uso como cabeceras para las columnas de las tablas
 
 		JLabel lblNewLabel = new JLabel("Nombre de usuario");
 		lblNewLabel.setForeground(Color.ORANGE);
@@ -454,6 +460,8 @@ public class GestionAdministrador extends JDialog {
 		}
 		return administrador;
 	}
+
+	//Método en el que se muestra en la tabla (JTable) el contenido de la tabla Administrador de la base de datos
 
 	public static void mostrarTabla() {
 		String[] titulos= {"Nombre de usuario", "Contraseña"};

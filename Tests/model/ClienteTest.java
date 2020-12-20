@@ -34,9 +34,9 @@ public class ClienteTest {
 	public void testSetId() {
 		c.setId(2);
 		assertEquals(2, c.getId());
-		
+
 	}
-	
+
 	@Test
 	public void testGetUsername() {
 		assertEquals("alex", c.getUsername());

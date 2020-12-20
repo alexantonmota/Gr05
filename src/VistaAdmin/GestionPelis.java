@@ -50,7 +50,7 @@ public class GestionPelis extends JDialog {
 	private JTextField txtBus;
 	private JTextField textPos;
 	private JTextField textPosM;
-	
+
 
 	/**
 	 * Launch the application.
@@ -101,8 +101,8 @@ public class GestionPelis extends JDialog {
 		txtTrailer = new JTextField();
 		txtTrailer.setEditable(false);
 		txtTrailer.setColumns(10);
-		
-		
+
+
 
 		txtBus = new JTextField();
 		txtBus.setColumns(10);
