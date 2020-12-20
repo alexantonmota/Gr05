@@ -94,7 +94,7 @@ public class GestionClientes extends JDialog {
 			lblGC.setForeground(Color.ORANGE);
 		}
 		//Lista donde se mostraran los datos de  la base de datos de Clientes
-		
+
 		txtNom = new JTextField();
 		txtNom.setEditable(false);
 		txtNom.setColumns(10);
@@ -225,7 +225,7 @@ public class GestionClientes extends JDialog {
 						ps= conect.prepareStatement("Delete from Usuario where ID=?");
 						ps.setString(1, codigo);
 						int n= ps.executeUpdate();
-						
+
 						if(n>0) {
 							JOptionPane.showMessageDialog(null, "Cliente Eliminado");
 						}
@@ -237,9 +237,9 @@ public class GestionClientes extends JDialog {
 				}else {
 
 				}
-			
-		}
-	});
+
+			}
+		});
 		lblEli.setHorizontalAlignment(SwingConstants.CENTER);
 		lblEli.setIcon(new ImageIcon("/Users/alex/eclipse-workspace5/CineDeusto/Imagenes/dsjn.png"));
 		lblEli.setOpaque(true);
@@ -250,54 +250,60 @@ public class GestionClientes extends JDialog {
 		JButton btnAnyadir = new JButton("Añadir");
 		btnAnyadir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Conexion conexion1 = new Conexion();
-				Connection cn1 = conexion1.conectar();
-				
-				String username= txtNomU.getText();
-				String contra= txtCont.getText();
-				String nombre= txtNom.getText();
-				String apellido1= txtApe1.getText();
-				String apellido2= txtApe2.getText();
-				String fecha= txtFecha.getText();
-				String email= txtEmail.getText();
-				
-				String sql= "INSERT INTO Usuario (username, contr, nombre, apellido1, apellido2, Fechanac, email) VALUES(?,?,?,?,?,?,?)";
-				PreparedStatement ps1= null;
-				
-				try {
-					PreparedStatement pst1 = cn1.prepareStatement(sql);
-				
-					pst1.setString(1, username);
-					pst1.setString(2, contra);
-					pst1.setString(3, nombre);
-					pst1.setString(4, apellido1);
-					pst1.setString(5, apellido2);
-					pst1.setString(6, fecha);
-					pst1.setString(7, email);
-					
-					
-					
-					int n = pst1.executeUpdate();
-					if(n>0) {
-						JOptionPane.showMessageDialog(null, "Cliente añadido");
-						if(!txtNomU.getText().isEmpty() && !txtCont.getText().isEmpty() && !txtApe1.getText().isEmpty()&& !txtApe2.getText().isEmpty()&& !txtFecha.getText().isEmpty()&& !txtEmail.getText().isEmpty()) {
-							listmodel2.addElement("Nombre de usuario:"+txtNomU.getText()+","+"Contraseña:"+txtCont.getText());
-						}}
-				mostrarTabla();
-				txtNomU.setEditable(false);
-				txtCont.setEditable(false);
-				txtApe1.setEditable(false);
-				txtApe2.setEditable(false);
-				txtFecha.setEditable(false);
-				txtEmail.setEditable(false);
-				
-				btnAnyadir.setBackground(Color.ORANGE);
 
-				} catch (Exception e2) {
-					JOptionPane.showMessageDialog(null, "ERROR");
-				}
+				Thread t= new Thread(new Runnable() {
+					@Override
+					public void run() {
+						Conexion conexion1 = new Conexion();
+						Connection cn1 = conexion1.conectar();
+
+						String username= txtNomU.getText();
+						String contra= txtCont.getText();
+						String nombre= txtNom.getText();
+						String apellido1= txtApe1.getText();
+						String apellido2= txtApe2.getText();
+						String fecha= txtFecha.getText();
+						String email= txtEmail.getText();
+
+						String sql= "INSERT INTO Usuario (username, contr, nombre, apellido1, apellido2, Fechanac, email) VALUES(?,?,?,?,?,?,?)";
+						PreparedStatement ps1= null;
+
+						try {
+							PreparedStatement pst1 = cn1.prepareStatement(sql);
+
+							pst1.setString(1, username);
+							pst1.setString(2, contra);
+							pst1.setString(3, nombre);
+							pst1.setString(4, apellido1);
+							pst1.setString(5, apellido2);
+							pst1.setString(6, fecha);
+							pst1.setString(7, email);
+
+
+
+							int n = pst1.executeUpdate();
+							if(n>0) {
+								JOptionPane.showMessageDialog(null, "Cliente añadido");
+								if(!txtNomU.getText().isEmpty() && !txtCont.getText().isEmpty() && !txtApe1.getText().isEmpty()&& !txtApe2.getText().isEmpty()&& !txtFecha.getText().isEmpty()&& !txtEmail.getText().isEmpty()) {
+									listmodel2.addElement("Nombre de usuario:"+txtNomU.getText()+","+"Contraseña:"+txtCont.getText());
+								}}
+							mostrarTabla();
+							txtNomU.setEditable(false);
+							txtCont.setEditable(false);
+							txtApe1.setEditable(false);
+							txtApe2.setEditable(false);
+							txtFecha.setEditable(false);
+							txtEmail.setEditable(false);
+
+							btnAnyadir.setBackground(Color.ORANGE);
+
+						} catch (Exception e2) {
+							JOptionPane.showMessageDialog(null, "ERROR");
+						}
+					}});
+				t.start();
 			}
-			
+
 		});
 		btnAnyadir.setBackground(Color.ORANGE);
 		btnAnyadir.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 15));
@@ -319,7 +325,7 @@ public class GestionClientes extends JDialog {
 				txtEmail.setEditable(true);;
 				txtBus.setEditable(true);;
 				btnAnyadir.setBackground(Color.GRAY);
-				
+
 
 
 			}
@@ -332,43 +338,48 @@ public class GestionClientes extends JDialog {
 		JButton btnModificar = new JButton("Modificar");
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+				Thread t= new Thread(new Runnable() {
+					@Override
+					public void run() {
 				Conexion conexion1 = new Conexion();
 				Connection cn1 = conexion1.conectar();
 				PreparedStatement ps3 =null;
 				try {
-					
+
 					ps3= cn1.prepareStatement("UPDATE Usuario SET username='"+txtNomU.getText()+"',contr='"+txtCont.getText()+"',nombre='"+txtNom.getText()+"',apellido1='"+txtApe1.getText()+"',apellido2='"+txtApe2.getText()+"',Fechanac='"+txtFecha.getText()+"',email='"+txtEmail.getText()+"'where id='"+textID.getText()+"'");
-				
+
 					mostrarTabla();
 					int n= ps3.executeUpdate();
 					if(n>0) {
 						JOptionPane.showMessageDialog(null, "Cliente Modificado");
 					}
-					
+
 				} catch (Exception e) {
 					System.out.println(e);
 					// TODO: handle exception
 				}
-		txtNomU.setEditable(false);
-		txtCont.setEditable(false);
-		txtNom.setEditable(false);
-		txtApe1.setEditable(false);
-		txtApe2.setEditable(false);
-		txtFecha.setEditable(false);
-		txtEmail.setEditable(false);
-		btnModificar.setBackground(Color.ORANGE);
-		
+				txtNomU.setEditable(false);
+				txtCont.setEditable(false);
+				txtNom.setEditable(false);
+				txtApe1.setEditable(false);
+				txtApe2.setEditable(false);
+				txtFecha.setEditable(false);
+				txtEmail.setEditable(false);
+				btnModificar.setBackground(Color.ORANGE);
+
+			}
+					});
+				t.start();
 			}
 		});
 		btnModificar.setBackground(Color.ORANGE);
 		btnModificar.setForeground(Color.ORANGE);
 		btnModificar.setOpaque(true);
 		btnModificar.setBorderPainted(false);
-		
+
 		btnModificar.setForeground(Color.ORANGE);
 		btnModificar.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 15));
-		
+
 
 
 		JLabel lblMod = new JLabel("");
@@ -408,14 +419,14 @@ public class GestionClientes extends JDialog {
 		JLabel lblEliC = new JLabel("Eliminar cliente");
 		lblEliC.setForeground(Color.ORANGE);
 		lblEliC.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 18));
-		
+
 		table= new JTable();
 		table.setAlignmentY(Component.BOTTOM_ALIGNMENT);
 		table.setSelectionBackground(Color.ORANGE);
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
+
 				int seleccion= table.rowAtPoint(e.getPoint());
 				txtNomU.setText(String.valueOf(table.getValueAt(seleccion, 1)));
 				txtCont.setText(String.valueOf(table.getValueAt(seleccion, 2)));
@@ -427,201 +438,201 @@ public class GestionClientes extends JDialog {
 				textID.setText(String.valueOf(table.getValueAt(seleccion,0)));
 			}
 		});
-		
+
 		textID = new JTextField();
 		textID.setBackground(Color.GRAY);
 		textID.setForeground(Color.GRAY);
 		textID.setOpaque(true);
 		textID.setBorder(null);
-	
+
 		textID.setEditable(false);
 		textID.setColumns(10);
-		
+
 		JLabel lblNewLabel = new JLabel("ID");
 		lblNewLabel.setForeground(Color.ORANGE);
 		lblNewLabel.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 13));
-		
+
 		JLabel lblNewLabel_1 = new JLabel("Usuario");
 		lblNewLabel_1.setForeground(Color.ORANGE);
 		lblNewLabel_1.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 13));
-		
+
 		JLabel lblNewLabel_2 = new JLabel("Nombre");
 		lblNewLabel_2.setForeground(Color.ORANGE);
 		lblNewLabel_2.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 13));
-		
+
 		JLabel lblNewLabel_3 = new JLabel("Apellido 1");
 		lblNewLabel_3.setForeground(Color.ORANGE);
 		lblNewLabel_3.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 13));
-		
+
 		JLabel lblNewLabel_4 = new JLabel("Apellido 2");
 		lblNewLabel_4.setForeground(Color.ORANGE);
 		lblNewLabel_4.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 13));
-		
+
 		JLabel lblNewLabel_5 = new JLabel("Fecha Nacimiento");
 		lblNewLabel_5.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 13));
 		lblNewLabel_5.setForeground(Color.ORANGE);
-		
+
 		JLabel lblNewLabel_6 = new JLabel("Email");
 		lblNewLabel_6.setForeground(Color.ORANGE);
 		lblNewLabel_6.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 13));
-		
+
 		JLabel lblNewLabel_7 = new JLabel("Contraseña");
 		lblNewLabel_7.setForeground(Color.ORANGE);
 		lblNewLabel_7.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 13));
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
 		gl_contentPanel.setHorizontalGroup(
-			gl_contentPanel.createParallelGroup(Alignment.LEADING)
+				gl_contentPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addGap(140)
-							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_contentPanel.createSequentialGroup()
-									.addComponent(lblNewLabel)
-									.addGap(0)
-									.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
-										.addGroup(gl_contentPanel.createSequentialGroup()
-											.addGap(18)
-											.addComponent(lblNewLabel_1)
-											.addGap(11)
-											.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+										.addGap(140)
+										.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
 												.addGroup(gl_contentPanel.createSequentialGroup()
-													.addPreferredGap(ComponentPlacement.RELATED)
-													.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-														.addComponent(lblApe1)
-														.addComponent(lblApe2)
-														.addComponent(lblFecha)
-														.addComponent(lblNom))
-													.addGap(27)
-													.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-														.addComponent(txtNom, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-														.addComponent(txtApe1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-														.addComponent(txtApe2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-														.addComponent(txtFecha, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+														.addComponent(lblNewLabel)
+														.addGap(0)
+														.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
+																.addGroup(gl_contentPanel.createSequentialGroup()
+																		.addGap(18)
+																		.addComponent(lblNewLabel_1)
+																		.addGap(11)
+																		.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+																				.addGroup(gl_contentPanel.createSequentialGroup()
+																						.addPreferredGap(ComponentPlacement.RELATED)
+																						.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+																								.addComponent(lblApe1)
+																								.addComponent(lblApe2)
+																								.addComponent(lblFecha)
+																								.addComponent(lblNom))
+																						.addGap(27)
+																						.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+																								.addComponent(txtNom, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+																								.addComponent(txtApe1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+																								.addComponent(txtApe2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+																								.addComponent(txtFecha, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+																				.addGroup(gl_contentPanel.createSequentialGroup()
+																						.addGap(30)
+																						.addComponent(lblNewLabel_7)
+																						.addGap(18)
+																						.addComponent(lblNewLabel_2)
+																						.addGap(41)
+																						.addComponent(lblNewLabel_3)
+																						.addGap(27)
+																						.addComponent(lblNewLabel_4)))
+																		.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+																				.addGroup(gl_contentPanel.createSequentialGroup()
+																						.addGap(18)
+																						.addComponent(lblNewLabel_5)
+																						.addGap(18)
+																						.addComponent(lblNewLabel_6))
+																				.addGroup(gl_contentPanel.createSequentialGroup()
+																						.addGap(88)
+																						.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+																								.addComponent(lblContr)
+																								.addComponent(lblNomU)
+																								.addComponent(lblEmail))))
+																		.addPreferredGap(ComponentPlacement.RELATED)
+																		.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+																				.addGroup(gl_contentPanel.createSequentialGroup()
+																						.addPreferredGap(ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
+																						.addComponent(textID, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+																				.addGroup(gl_contentPanel.createSequentialGroup()
+																						.addGap(18)
+																						.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+																								.addComponent(txtNomU, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+																								.addComponent(txtCont, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+																								.addComponent(txtEmail, GroupLayout.PREFERRED_SIZE, 168, GroupLayout.PREFERRED_SIZE)))))
+																.addGroup(gl_contentPanel.createSequentialGroup()
+																		.addGap(193)
+																		.addComponent(lblBus)
+																		.addGap(18)
+																		.addComponent(txtBus, GroupLayout.PREFERRED_SIZE, 281, GroupLayout.PREFERRED_SIZE))))
 												.addGroup(gl_contentPanel.createSequentialGroup()
-													.addGap(30)
-													.addComponent(lblNewLabel_7)
-													.addGap(18)
-													.addComponent(lblNewLabel_2)
-													.addGap(41)
-													.addComponent(lblNewLabel_3)
-													.addGap(27)
-													.addComponent(lblNewLabel_4)))
-											.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-												.addGroup(gl_contentPanel.createSequentialGroup()
-													.addGap(18)
-													.addComponent(lblNewLabel_5)
-													.addGap(18)
-													.addComponent(lblNewLabel_6))
-												.addGroup(gl_contentPanel.createSequentialGroup()
-													.addGap(88)
-													.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-														.addComponent(lblContr)
-														.addComponent(lblNomU)
-														.addComponent(lblEmail))))
-											.addPreferredGap(ComponentPlacement.RELATED)
-											.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-												.addGroup(gl_contentPanel.createSequentialGroup()
-													.addPreferredGap(ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
-													.addComponent(textID, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-												.addGroup(gl_contentPanel.createSequentialGroup()
-													.addGap(18)
-													.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-														.addComponent(txtNomU, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-														.addComponent(txtCont, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-														.addComponent(txtEmail, GroupLayout.PREFERRED_SIZE, 168, GroupLayout.PREFERRED_SIZE)))))
-										.addGroup(gl_contentPanel.createSequentialGroup()
-											.addGap(193)
-											.addComponent(lblBus)
-											.addGap(18)
-											.addComponent(txtBus, GroupLayout.PREFERRED_SIZE, 281, GroupLayout.PREFERRED_SIZE))))
+														.addComponent(table, GroupLayout.PREFERRED_SIZE, 686, GroupLayout.PREFERRED_SIZE)
+														.addGap(34)
+														.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+																.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING, false)
+																		.addComponent(lblMod, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+																		.addComponent(lblEli, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 66, Short.MAX_VALUE))
+																.addComponent(lblAny, GroupLayout.PREFERRED_SIZE, 64, GroupLayout.PREFERRED_SIZE))
+														.addPreferredGap(ComponentPlacement.UNRELATED)
+														.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+																.addComponent(lblModC)
+																.addComponent(lblEliC)
+																.addComponent(lblAnyC))))
+										.addGap(14))
 								.addGroup(gl_contentPanel.createSequentialGroup()
-									.addComponent(table, GroupLayout.PREFERRED_SIZE, 686, GroupLayout.PREFERRED_SIZE)
-									.addGap(34)
-									.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-										.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING, false)
-											.addComponent(lblMod, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-											.addComponent(lblEli, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 66, Short.MAX_VALUE))
-										.addComponent(lblAny, GroupLayout.PREFERRED_SIZE, 64, GroupLayout.PREFERRED_SIZE))
-									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-										.addComponent(lblModC)
-										.addComponent(lblEliC)
-										.addComponent(lblAnyC))))
-							.addGap(14))
-						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addGap(347)
-							.addComponent(lblGC, GroupLayout.PREFERRED_SIZE, 432, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-		);
+										.addGap(347)
+										.addComponent(lblGC, GroupLayout.PREFERRED_SIZE, 432, GroupLayout.PREFERRED_SIZE)))
+						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+				);
 		gl_contentPanel.setVerticalGroup(
-			gl_contentPanel.createParallelGroup(Alignment.TRAILING)
+				gl_contentPanel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addGap(31)
-					.addComponent(lblGC)
-					.addGap(55)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(txtNom, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblNom)
-						.addComponent(lblNomU)
-						.addComponent(txtNomU, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(txtApe1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblApe1)
-						.addComponent(lblContr)
-						.addComponent(txtCont, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(txtApe2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblApe2)
-						.addComponent(lblEmail)
-						.addComponent(txtEmail, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(txtFecha, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblFecha)
-						.addComponent(textID, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(55)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
-						.addComponent(txtBus, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblBus))
-					.addGap(95)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
-						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addComponent(lblAny, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(lblMod, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE)
-							.addGap(97))
-						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
-								.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-									.addComponent(lblNewLabel)
-									.addComponent(lblNewLabel_7)
-									.addComponent(lblNewLabel_2)
-									.addComponent(lblNewLabel_1))
-								.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-									.addComponent(lblNewLabel_3)
-									.addComponent(lblNewLabel_4)
-									.addComponent(lblNewLabel_5)
-									.addComponent(lblNewLabel_6)))
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
+						.addGap(31)
+						.addComponent(lblGC)
+						.addGap(55)
+						.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
+								.addComponent(txtNom, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblNom)
+								.addComponent(lblNomU)
+								.addComponent(txtNomU, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
+								.addComponent(txtApe1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblApe1)
+								.addComponent(lblContr)
+								.addComponent(txtCont, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
+								.addComponent(txtApe2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblApe2)
+								.addComponent(lblEmail)
+								.addComponent(txtEmail, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
+								.addComponent(txtFecha, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblFecha)
+								.addComponent(textID, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addGap(55)
+						.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
+								.addComponent(txtBus, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblBus))
+						.addGap(95)
+						.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
 								.addGroup(gl_contentPanel.createSequentialGroup()
-									.addComponent(lblAnyC)
-									.addGap(75)
-									.addComponent(lblModC)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
-										.addGroup(gl_contentPanel.createSequentialGroup()
-											.addGap(41)
-											.addComponent(lblEli, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE))
-										.addGroup(Alignment.TRAILING, gl_contentPanel.createSequentialGroup()
-											.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-											.addComponent(lblEliC)
-											.addGap(39))))
-								.addComponent(table, GroupLayout.PREFERRED_SIZE, 285, GroupLayout.PREFERRED_SIZE)))))
-		);
+										.addComponent(lblAny, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(ComponentPlacement.UNRELATED)
+										.addComponent(lblMod, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE)
+										.addGap(97))
+								.addGroup(gl_contentPanel.createSequentialGroup()
+										.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
+												.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
+														.addComponent(lblNewLabel)
+														.addComponent(lblNewLabel_7)
+														.addComponent(lblNewLabel_2)
+														.addComponent(lblNewLabel_1))
+												.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
+														.addComponent(lblNewLabel_3)
+														.addComponent(lblNewLabel_4)
+														.addComponent(lblNewLabel_5)
+														.addComponent(lblNewLabel_6)))
+										.addPreferredGap(ComponentPlacement.UNRELATED)
+										.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
+												.addGroup(gl_contentPanel.createSequentialGroup()
+														.addComponent(lblAnyC)
+														.addGap(75)
+														.addComponent(lblModC)
+														.addPreferredGap(ComponentPlacement.RELATED)
+														.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
+																.addGroup(gl_contentPanel.createSequentialGroup()
+																		.addGap(41)
+																		.addComponent(lblEli, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE))
+																.addGroup(Alignment.TRAILING, gl_contentPanel.createSequentialGroup()
+																		.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+																		.addComponent(lblEliC)
+																		.addGap(39))))
+												.addComponent(table, GroupLayout.PREFERRED_SIZE, 285, GroupLayout.PREFERRED_SIZE)))))
+				);
 		contentPanel.setLayout(gl_contentPanel);
 		{
 			JPanel buttonPane = new JPanel();
@@ -636,8 +647,8 @@ public class GestionClientes extends JDialog {
 						dispose();
 					}
 				});
-				
-				
+
+
 
 				buttonPane.add(btnAnyadir);
 
@@ -650,58 +661,58 @@ public class GestionClientes extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
-}
-
-public Cliente obtenerusuario(Cliente cli) {
-
-	Cliente cliente= null;
-	Conexion conexion2 = new Conexion();
-	PreparedStatement pst = null;
-	ResultSet rs = null;
-
-	try {
-		Connection cn2 = conexion2.conectar();
-		String sql = "select * from usuario where Username = ? and contr = ?";
-		pst = cn2.prepareStatement(sql);
-		pst.setString(1, cli.getUsername());
-		pst.setString(2, cli.getPassword());
-		rs = pst.executeQuery();
-
-		while(rs.next()) {
-			cliente = new Cliente(rs.getInt(1),rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8));
-		}
-
-	}catch (Exception e) {
-		System.out.println("error en obtener usuario");
 	}
 
-	// TODO Auto-generated method stub
-	return cliente;
-}
-static void mostrarTabla() {
-	DefaultTableModel modelo= new DefaultTableModel();
-	ResultSet rs= Conexion.getTabla("select id,Username, contr, nombre, apellido1, apellido2, Fechanac, email from Usuario");
-	modelo.addColumn("Id");
-	modelo.addColumn("Nombre de usuario");
-	modelo.addColumn("Contraseña");
-	modelo.addColumn("Nombre");
-	modelo.addColumn("Apellido 1");
-	modelo.addColumn("Apellido 2");
-	modelo.addColumn("Fecha de Nacimiento");
-	modelo.addColumn("Email");
+	public Cliente obtenerusuario(Cliente cli) {
 
+		Cliente cliente= null;
+		Conexion conexion2 = new Conexion();
+		PreparedStatement pst = null;
+		ResultSet rs = null;
 
+		try {
+			Connection cn2 = conexion2.conectar();
+			String sql = "select * from usuario where Username = ? and contr = ?";
+			pst = cn2.prepareStatement(sql);
+			pst.setString(1, cli.getUsername());
+			pst.setString(2, cli.getPassword());
+			rs = pst.executeQuery();
 
-	try {
-		while(rs.next()) {
-			modelo.addRow(new Object[] {rs.getInt("id"),rs.getString("Username"),rs.getString("contr"),rs.getString("nombre"),rs.getString("apellido1"),rs.getString("apellido2"),rs.getString("Fechanac"),rs.getString("email")});
+			while(rs.next()) {
+				cliente = new Cliente(rs.getInt(1),rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8));
+			}
+
+		}catch (Exception e) {
+			System.out.println("error en obtener usuario");
 		}
-		table.setModel(modelo);
-		TableColumnModel columnmodel= table.getColumnModel();
-		columnmodel.getColumn(0).setPreferredWidth(15);
-	} catch (Exception e) {
-		System.out.println(e);
-	}
 
-}
+		// TODO Auto-generated method stub
+		return cliente;
+	}
+	static void mostrarTabla() {
+		DefaultTableModel modelo= new DefaultTableModel();
+		ResultSet rs= Conexion.getTabla("select id,Username, contr, nombre, apellido1, apellido2, Fechanac, email from Usuario");
+		modelo.addColumn("Id");
+		modelo.addColumn("Nombre de usuario");
+		modelo.addColumn("Contraseña");
+		modelo.addColumn("Nombre");
+		modelo.addColumn("Apellido 1");
+		modelo.addColumn("Apellido 2");
+		modelo.addColumn("Fecha de Nacimiento");
+		modelo.addColumn("Email");
+
+
+
+		try {
+			while(rs.next()) {
+				modelo.addRow(new Object[] {rs.getInt("id"),rs.getString("Username"),rs.getString("contr"),rs.getString("nombre"),rs.getString("apellido1"),rs.getString("apellido2"),rs.getString("Fechanac"),rs.getString("email")});
+			}
+			table.setModel(modelo);
+			TableColumnModel columnmodel= table.getColumnModel();
+			columnmodel.getColumn(0).setPreferredWidth(15);
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+
+	}
 }

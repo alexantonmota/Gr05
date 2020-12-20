@@ -3,6 +3,8 @@ import java.awt.BorderLayout;
 
 
 
+
+
 import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.FlowLayout;
@@ -46,6 +48,7 @@ import model.Genero;
 import Conexion.Conexion;
 import VistaCliente.InicioSesion;
 
+
 /**
  * Ventana para añadir peliculas que se accede desde GestionPelis
  * @author alex
@@ -55,6 +58,7 @@ public class GestionPelicula extends JDialog {
 
 
 	private static final long serialVersionUID = 1L;
+	public static String url;
 	private final JPanel contentPanel = new JPanel();
 	private JTextField textTitulo;
 	private JTextField textAnyo;
@@ -136,11 +140,6 @@ public class GestionPelicula extends JDialog {
 		btnTrailer.addActionListener(new ActionListener() {
 
 
-			//Visualizar url que esté en TextTrailer
-			/**
-			 * Visualizacion de URL
-			 */
-
 
 
 			public void actionPerformed(ActionEvent arg0) {
@@ -150,6 +149,8 @@ public class GestionPelicula extends JDialog {
 				} catch (URISyntaxException | IOException ex) {
 
 				}
+			
+				
 			}
 
 		});
@@ -184,6 +185,7 @@ public class GestionPelicula extends JDialog {
 		textTrailer = new JTextField();
 		textTrailer.setColumns(10);
 
+		url= textTrailer.getText();
 		JTextPane textSinopsis = new JTextPane();
 
 		JLabel lblPosMenu = new JLabel("");
