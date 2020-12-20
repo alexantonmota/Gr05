@@ -6,6 +6,11 @@ import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * Test Administrador
+ * @author alex
+ *
+ */
 public class AdminTest {
 
 	private Administrador a;
