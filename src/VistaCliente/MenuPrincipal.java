@@ -129,7 +129,7 @@ public class MenuPrincipal extends JDialog {
 	}
 	
 	//Metodo recursivo para recorrer los archivos de una carpeta
-	public void mostrarCarpetaImagenes(File fichero) {
+	public static void mostrarCarpetaImagenes(File fichero) {
 		if (fichero.isDirectory()) {
 		      File[] lista = fichero.listFiles();
 		      for (int i = 0; i < lista.length; i++) {
@@ -152,6 +152,8 @@ public void verImagenes() {
 			MenuPrincipal dialog = new MenuPrincipal();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
+			File fichero= new File("PosterMenuPrincipal");
+			mostrarCarpetaImagenes(fichero);
 
 
 
