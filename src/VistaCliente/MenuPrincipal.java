@@ -5,16 +5,32 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import Conexion.Conexion;
+
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Image;
+
 import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.sql.Blob;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.awt.event.ActionEvent;
+import javax.swing.ImageIcon;
 /**
  * Ventana Principal donde se accede a cartelera y peliculas
  * @author alex
@@ -28,8 +44,9 @@ public class MenuPrincipal extends JDialog {
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	public JLabel lblNewLabel_1= new JLabel();
+	public JLabel lblPosM;
 
-	static int contador=0;
+
 
 	/**
 	 * Launch the application.
@@ -69,7 +86,14 @@ public class MenuPrincipal extends JDialog {
 		btnCartelera.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 24));
 
 		//Label en que apareceran los posterMenu de las peliculas cada x tiempo
-		JLabel lblPosM = new JLabel("");
+		lblPosM = new JLabel("");
+		lblPosM.setLabelFor(lblPosM);
+		lblPosM.setHorizontalAlignment(SwingConstants.TRAILING);
+		
+		ImageIcon im= new ImageIcon("/Users/alex/eclipse-workspace5/G05/Imagenes/PostersMenuPrincipal/avengers.jpeg");
+		Icon ic= new ImageIcon(im.getImage().getScaledInstance(1445,597,Image.SCALE_DEFAULT));
+		lblPosM.setIcon(ic);
+		this.repaint();
 
 		lblPosM.setBorder(BorderFactory.createLineBorder(Color.ORANGE,5));
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
@@ -100,6 +124,9 @@ public class MenuPrincipal extends JDialog {
 						.addContainerGap(41, Short.MAX_VALUE))
 				);
 		contentPanel.setLayout(gl_contentPanel);
+		
+		
+		
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setBackground(Color.ORANGE);
@@ -128,35 +155,16 @@ public class MenuPrincipal extends JDialog {
 
 	}
 	
-	//Metodo recursivo para recorrer los archivos de una carpeta
-	public static void mostrarCarpetaImagenes(File fichero) {
-		if (fichero.isDirectory()) {
-		      File[] lista = fichero.listFiles();
-		      for (int i = 0; i < lista.length; i++) {
-		        System.out.println(lista[i].getName());
-		        if (lista[i].isDirectory()) {
-		          mostrarCarpetaImagenes(lista[i]);
-		        }
-		      }
-		}
-		
-	}
-	//metodo para visualizar los archivos de una carpeta (Sin terminar)
-public void verImagenes() {
-	
-	
-	}
 	
 	public static void main(String[] args) {
 		try {
 			MenuPrincipal dialog = new MenuPrincipal();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
-			File fichero= new File("PosterMenuPrincipal");
-			mostrarCarpetaImagenes(fichero);
+			
 
-
-
+			
+		
 
 		} catch (Exception e) {
 			e.printStackTrace();
