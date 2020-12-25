@@ -224,8 +224,10 @@ public class InicioSesion {
 		if(usu!=null) {
 			frame.dispose();
 			JOptionPane.showMessageDialog(frame, "BIENVENIDO");
-			MenuPrincipal menu= new MenuPrincipal();
-			menu.setVisible(true);
+			
+			CambiarImagen cam= new CambiarImagen();
+			cam.main();
+		
 			InicioSesion.log.log(Level.FINER,"Usuario conectado: " + usuario);
 
 		}else{
@@ -233,9 +235,28 @@ public class InicioSesion {
 		}
 
 	}
+	/**
+	 * //Metodo recursivo para recorrer los archivos de una carpeta
+		public static void mostrarCarpetaImagenes(File fichero) {
+			if (fichero.isDirectory()) {
+			      File[] lista = fichero.listFiles();
+			      for (int i = 0; i < lista.length; i++) {
+			        System.out.println(lista[i].getName());
+			        if (lista[i].isDirectory()) {
+			          mostrarCarpetaImagenes(lista[i]);
+			        }
+			      }
+			}
+			
+		}
+		//metodo para visualizar los archivos de una carpeta (Sin terminar)
+	public void verImagenes() {
+		
+		
+		}
 
-
-
+**/
+	
 
 
 
