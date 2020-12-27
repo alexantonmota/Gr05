@@ -5,6 +5,7 @@ import java.awt.BorderLayout;
 
 
 
+
 import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.FlowLayout;
@@ -47,6 +48,9 @@ import model.Pelicula;
 import model.Genero;
 import Conexion.Conexion;
 import VistaCliente.InicioSesion;
+import VistaCliente.Trailer;
+import VistaCliente.TrailerFX;
+import javafx.application.Application;
 
 
 /**
@@ -64,7 +68,7 @@ public class GestionPelicula extends JDialog {
 	private JTextField textAnyo;
 	private JTextField textDuracion;
 	private JTextField textNomPoster;
-	private JTextField textTrailer;
+	public static JTextField textTrailer;
 	private JTextField txtPosMenu;
 	private Image foto;
 	private Image fotomenu;
@@ -143,15 +147,12 @@ public class GestionPelicula extends JDialog {
 
 
 			public void actionPerformed(ActionEvent arg0) {
-
-				try {
-					Desktop.getDesktop().browse(new URI(textTrailer.getText()));
-				} catch (URISyntaxException | IOException ex) {
-
+				
+				
+					TrailerFX trailer= new TrailerFX();
+					trailer.setVisible(true);
+				
 				}
-
-
-			}
 
 		});
 		btnTrailer.setBackground(Color.ORANGE);
@@ -388,11 +389,8 @@ public class GestionPelicula extends JDialog {
 
 
 
-						GestionPeliculas gestionpeliculas = new GestionPeliculas();
-						Pelicula peli2 = new Pelicula();
-						peli2.setTitulo(titulo);
 
-						Pelicula peli = gestionpeliculas.obtenerpeliculas(peli2);
+						
 
 						sql1 = "INSERT INTO pelicula (titulo, anyo, genero, sinopsis, duracion, trailer, nomPoster, poster, nomPMenu, pMenu) VALUES(?,?,?,?,?,?,?,?,?,?)";
 
@@ -467,10 +465,9 @@ public class GestionPelicula extends JDialog {
 				cancelButton.setActionCommand("");
 				buttonPane.add(cancelButton);
 			}
-
-
-
-
+			
+			
+		
 
 
 		}}}

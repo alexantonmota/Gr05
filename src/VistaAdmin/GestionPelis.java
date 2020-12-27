@@ -1,6 +1,7 @@
 package VistaAdmin;
 import java.awt.BorderLayout;
 
+
 import java.awt.FlowLayout;
 
 import javax.swing.JButton;
@@ -9,10 +10,13 @@ import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.ScrollPane;
 
 import javax.swing.JLabel;
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
@@ -23,17 +27,30 @@ import javax.swing.JTextField;
 import javax.swing.ImageIcon;
 import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
+
+
+
+import Conexion.Conexion;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.sql.Blob;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 import javax.swing.SwingConstants;
 import javax.swing.JComboBox;
 import javax.swing.JTextPane;
 import model.Genero;
+import javax.swing.JTable;
 /**
  * Ventana para gestionar peliculas
  * @author alex
@@ -41,6 +58,10 @@ import model.Genero;
  */
 public class GestionPelis extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JLabel lblGP;
 	private JTextField txtTit;
@@ -50,6 +71,8 @@ public class GestionPelis extends JDialog {
 	private JTextField txtBus;
 	private JTextField textPos;
 	private JTextField textPosM;
+	static DefaultTableModel modelo;
+	private static JTable table;
 
 
 	/**
@@ -60,6 +83,7 @@ public class GestionPelis extends JDialog {
 			GestionPelis dialog = new GestionPelis();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
+			mostrarTabla();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -79,8 +103,6 @@ public class GestionPelis extends JDialog {
 			lblGP.setFont(new Font(".AppleSystemUIFont", Font.BOLD, 25));
 			lblGP.setForeground(Color.ORANGE);
 		}
-		//Lista donde se mostraran los datos de  la base de datos de Clientes
-		JList listPel = new JList();
 
 
 
@@ -292,176 +314,178 @@ public class GestionPelis extends JDialog {
 		JLabel lblRPostM = new JLabel("Póster Menú");
 		lblRPostM.setForeground(Color.ORANGE);
 		lblRPostM.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 18));
+		
+		table = new JTable();
+
+
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
 		gl_contentPanel.setHorizontalGroup(
-				gl_contentPanel.createParallelGroup(Alignment.TRAILING)
+			gl_contentPanel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_contentPanel.createSequentialGroup()
-						.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addContainerGap()
+							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_contentPanel.createSequentialGroup()
-										.addContainerGap()
-										.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-												.addGroup(gl_contentPanel.createSequentialGroup()
-														.addComponent(lblPosMenu, GroupLayout.PREFERRED_SIZE, 207, GroupLayout.PREFERRED_SIZE)
-														.addPreferredGap(ComponentPlacement.UNRELATED)
-														.addComponent(btnSubPMenu, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE))
-												.addGroup(gl_contentPanel.createSequentialGroup()
-														.addComponent(listPel, GroupLayout.PREFERRED_SIZE, 691, GroupLayout.PREFERRED_SIZE)
-														.addGap(60)
-														.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-																.addComponent(lblMod)
-																.addComponent(lblAny)
-																.addComponent(lblEli))
-														.addGap(32)
-														.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-																.addComponent(lblAnyP)
-																.addComponent(lblModP)
-																.addComponent(lblEliP))))
-										.addGap(46))
+									.addComponent(lblPosMenu, GroupLayout.PREFERRED_SIZE, 207, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addComponent(btnSubPMenu, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE))
 								.addGroup(gl_contentPanel.createSequentialGroup()
-										.addContainerGap(239, Short.MAX_VALUE)
-										.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
-												.addGroup(gl_contentPanel.createSequentialGroup()
-														.addComponent(lblPos, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE)
-														.addGap(42))
-												.addGroup(gl_contentPanel.createSequentialGroup()
-														.addComponent(btnSPos, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
-														.addGap(81)))
-										.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-												.addGroup(gl_contentPanel.createSequentialGroup()
-														.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-																.addComponent(lblGen)
-																.addComponent(lblTit)
-																.addComponent(lblDur))
-														.addGap(47)
-														.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-																.addGroup(gl_contentPanel.createSequentialGroup()
-																		.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-																				.addComponent(lblContr)
-																				.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
-																						.addComponent(comboGen, 0, 140, Short.MAX_VALUE)
-																						.addComponent(txtTit, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-																						.addComponent(txtAny, 140, 140, 140)))
-																		.addGap(85))
-																.addGroup(gl_contentPanel.createSequentialGroup()
-																		.addComponent(txtDur, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-																		.addGap(89))))
-												.addGroup(gl_contentPanel.createSequentialGroup()
-														.addComponent(lblAnyo)
-														.addGap(319)))
-										.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-												.addComponent(lblNomU)
-												.addComponent(lblTrai)
-												.addComponent(lblRutaP))
-										.addPreferredGap(ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-										.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-												.addComponent(txtTrailer, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addComponent(table, GroupLayout.PREFERRED_SIZE, 683, GroupLayout.PREFERRED_SIZE)
+									.addGap(68)
+									.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+										.addComponent(lblMod)
+										.addComponent(lblAny)
+										.addComponent(lblEli))
+									.addGap(32)
+									.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+										.addComponent(lblAnyP)
+										.addComponent(lblModP)
+										.addComponent(lblEliP))))
+							.addGap(46))
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addContainerGap(239, Short.MAX_VALUE)
+							.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
+								.addGroup(gl_contentPanel.createSequentialGroup()
+									.addComponent(lblPos, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE)
+									.addGap(42))
+								.addGroup(gl_contentPanel.createSequentialGroup()
+									.addComponent(btnSPos, GroupLayout.PREFERRED_SIZE, 36, GroupLayout.PREFERRED_SIZE)
+									.addGap(81)))
+							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_contentPanel.createSequentialGroup()
+									.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+										.addComponent(lblGen)
+										.addComponent(lblTit)
+										.addComponent(lblDur))
+									.addGap(47)
+									.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+										.addGroup(gl_contentPanel.createSequentialGroup()
+											.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+												.addComponent(lblContr)
 												.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
-														.addGroup(gl_contentPanel.createSequentialGroup()
-																.addComponent(textPos, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-																.addPreferredGap(ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
-																.addComponent(lblRPostM)
-																.addGap(18)
-																.addComponent(textPosM, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-														.addComponent(textSinopsis, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 416, GroupLayout.PREFERRED_SIZE)))))
-						.addGap(49))
-				.addGroup(gl_contentPanel.createSequentialGroup()
-						.addGap(347)
-						.addComponent(lblGP, GroupLayout.PREFERRED_SIZE, 432, GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(522, Short.MAX_VALUE))
-				.addGroup(gl_contentPanel.createSequentialGroup()
-						.addContainerGap(523, Short.MAX_VALUE)
-						.addComponent(lblBus)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(txtBus, GroupLayout.PREFERRED_SIZE, 281, GroupLayout.PREFERRED_SIZE)
-						.addGap(427))
-				);
-		gl_contentPanel.setVerticalGroup(
-				gl_contentPanel.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_contentPanel.createSequentialGroup()
-						.addGap(31)
-						.addComponent(lblGP)
-						.addGap(55)
-						.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
+													.addComponent(comboGen, 0, 140, Short.MAX_VALUE)
+													.addComponent(txtTit, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+													.addComponent(txtAny, 140, 140, 140)))
+											.addGap(85))
+										.addGroup(gl_contentPanel.createSequentialGroup()
+											.addComponent(txtDur, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+											.addGap(89))))
+								.addGroup(gl_contentPanel.createSequentialGroup()
+									.addComponent(lblAnyo)
+									.addGap(319)))
+							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblNomU)
+								.addComponent(lblTrai)
+								.addComponent(lblRutaP))
+							.addPreferredGap(ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+								.addComponent(txtTrailer, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
-										.addGroup(gl_contentPanel.createSequentialGroup()
-												.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-														.addComponent(lblContr)
-														.addComponent(lblDur)
-														.addComponent(txtDur, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-												.addGap(16))
-										.addGroup(gl_contentPanel.createSequentialGroup()
-												.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-														.addComponent(lblPos, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE)
-														.addGroup(gl_contentPanel.createSequentialGroup()
-																.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-																		.addComponent(lblTit)
-																		.addComponent(txtTit, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-																		.addComponent(lblNomU))
-																.addPreferredGap(ComponentPlacement.UNRELATED)
-																.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-																		.addComponent(lblGen)
-																		.addComponent(comboGen, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-																.addGap(18)
-																.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
-																		.addComponent(lblAnyo)
-																		.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-																				.addComponent(txtAny, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-																				.addComponent(lblTrai)))))
-												.addPreferredGap(ComponentPlacement.UNRELATED)
-												.addComponent(btnSPos)
-												.addPreferredGap(ComponentPlacement.RELATED)))
-								.addGroup(gl_contentPanel.createSequentialGroup()
-										.addComponent(textSinopsis, GroupLayout.PREFERRED_SIZE, 73, GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-										.addComponent(txtTrailer, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-												.addComponent(textPos, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-												.addComponent(textPosM, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-												.addComponent(lblRutaP)
-												.addComponent(lblRPostM))
-										.addGap(28)))
-						.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_contentPanel.createSequentialGroup()
-										.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-												.addGroup(gl_contentPanel.createSequentialGroup()
-														.addGap(39)
-														.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
-																.addComponent(txtBus, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-																.addComponent(lblBus)))
-												.addGroup(gl_contentPanel.createSequentialGroup()
-														.addGap(30)
-														.addComponent(lblPosMenu, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE)))
-										.addPreferredGap(ComponentPlacement.RELATED, 20, Short.MAX_VALUE))
-								.addGroup(Alignment.TRAILING, gl_contentPanel.createSequentialGroup()
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addComponent(btnSubPMenu)
-										.addGap(53)))
-						.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
-								.addGroup(gl_contentPanel.createSequentialGroup()
+									.addGroup(gl_contentPanel.createSequentialGroup()
+										.addComponent(textPos, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+										.addComponent(lblRPostM)
 										.addGap(18)
-										.addComponent(listPel, GroupLayout.PREFERRED_SIZE, 324, GroupLayout.PREFERRED_SIZE))
+										.addComponent(textPosM, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+									.addComponent(textSinopsis, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 416, GroupLayout.PREFERRED_SIZE)))))
+					.addGap(49))
+				.addGroup(gl_contentPanel.createSequentialGroup()
+					.addGap(347)
+					.addComponent(lblGP, GroupLayout.PREFERRED_SIZE, 432, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(522, Short.MAX_VALUE))
+				.addGroup(gl_contentPanel.createSequentialGroup()
+					.addContainerGap(523, Short.MAX_VALUE)
+					.addComponent(lblBus)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(txtBus, GroupLayout.PREFERRED_SIZE, 281, GroupLayout.PREFERRED_SIZE)
+					.addGap(427))
+		);
+		gl_contentPanel.setVerticalGroup(
+			gl_contentPanel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_contentPanel.createSequentialGroup()
+					.addGap(31)
+					.addComponent(lblGP)
+					.addGap(55)
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
+						.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
+							.addGroup(gl_contentPanel.createSequentialGroup()
+								.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
+									.addComponent(lblContr)
+									.addComponent(lblDur)
+									.addComponent(txtDur, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+								.addGap(16))
+							.addGroup(gl_contentPanel.createSequentialGroup()
+								.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+									.addComponent(lblPos, GroupLayout.PREFERRED_SIZE, 138, GroupLayout.PREFERRED_SIZE)
+									.addGroup(gl_contentPanel.createSequentialGroup()
+										.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
+											.addComponent(lblTit)
+											.addComponent(txtTit, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+											.addComponent(lblNomU))
+										.addPreferredGap(ComponentPlacement.UNRELATED)
+										.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
+											.addComponent(lblGen)
+											.addComponent(comboGen, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+										.addGap(18)
+										.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
+											.addComponent(lblAnyo)
+											.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
+												.addComponent(txtAny, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+												.addComponent(lblTrai)))))
+								.addPreferredGap(ComponentPlacement.UNRELATED)
+								.addComponent(btnSPos)
+								.addPreferredGap(ComponentPlacement.RELATED)))
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addComponent(textSinopsis, GroupLayout.PREFERRED_SIZE, 73, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addComponent(txtTrailer, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
+								.addComponent(textPos, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(textPosM, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblRutaP)
+								.addComponent(lblRPostM))
+							.addGap(28)))
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_contentPanel.createSequentialGroup()
-										.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING, false)
-												.addGroup(gl_contentPanel.createSequentialGroup()
-														.addPreferredGap(ComponentPlacement.RELATED)
-														.addComponent(lblAny, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE)
-														.addGap(26)
-														.addComponent(lblMod, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE)
-														.addGap(30))
-												.addGroup(gl_contentPanel.createSequentialGroup()
-														.addGap(33)
-														.addComponent(lblAnyP)
-														.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-														.addComponent(lblModP)
-														.addGap(59)))
-										.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-												.addComponent(lblEli, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE)
-												.addGroup(gl_contentPanel.createSequentialGroup()
-														.addGap(35)
-														.addComponent(lblEliP)))))
-						.addGap(61))
-				);
+									.addGap(39)
+									.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
+										.addComponent(txtBus, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addComponent(lblBus)))
+								.addGroup(gl_contentPanel.createSequentialGroup()
+									.addGap(30)
+									.addComponent(lblPosMenu, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE)))
+							.addPreferredGap(ComponentPlacement.RELATED, 42, Short.MAX_VALUE))
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnSubPMenu)
+							.addGap(53)))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING, false)
+								.addGroup(gl_contentPanel.createSequentialGroup()
+									.addComponent(lblAny, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE)
+									.addGap(26)
+									.addComponent(lblMod, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE)
+									.addGap(30))
+								.addGroup(gl_contentPanel.createSequentialGroup()
+									.addGap(33)
+									.addComponent(lblAnyP)
+									.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+									.addComponent(lblModP)
+									.addGap(59)))
+							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblEli, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE)
+								.addGroup(gl_contentPanel.createSequentialGroup()
+									.addGap(35)
+									.addComponent(lblEliP))))
+						.addComponent(table, GroupLayout.PREFERRED_SIZE, 326, GroupLayout.PREFERRED_SIZE))
+					.addGap(49))
+		);
 		contentPanel.setLayout(gl_contentPanel);
 		{
 			JPanel buttonPane = new JPanel();
@@ -487,8 +511,74 @@ public class GestionPelis extends JDialog {
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
-
 		}
+	}
+
+	//Creamos la tabla de peliculas
+	static void mostrarTabla() {
+		
+
+		String[]titulos= {"ID","Título","Año","Género","Sinopsis","Duracion", "Trailer","Ruta Poster","Poster","Ruta Cartel","Cartel"};
+		Object[]datos= new Object[50];
+	    modelo= new DefaultTableModel(null,titulos);
+
+		String sql="select id,titulo, anyo, genero,sinopsis,duracion, trailer, nomPoster, poster, nomPMenu, pMenu from pelicula";
+
+		Conexion cc= new Conexion();
+		Connection conect= cc.conectar();
+
+
+		try {
+			Statement stmt= (Statement) conect.createStatement();
+			ResultSet rs= stmt.executeQuery(sql);
+			while(rs.next()) {
+				datos[0]= rs.getInt("id");
+				datos[1]= rs.getString("titulo");
+				datos[2]= rs.getInt("año");
+				datos[3]= rs.getString("genero");
+				datos[4]= rs.getString("sinospsis");
+				datos[5]= rs.getInt("duracion");
+				datos[6]= rs.getString("trailer");
+				datos[7]= rs.getString("nomPoster");
+				Blob blob=rs.getBlob("poster");
+				byte[]data= blob.getBytes(1, (int)blob.length());
+				BufferedImage img= null;
+
+				try {
+					img= ImageIO.read(new ByteArrayInputStream(data));
+
+				} catch (Exception e) {
+					System.out.println(e);
+				}
+				ImageIcon icono= new ImageIcon(img);
+				datos[8]= new JLabel(icono);
+				datos[9]= rs.getString("nomPMenu");
+				Blob blob2=rs.getBlob("pMenu");
+				byte[]data2= blob2.getBytes(1, (int)blob2.length());
+				BufferedImage img2= null;
+
+				try {
+					img2= ImageIO.read(new ByteArrayInputStream(data2));
+
+				} catch (Exception e) {
+					System.out.println(e);				}
+				ImageIcon icono2= new ImageIcon(img2);
+				datos[10]= new JLabel(icono2);
+				modelo.addRow(datos);
+
+
+
+
+			}
+			table.setModel(modelo);
+			TableColumnModel columnmodel= table.getColumnModel();
+			columnmodel.getColumn(0).setPreferredWidth(15);
+			columnmodel.getColumn(0).setPreferredWidth(15);
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+
+
 
 	}
 }

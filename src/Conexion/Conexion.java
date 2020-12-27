@@ -1,10 +1,17 @@
 package Conexion;
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
 
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
+
+
+import model.Pelicula;
 
 /**
  * Clase Conexion que conecta con la base de datos
@@ -14,10 +21,10 @@ import javax.swing.JOptionPane;
 public class Conexion {
 
 
-	
+
 
 	public static Connection conectar() {
-		 Connection conn = null;
+		Connection conn = null;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/proyecto","root","boobooga70");
@@ -35,12 +42,14 @@ public class Conexion {
 		try {	
 			stmt= conn.createStatement();
 			datos= stmt.executeQuery(Consulta);
-			
-			
+
+
 		} catch (Exception e) {
 			System.out.println("Error en obtener tabla");
 		}
 		return datos;
-		
+
 	}
+
+
 }

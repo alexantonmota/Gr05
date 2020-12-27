@@ -40,6 +40,7 @@ import javax.swing.SwingConstants;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.Component;
+import java.awt.ScrollPane;
 /**
  * Ventana donde se gestionan los clientes, en la tabla aparecerán los valores que contenga la tabla de usuarios de la base de datos,
  *  con esta se podra: añadir, modificar o eliminar clickando sus respectivos botones,
@@ -446,6 +447,7 @@ public class GestionClientes extends JDialog {
 				txtFecha.setText(String.valueOf(table.getValueAt(seleccion, 6)));
 				txtEmail.setText(String.valueOf(table.getValueAt(seleccion, 7)));
 				textID.setText(String.valueOf(table.getValueAt(seleccion,0)));
+				
 			}
 		});
 
@@ -671,6 +673,11 @@ public class GestionClientes extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
+		
+		ScrollPane scrollPane = new ScrollPane();
+		
+		getContentPane().add(scrollPane, BorderLayout.CENTER);
+		scrollPane.add(table);
 	}
 
 	public Cliente obtenerusuario(Cliente cli) {

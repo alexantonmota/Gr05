@@ -3,34 +3,39 @@ import java.sql.Connection;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 import model.Pelicula;
 import model.Genero;
 import Conexion.Conexion;
 
 public class GestionPeliculas {
 
-	public Pelicula obtenerpeliculas(Pelicula peli) {
-		Pelicula pelis = null;
-
-		Conexion conexion2 = new Conexion();
-		PreparedStatement pst = null;
-		ResultSet rs = null;
+	public List<Pelicula> obtenerPeliculas(){
+		String sql = "SELECT titulo, genero, anyo, sinopsis, duracion, trailer, nomPoster,nomPMenu FROM prelicula";
+		PreparedStatement stmt;
+		Conexion cc= new Conexion();
+		Connection conn= cc.conectar();
+		List<Pelicula> peliculas = new ArrayList<Pelicula>();
 
 		try {
-			Connection cn2 = conexion2.conectar();
-			String sql = "select * from pelicula";
-			pst = cn2.prepareStatement(sql);
+			stmt = conn.prepareStatement(sql);
 
-			pst.setString(1, peli.getTitulo());
-			rs = pst.executeQuery();
+			ResultSet rs = stmt.executeQuery();
 
-			while(rs.next()) {
-				pelis = new Pelicula(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getString(4), rs.getInt(5), rs.getString(6),rs.getString(7),rs.getString(8));
+			while (rs.next()){
+
+				Pelicula p = new Pelicula(rs.getString("titulo"), rs.getString("genero"), rs.getInt("anyo"), rs.getString("sinopsis"), rs.getInt("duracion"), rs.getString("trailer"), rs.getString("nomPoster"),rs.getString("nomPMenu"));
+
+				peliculas.add(p);
 			}
 
-		}catch (Exception e) {
-			System.out.println("error en obtener Pelicula");
+		} catch (SQLException e) {
+			System.out.println(e);
+			e.printStackTrace();
 		}
-		return pelis;
+		return peliculas;
 	}
 }

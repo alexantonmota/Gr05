@@ -1,5 +1,10 @@
 package model;
 
+import java.awt.Image;
+
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+
 /**
  * Clase Pelicula
  * @author alex
@@ -17,6 +22,7 @@ public class Pelicula
 	private String trailer;
 	private String rutaFoto;
 	private String rutaFotoMenu;
+	private ImageIcon poster;
 
 
 	public Pelicula(String titulo, String genero, int anyo, String sinopsis, int duracion, String trailer,String rutaFoto, String rutaFotoMenu) {
@@ -29,6 +35,7 @@ public class Pelicula
 		this.trailer = trailer;
 		this.rutaFoto = rutaFoto;
 		this.rutaFotoMenu = rutaFotoMenu;
+		this.poster = posterPelicula(titulo);
 	}
 	public Pelicula(){
 
@@ -85,7 +92,26 @@ public class Pelicula
 	public void setRutaFotoMenu(String rutaFotoMenu) {
 		this.rutaFotoMenu = rutaFotoMenu;
 	}
+	public ImageIcon getPoster() {
+	
+		return poster;
+	}
 
+	public void setCover(ImageIcon poster) {
+		this.poster = poster;
+	}
+
+	public static ImageIcon posterPelicula(String titulo) {
+
+		ImageIcon imageIcon = new ImageIcon("/Users/alex/eclipse-workspace5/G05/Imagenes/" + titulo + ".jpg");
+		Image image = imageIcon.getImage();
+		Image newimg = image.getScaledInstance(200, 277, java.awt.Image.SCALE_SMOOTH);
+		imageIcon = new ImageIcon(newimg);
+		
+
+		return imageIcon;
+
+	}	
 
 	public void mostrarInfoPelicula()
 	{

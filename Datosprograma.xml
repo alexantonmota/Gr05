@@ -2,15 +2,26 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2020-12-11T22:56:28.629377Z</date>
-  <millis>1607727388629</millis>
-  <nanos>377000</nanos>
+  <date>2020-12-27T21:41:58.089633Z</date>
+  <millis>1609105318089</millis>
+  <nanos>633000</nanos>
   <sequence>0</sequence>
   <logger>logger</logger>
   <level>INFO</level>
   <class>VistaCliente.InicioSesion</class>
   <method>main</method>
   <thread>1</thread>
-  <message>Inicio del programa Fri Dec 11 23:56:28 CET 2020</message>
+  <message>Inicio del programa Sun Dec 27 22:41:58 CET 2020</message>
 </record>
-</log>
+<record>
+  <date>2020-12-27T21:42:10.201264Z</date>
+  <millis>1609105330201</millis>
+  <nanos>264000</nanos>
+  <sequence>1</sequence>
+  <logger>logger</logger>
+  <level>FINER</level>
+  <class>VistaCliente.InicioSesion</class>
+  <method>ingresar</method>
+  <thread>16</thread>
+  <message>Usuario conectado: alex</message>
+</record>
