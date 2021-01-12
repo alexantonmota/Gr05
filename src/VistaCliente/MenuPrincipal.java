@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import Conexion.Conexion;
+import model.Pelicula;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -22,8 +23,10 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.sql.Blob;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -69,6 +72,11 @@ public class MenuPrincipal extends JDialog {
 		lblCine.setBackground(Color.ORANGE);
 		lblCine.setFont(new Font(".AppleSystemUIFont", Font.BOLD, 60));
 		lblCine.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		
+		
+		
+		
 
 		JButton btnCartelera = new JButton("Ir a Cartelera");
 		btnCartelera.addActionListener(new ActionListener() {

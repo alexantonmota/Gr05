@@ -534,9 +534,9 @@ public class GestionPelis extends JDialog {
 			while(rs.next()) {
 				datos[0]= rs.getInt("id");
 				datos[1]= rs.getString("titulo");
-				datos[2]= rs.getInt("año");
+				datos[2]= rs.getInt("anyo");
 				datos[3]= rs.getString("genero");
-				datos[4]= rs.getString("sinospsis");
+				datos[4]= rs.getString("sinopsis");
 				datos[5]= rs.getInt("duracion");
 				datos[6]= rs.getString("trailer");
 				datos[7]= rs.getString("nomPoster");
@@ -571,6 +571,7 @@ public class GestionPelis extends JDialog {
 
 			}
 			table.setModel(modelo);
+			
 			TableColumnModel columnmodel= table.getColumnModel();
 			columnmodel.getColumn(0).setPreferredWidth(15);
 			columnmodel.getColumn(0).setPreferredWidth(15);

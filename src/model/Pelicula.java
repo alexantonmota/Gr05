@@ -2,8 +2,9 @@ package model;
 
 import java.awt.Image;
 
+
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
+
 
 /**
  * Clase Pelicula
@@ -23,6 +24,7 @@ public class Pelicula
 	private String rutaFoto;
 	private String rutaFotoMenu;
 	private ImageIcon poster;
+	private ImageIcon cartel;
 
 
 	public Pelicula(String titulo, String genero, int anyo, String sinopsis, int duracion, String trailer,String rutaFoto, String rutaFotoMenu) {
@@ -36,6 +38,8 @@ public class Pelicula
 		this.rutaFoto = rutaFoto;
 		this.rutaFotoMenu = rutaFotoMenu;
 		this.poster = posterPelicula(titulo);
+		this.cartel = cartelPelicula(titulo);
+		
 	}
 	public Pelicula(){
 
@@ -97,13 +101,34 @@ public class Pelicula
 		return poster;
 	}
 
-	public void setCover(ImageIcon poster) {
+	public void setPoster(ImageIcon poster) {
 		this.poster = poster;
 	}
+	
+	public ImageIcon getCartel() {
+		
+		return cartel;
+	}
+
+	public void setCartel(ImageIcon cartel) {
+		this.cartel = cartel;
+	}
+	
 
 	public static ImageIcon posterPelicula(String titulo) {
 
 		ImageIcon imageIcon = new ImageIcon("/Users/alex/eclipse-workspace5/G05/Imagenes/" + titulo + ".jpg");
+		Image image = imageIcon.getImage();
+		Image newimg = image.getScaledInstance(200, 277, java.awt.Image.SCALE_SMOOTH);
+		imageIcon = new ImageIcon(newimg);
+		
+
+		return imageIcon;
+
+	}
+	public static ImageIcon cartelPelicula(String titulo) {
+
+		ImageIcon imageIcon = new ImageIcon("/Users/alex/eclipse-workspace5/G05/Imagenes/PostersMenuPrincipal/" + titulo + "Cartel.jpg");
 		Image image = imageIcon.getImage();
 		Image newimg = image.getScaledInstance(200, 277, java.awt.Image.SCALE_SMOOTH);
 		imageIcon = new ImageIcon(newimg);

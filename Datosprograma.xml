@@ -2,21 +2,21 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2020-12-27T21:41:58.089633Z</date>
-  <millis>1609105318089</millis>
-  <nanos>633000</nanos>
+  <date>2020-12-29T18:40:09.768897Z</date>
+  <millis>1609267209768</millis>
+  <nanos>897000</nanos>
   <sequence>0</sequence>
   <logger>logger</logger>
   <level>INFO</level>
   <class>VistaCliente.InicioSesion</class>
   <method>main</method>
   <thread>1</thread>
-  <message>Inicio del programa Sun Dec 27 22:41:58 CET 2020</message>
+  <message>Inicio del programa Tue Dec 29 19:40:09 CET 2020</message>
 </record>
 <record>
-  <date>2020-12-27T21:42:10.201264Z</date>
-  <millis>1609105330201</millis>
-  <nanos>264000</nanos>
+  <date>2020-12-29T18:41:17.911289Z</date>
+  <millis>1609267277911</millis>
+  <nanos>289000</nanos>
   <sequence>1</sequence>
   <logger>logger</logger>
   <level>FINER</level>
@@ -25,3 +25,40 @@
   <thread>16</thread>
   <message>Usuario conectado: alex</message>
 </record>
+<record>
+  <date>2020-12-29T18:43:19.276343Z</date>
+  <millis>1609267399276</millis>
+  <nanos>343000</nanos>
+  <sequence>2</sequence>
+  <logger>logger</logger>
+  <level>FINER</level>
+  <class>VistaCliente.InicioSesion</class>
+  <method>ingresar</method>
+  <thread>16</thread>
+  <message>Usuario conectado: alex</message>
+</record>
+<record>
+  <date>2020-12-29T18:45:38.640243Z</date>
+  <millis>1609267538640</millis>
+  <nanos>243000</nanos>
+  <sequence>3</sequence>
+  <logger>logger</logger>
+  <level>FINER</level>
+  <class>VistaCliente.Registro$7</class>
+  <method>actionPerformed</method>
+  <thread>16</thread>
+  <message>Usuario registrado: unaitxo08</message>
+</record>
+<record>
+  <date>2020-12-29T18:46:10.682265Z</date>
+  <millis>1609267570682</millis>
+  <nanos>265000</nanos>
+  <sequence>4</sequence>
+  <logger>logger</logger>
+  <level>FINER</level>
+  <class>VistaCliente.InicioSesion</class>
+  <method>ingresar</method>
+  <thread>16</thread>
+  <message>Usuario conectado: unaitxo08</message>
+</record>
+</log>

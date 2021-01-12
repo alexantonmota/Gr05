@@ -6,12 +6,15 @@ import java.awt.BorderLayout;
 
 
 
+
+
 import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Image;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -37,6 +40,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
@@ -48,9 +52,8 @@ import model.Pelicula;
 import model.Genero;
 import Conexion.Conexion;
 import VistaCliente.InicioSesion;
-import VistaCliente.Trailer;
-import VistaCliente.TrailerFX;
-import javafx.application.Application;
+
+
 
 
 /**
@@ -62,7 +65,7 @@ public class GestionPelicula extends JDialog {
 
 
 	private static final long serialVersionUID = 1L;
-	public static String url;
+	
 	private final JPanel contentPanel = new JPanel();
 	private JTextField textTitulo;
 	private JTextField textAnyo;
@@ -139,6 +142,12 @@ public class GestionPelicula extends JDialog {
 		lblTrailer.setForeground(Color.ORANGE);
 		lblTrailer.setBorder(BorderFactory.createLineBorder(Color.ORANGE,2));
 		lblTrailer.setFont(new Font(".AppleSystemUIFont", Font.BOLD, 15));
+		//TextField que se coloca la url
+				textTrailer = new JTextField();
+				textTrailer.setColumns(10);
+
+			
+				JTextPane textSinopsis = new JTextPane();
 
 		JButton btnTrailer = new JButton("Ver Trailer");
 		btnTrailer.addActionListener(new ActionListener() {
@@ -148,10 +157,19 @@ public class GestionPelicula extends JDialog {
 
 			public void actionPerformed(ActionEvent arg0) {
 				
-				
-					TrailerFX trailer= new TrailerFX();
-					trailer.setVisible(true);
-				
+			//Ejecución de URL
+				try {
+				   URL url = new URL(textTrailer.getText());
+				    try {
+				        Desktop.getDesktop().browse(url.toURI());
+				    } catch (IOException e) {
+				        e.printStackTrace();
+				    } catch (URISyntaxException e) {
+				        e.printStackTrace();
+				    }
+				} catch (MalformedURLException e1) {
+				    e1.printStackTrace();
+				}
 				}
 
 		});
@@ -182,12 +200,7 @@ public class GestionPelicula extends JDialog {
 		comboBox.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 13));
 		comboBox.setModel(new DefaultComboBoxModel(Genero.values()));
 
-		//TextField que se coloca la url
-		textTrailer = new JTextField();
-		textTrailer.setColumns(10);
-
-		url= textTrailer.getText();
-		JTextPane textSinopsis = new JTextPane();
+		
 
 		JLabel lblPosMenu = new JLabel("");
 		lblPosMenu.setBorder(BorderFactory.createLineBorder(Color.ORANGE,4));

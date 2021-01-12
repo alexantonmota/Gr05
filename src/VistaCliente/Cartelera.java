@@ -117,20 +117,27 @@ public class Cartelera extends JFrame {
 		JLabel lblP1 = new JLabel("");
 		
 		
-		
+		for (int i = 0; i < peliculas.size()-11;i++) {
+			lblP1.setIcon(peliculas.get(i).getPoster());
+			
+		}
 		lblP1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				VentanaPelicula peli= new VentanaPelicula();
+				for (int i = 0; i < peliculas.size()-11;i++) {
+					peli.lblNewLabel.setIcon(peliculas.get(i).getPoster());
+					
+				}
 				peli.setVisible(true);
 
+				
 			}
 		});
+		
 		lblP1.setBorder(BorderFactory.createLineBorder(Color.ORANGE,4));
 		
-		for (int i = 0; i < peliculas.size()-11;i++) {
-			lblP1.setIcon(peliculas.get(i).getPoster());
-		}
+		
 		
 
 		JLabel lblP2 = new JLabel("");

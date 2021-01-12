@@ -7,6 +7,10 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import Conexion.Conexion;
+import model.Pelicula;
+
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JLabel;
@@ -16,6 +20,14 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.event.ActionEvent;
 
 /**
@@ -27,12 +39,13 @@ public class VentanaPelicula extends JDialog {
 
 
 	private static final long serialVersionUID = 1L;
-	private final JPanel contentPanel = new JPanel();
-	private JTextField txtTit;
-	private JTextField txtAnyo;
-	private JTextField txtSinopsis;
-	private JTextField textDur;
-	private JTextField txtGenero;
+	public final JPanel contentPanel = new JPanel();
+	public JTextField txtTit;
+	public JTextField txtAnyo;
+	public JTextField txtSinopsis;
+	public JTextField textDur;
+	public JTextField txtGenero;
+	public JLabel lblNewLabel;
 
 	/**
 	 * Launch the application.
@@ -61,8 +74,38 @@ public class VentanaPelicula extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 
-		JLabel lblNewLabel = new JLabel("");
+		 
+		String sql = "SELECT titulo, anyo, genero, sinopsis, duracion, trailer, nomPoster,nomPMenu FROM pelicula";
+		PreparedStatement stmt;
+		Conexion cc= new Conexion();
+		Connection conn= cc.conectar();
+		List<Pelicula> peliculas = new ArrayList<Pelicula>();
+		peliculas.clear();
+
+		try {
+			stmt = conn.prepareStatement(sql);
+
+			ResultSet rs = stmt.executeQuery();
+
+			while (rs.next()){
+
+				Pelicula p = new Pelicula(rs.getString("titulo"), rs.getString("genero"), rs.getInt("anyo"), rs.getString("sinopsis"), rs.getInt("duracion"), rs.getString("trailer"), rs.getString("nomPoster"),rs.getString("nomPMenu"));
+
+				peliculas.add(p);
+			}
+
+		} catch (SQLException e) {
+			System.out.println(e);
+			e.printStackTrace();
+		}
+		
+		
+		lblNewLabel = new JLabel("");
 		lblNewLabel.setBorder(BorderFactory.createLineBorder(Color.ORANGE,4));
+		
+		
+		
+	
 
 
 		JLabel lblTit = new JLabel("Título");
@@ -103,6 +146,8 @@ public class VentanaPelicula extends JDialog {
 		txtTit.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 13));
 		txtTit.setEditable(false);
 		txtTit.setColumns(10);
+		txtTit.setVisible(true);
+		
 
 		txtAnyo = new JTextField();
 		txtAnyo.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 13));
