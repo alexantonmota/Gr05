@@ -54,7 +54,7 @@ public class Pelicula
 		this.titulo = titulo;
 	}
 	public String getGenero() {
-		return String.valueOf(Genero.values());
+		return genero;
 	}
 	public void setGenero(String genero) {
 		this.genero = String.valueOf(Genero.values());
@@ -138,6 +138,12 @@ public class Pelicula
 
 	}	
 
+	@Override
+	public String toString() {
+		return "Pelicula [titulo=" + titulo + ", genero=" + genero + ", anyo=" + anyo + ", sinopsis=" + sinopsis
+				+ ", duracion=" + duracion + ", trailer=" + trailer + ", rutaFoto=" + rutaFoto + ", rutaFotoMenu="
+				+ rutaFotoMenu + ", poster=" + poster + ", cartel=" + cartel + "]";
+	}
 	public void mostrarInfoPelicula()
 	{
 		System.out.println();               

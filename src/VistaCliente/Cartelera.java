@@ -15,7 +15,8 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
-import Conexion.Conexion;
+
+import Conexion.DBManager;
 import model.Pelicula;
 
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -29,6 +30,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 /**
@@ -43,7 +45,7 @@ public class Cartelera extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	
+
 
 	/**
 	 * Launch the application.
@@ -52,7 +54,7 @@ public class Cartelera extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					
+
 					Cartelera frame = new Cartelera();
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -87,227 +89,234 @@ public class Cartelera extends JFrame {
 		lblCartelera.setBackground(Color.ORANGE);
 
 
+		//Lista de las peliculas de la base de datos
+		DBManager db= new DBManager();
+		List<Pelicula> peliculas= db.obtenerPeliculas();
+		db.desconectar();
 		
-		String sql = "SELECT titulo, anyo, genero, sinopsis, duracion, trailer, nomPoster,nomPMenu FROM pelicula";
-		PreparedStatement stmt;
-		Conexion cc= new Conexion();
-		Connection conn= cc.conectar();
-		List<Pelicula> peliculas = new ArrayList<Pelicula>();
-		peliculas.clear();
 
-		try {
-			stmt = conn.prepareStatement(sql);
-
-			ResultSet rs = stmt.executeQuery();
-
-			while (rs.next()){
-
-				Pelicula p = new Pelicula(rs.getString("titulo"), rs.getString("genero"), rs.getInt("anyo"), rs.getString("sinopsis"), rs.getInt("duracion"), rs.getString("trailer"), rs.getString("nomPoster"),rs.getString("nomPMenu"));
-
-				peliculas.add(p);
-			}
-
-		} catch (SQLException e) {
-			System.out.println(e);
-			e.printStackTrace();
-		}
-		
-		
-		//Cada uno de los siguientes label representara los posters de las peliculas que haya en la base de datos de Peliculas
-		JLabel lblP1 = new JLabel("");
-		
-		
-		for (int i = 0; i < peliculas.size()-11;i++) {
-			lblP1.setIcon(peliculas.get(i).getPoster());
-			
-		}
+		JLabel lblP1= new JLabel();
+		//Aplico el poster al label obtenido por la lista
+		lblP1.setIcon(peliculas.get(0).getPoster());
+		lblP1.setBorder(BorderFactory.createLineBorder(Color.ORANGE,4));
 		lblP1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				VentanaPelicula peli= new VentanaPelicula();
-				for (int i = 0; i < peliculas.size()-11;i++) {
-					peli.lblNewLabel.setIcon(peliculas.get(i).getPoster());
-					
-				}
-				peli.setVisible(true);
-
 				
+				//Abro ventana con la informacion de la lista
+				DBManager db= new DBManager();
+				List<Pelicula> peliculas= db.obtenerPeliculas();
+
+				db.desconectar();
+
+
+				VentanaPelicula vp= new VentanaPelicula(peliculas.get(0));
+				vp.setVisible(true);
+
+
+
+
 			}
 		});
-		
-		lblP1.setBorder(BorderFactory.createLineBorder(Color.ORANGE,4));
-		
-		
-		
 
-		JLabel lblP2 = new JLabel("");
-		lblP2.setBorder(BorderFactory.createLineBorder(Color.ORANGE,4));
+	
+		JLabel lblP2= new JLabel();
 		
+		lblP2.setBorder(BorderFactory.createLineBorder(Color.ORANGE,4));
+		lblP2.setIcon(peliculas.get(1).getPoster());
 		lblP2.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				VentanaPelicula peli= new VentanaPelicula();
-				peli.setVisible(true);
+				DBManager db= new DBManager();
+				List<Pelicula> peliculas= db.obtenerPeliculas();
+
+				VentanaPelicula vp= new VentanaPelicula(peliculas.get(1));
+				vp.setVisible(true);
 
 			}
 		});
-		for (int j = 0; j < peliculas.size()-10;j++) {
-			lblP2.setIcon(peliculas.get(j).getPoster());
-		}
-		
-		
+
+
 
 		JLabel lblP3 = new JLabel("");
-		lblP3.setBorder(BorderFactory.createLineBorder(Color.ORANGE,4));
 		
+		lblP3.setBorder(BorderFactory.createLineBorder(Color.ORANGE,4));
+		lblP3.setIcon(peliculas.get(2).getPoster());
 		lblP3.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				VentanaPelicula peli= new VentanaPelicula();
-				peli.setVisible(true);
-
+				DBManager db= new DBManager();
+				List<Pelicula> peliculas= db.obtenerPeliculas();
+				VentanaPelicula vp= new VentanaPelicula(peliculas.get(2));
+				vp.setVisible(true);
 			}
 		});
-		for (int k = 0; k < peliculas.size()-9;k++) {
-			lblP3.setIcon(peliculas.get(k).getPoster());
-		}
-		
-		
+
+
+
 		JLabel lblP4 = new JLabel("");
+		
 		lblP4.setBorder(BorderFactory.createLineBorder(Color.ORANGE,4));
+		lblP4.setIcon(peliculas.get(3).getPoster());
 		lblP4.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				VentanaPelicula peli= new VentanaPelicula();
-				peli.setVisible(true);
+				DBManager db= new DBManager();
+				List<Pelicula> peliculas= db.obtenerPeliculas();
+				VentanaPelicula vp= new VentanaPelicula(peliculas.get(3));
+				vp.setVisible(true);
 
 			}
 		});
-		for (int l = 0; l < peliculas.size()-8;l++) {
-			lblP4.setIcon(peliculas.get(l).getPoster());
-		}
-		
-		
+
+
+
 
 		JLabel lblP5 = new JLabel("");
+		
 		lblP5.setBorder(BorderFactory.createLineBorder(Color.ORANGE,4));
+		lblP5.setIcon(peliculas.get(4).getPoster());
 		lblP5.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				VentanaPelicula peli= new VentanaPelicula();
-				peli.setVisible(true);
+				DBManager db= new DBManager();
+				List<Pelicula> peliculas= db.obtenerPeliculas();
+				VentanaPelicula vp= new VentanaPelicula(peliculas.get(4));
+				vp.setVisible(true);
 
 			}
 		});
-		for (int m = 0; m < peliculas.size()-7;m++) {
-			lblP5.setIcon(peliculas.get(m).getPoster());
-		}
-		
+
+
 
 		JLabel lblP6 = new JLabel("");
+		
 		lblP6.setBorder(BorderFactory.createLineBorder(Color.ORANGE,4));
+		lblP6.setIcon(peliculas.get(5).getPoster());
 		lblP6.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				VentanaPelicula peli= new VentanaPelicula();
-				peli.setVisible(true);
+				DBManager db= new DBManager();
+				List<Pelicula> peliculas= db.obtenerPeliculas();
+				VentanaPelicula vp= new VentanaPelicula(peliculas.get(5));
+				vp.setVisible(true);
+				
+
 
 			}
 		});
-		for (int n = 0; n < peliculas.size()-6;n++) {
-			lblP6.setIcon(peliculas.get(n).getPoster());
-		}
-		
+
+
 		JLabel lblP7 = new JLabel("");
+		
 		lblP7.setBorder(BorderFactory.createLineBorder(Color.ORANGE,4));
+		lblP7.setIcon(peliculas.get(6).getPoster());
 		lblP7.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				VentanaPelicula peli= new VentanaPelicula();
-				peli.setVisible(true);
-			
+				DBManager db= new DBManager();
+				List<Pelicula> peliculas= db.obtenerPeliculas();
+				VentanaPelicula vp= new VentanaPelicula(peliculas.get(6));
+				vp.setVisible(true);
+				
+
 			}
 		});
-		for (int o = 0; o < peliculas.size()-5;o++) {
-			lblP7.setIcon(peliculas.get(o).getPoster());
-		}
-		
-		
+
+
+
 
 		JLabel lblP8 = new JLabel("");
-		lblP8.setBorder(BorderFactory.createLineBorder(Color.ORANGE,4));
 		
+		lblP8.setBorder(BorderFactory.createLineBorder(Color.ORANGE,4));
+		lblP8.setIcon(peliculas.get(7).getPoster());
 		lblP8.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				VentanaPelicula peli= new VentanaPelicula();
-				peli.setVisible(true);
+				DBManager db= new DBManager();
+				List<Pelicula> peliculas= db.obtenerPeliculas();
+				VentanaPelicula vp= new VentanaPelicula(peliculas.get(7));
+				vp.setVisible(true);
+
+				
+
 
 			}
 		});
-		for (int p = 0; p < peliculas.size()-4;p++) {
-			lblP8.setIcon(peliculas.get(p).getPoster());
-		}
-		
+
+	
 		JLabel lblP9 = new JLabel("");
+		
 		lblP9.setBorder(BorderFactory.createLineBorder(Color.ORANGE,4));
+		lblP9.setIcon(peliculas.get(8).getPoster());
 		lblP9.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				VentanaPelicula peli= new VentanaPelicula();
-				peli.setVisible(true);
+				DBManager db= new DBManager();
+				List<Pelicula> peliculas= db.obtenerPeliculas();
+				VentanaPelicula vp= new VentanaPelicula(peliculas.get(8));
+				vp.setVisible(true);
+
+				
 
 			}
 		});
-		for (int q = 0; q < peliculas.size()-3;q++) {
-			lblP9.setIcon(peliculas.get(q).getPoster());
-		}
-		
-		
+
+
 		JLabel lblP10 = new JLabel("");
+		
 		lblP10.setBorder(BorderFactory.createLineBorder(Color.ORANGE,4));
+		lblP10.setIcon(peliculas.get(9).getPoster());
 		lblP10.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				VentanaPelicula peli= new VentanaPelicula();
-				peli.setVisible(true);
+				DBManager db= new DBManager();
+				List<Pelicula> peliculas= db.obtenerPeliculas();
+				VentanaPelicula vp= new VentanaPelicula(peliculas.get(9));
+				vp.setVisible(true);
+
+				
 
 			}
 		});
-		for (int r = 0; r < peliculas.size()-2;r++) {
-			lblP10.setIcon(peliculas.get(r).getPoster());
-		}
-		
-		
+
+
+
 		JLabel lblP11 = new JLabel("");
+		
 		lblP11.setBorder(BorderFactory.createLineBorder(Color.ORANGE,4));
+		lblP11.setIcon(peliculas.get(10).getPoster());
 		lblP11.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				VentanaPelicula peli= new VentanaPelicula();
-				peli.setVisible(true);
+				DBManager db= new DBManager();
+				List<Pelicula> peliculas= db.obtenerPeliculas();
+				VentanaPelicula vp= new VentanaPelicula(peliculas.get(10));
+				vp.setVisible(true);
+
+				
 
 			}
 		});
-		for (int s = 0; s< peliculas.size()-1;s++) {
-			lblP11.setIcon(peliculas.get(s).getPoster());
-		}
-		
+
+
 		JLabel lblP12 = new JLabel("");
+		
 		lblP12.setBorder(BorderFactory.createLineBorder(Color.ORANGE,4));
+		lblP12.setIcon(peliculas.get(11).getPoster());
 		lblP12.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				VentanaPelicula peli= new VentanaPelicula();
-				peli.setVisible(true);
-
+				DBManager db= new DBManager();
+				List<Pelicula> peliculas= db.obtenerPeliculas();
+				VentanaPelicula vp= new VentanaPelicula(peliculas.get(11));
+				vp.setVisible(true);
+				
 			}
 		});
-		for (int t = 0; t < peliculas.size();t++) {
-			lblP12.setIcon(peliculas.get(t).getPoster());
-		}
-		
-		
+
+
+
 		peliculas.clear();
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
@@ -374,8 +383,8 @@ public class Cartelera extends JFrame {
 						.addComponent(panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 				);
 
-		
-	
+
+
 		JButton btnNewButton = new JButton("Volver");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -411,5 +420,5 @@ public class Cartelera extends JFrame {
 
 
 	}
-			
+
 }
