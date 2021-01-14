@@ -1,20 +1,11 @@
 package VistaCliente;
 
 import java.awt.Image;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-
-import Conexion.Conexion;
-import model.Pelicula;
 
 /**
  * Clase que permite mediante una tarea que las imagenes vayan cambiando en base a un Timer
@@ -39,7 +30,7 @@ public class CambiarImagen {
 		MenuPrincipal cartelera= new MenuPrincipal();
 		cartelera.setVisible(true);
 		
-		
+		//tarea para ir cambiando las imágenes del menú principal cada x segundos
 		tarea= new TimerTask() {
 
 			@Override
