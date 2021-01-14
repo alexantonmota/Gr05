@@ -1,27 +1,26 @@
 package VistaCliente;
-import javax.swing.JFrame;
-
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import javax.swing.JPasswordField;
 import java.awt.Color;
 import java.awt.Font;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Date;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import model.Cliente;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+
+import Conexion.DBManager;
 import VistaAdmin.InicioSesionAdmin;
-import VistaAdmin.GestionClientes;
-import VistaAdmin.GestionClientes2;
-import VistaAdmin.GestionPelicula;
+import model.Cliente;
 /**
  * Ventana de Inicio de Sesion para clientes
  * @author alex
@@ -29,10 +28,10 @@ import VistaAdmin.GestionPelicula;
  */
 public class InicioSesion {
 
-	private JFrame frame;
-	private JTextField textField;
-	private JPasswordField passwordField;
-	static Logger log;
+	public JFrame frame;
+	public JTextField textField;
+	public JPasswordField passwordField;
+	public static Logger log;
 
 	/**
 	 * Launch the application.
@@ -135,7 +134,9 @@ public class InicioSesion {
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				frame.dispose();
+
 				ingresar();
+
 			}
 		});
 		btnNewButton_1.setForeground(Color.GRAY);
@@ -210,24 +211,26 @@ public class InicioSesion {
 		btnNewButton_2.setBounds(254, 242, 138, 29);
 		frame.getContentPane().add(btnNewButton_2);
 	}
+
+	//Método para iniciar sesion
 	protected void ingresar() {
 		String usuario = textField.getText();
 		String contraseña = String.valueOf(passwordField.getPassword());
 
-		GestionClientes gestionusuario = new GestionClientes();
+		DBManager db = new DBManager();
 		Cliente cl2 = new Cliente();
 		cl2.setUsername(usuario);
 		cl2.setPassword(contraseña);
 
-		Cliente usu = gestionusuario.obtenerusuario(cl2);
+		Cliente usu = db.obtenerusuario(cl2);
 
 		if(usu!=null) {
 			frame.dispose();
 			JOptionPane.showMessageDialog(frame, "BIENVENIDO");
-			
+
 			CambiarImagen cam= new CambiarImagen();
 			cam.main();
-		
+
 			InicioSesion.log.log(Level.FINER,"Usuario conectado: " + usuario);
 
 		}else{
@@ -235,28 +238,7 @@ public class InicioSesion {
 		}
 
 	}
-	/**
-	 * //Metodo recursivo para recorrer los archivos de una carpeta
-		public static void mostrarCarpetaImagenes(File fichero) {
-			if (fichero.isDirectory()) {
-			      File[] lista = fichero.listFiles();
-			      for (int i = 0; i < lista.length; i++) {
-			        System.out.println(lista[i].getName());
-			        if (lista[i].isDirectory()) {
-			          mostrarCarpetaImagenes(lista[i]);
-			        }
-			      }
-			}
-			
-		}
-		//metodo para visualizar los archivos de una carpeta (Sin terminar)
-	public void verImagenes() {
-		
-		
-		}
 
-**/
-	
 
 
 
