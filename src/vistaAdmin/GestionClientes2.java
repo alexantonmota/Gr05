@@ -1,10 +1,11 @@
-package VistaAdmin;
+package vistaAdmin;
 import java.sql.Connection;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+
+import db.Conexion;
 import model.Cliente;
-import Conexion.Conexion;
 public class GestionClientes2 {
 
 	public Cliente obtenerusuario2(Cliente cli1) {

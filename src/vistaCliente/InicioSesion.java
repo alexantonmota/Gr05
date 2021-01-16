@@ -1,4 +1,4 @@
-package VistaCliente;
+package vistaCliente;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -18,9 +18,9 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
-import Conexion.DBManager;
-import VistaAdmin.InicioSesionAdmin;
+import db.DBManager;
 import model.Cliente;
+import vistaAdmin.InicioSesionAdmin;
 /**
  * Ventana de Inicio de Sesion para clientes
  * @author alex

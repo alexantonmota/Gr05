@@ -1,4 +1,4 @@
-package VistaCliente;
+package vistaCliente;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.EventQueue;
@@ -15,13 +15,11 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
-
-import Conexion.DBManager;
 import model.Pelicula;
 
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-
+import db.DBManager;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;

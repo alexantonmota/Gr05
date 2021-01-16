@@ -2,39 +2,26 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2021-01-16T11:26:22.782816Z</date>
-  <millis>1610796382782</millis>
-  <nanos>816000</nanos>
+  <date>2021-01-16T16:59:36.462041Z</date>
+  <millis>1610816376462</millis>
+  <nanos>41000</nanos>
   <sequence>0</sequence>
   <logger>logger</logger>
   <level>INFO</level>
-  <class>VistaCliente.InicioSesion</class>
+  <class>vistaCliente.InicioSesion</class>
   <method>main</method>
   <thread>1</thread>
-  <message>Inicio del programa Sat Jan 16 12:26:22 CET 2021</message>
+  <message>Inicio del programa Sat Jan 16 17:59:36 CET 2021</message>
 </record>
 <record>
-  <date>2021-01-16T11:28:14.639545Z</date>
-  <millis>1610796494639</millis>
-  <nanos>545000</nanos>
+  <date>2021-01-16T16:59:44.360780Z</date>
+  <millis>1610816384360</millis>
+  <nanos>780000</nanos>
   <sequence>1</sequence>
   <logger>logger</logger>
   <level>FINER</level>
-  <class>VistaCliente.Registro$6</class>
-  <method>actionPerformed</method>
-  <thread>16</thread>
-  <message>Usuario registrado: pepe</message>
-</record>
-<record>
-  <date>2021-01-16T11:28:28.047469Z</date>
-  <millis>1610796508047</millis>
-  <nanos>469000</nanos>
-  <sequence>2</sequence>
-  <logger>logger</logger>
-  <level>FINER</level>
-  <class>VistaCliente.InicioSesion</class>
+  <class>vistaCliente.InicioSesion</class>
   <method>ingresar</method>
   <thread>16</thread>
-  <message>Usuario conectado: pepe</message>
+  <message>Usuario conectado: alex</message>
 </record>
-</log>

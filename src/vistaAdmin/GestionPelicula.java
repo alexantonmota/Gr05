@@ -1,4 +1,4 @@
-package VistaAdmin;
+package vistaAdmin;
 import java.awt.BorderLayout;
 
 
@@ -49,9 +49,9 @@ import javax.swing.JTextPane;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import model.Pelicula;
+import vistaCliente.InicioSesion;
 import model.Genero;
-import Conexion.Conexion;
-import VistaCliente.InicioSesion;
+import db.Conexion;
 
 
 

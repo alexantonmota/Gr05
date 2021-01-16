@@ -1,4 +1,4 @@
-package VistaCliente;
+package vistaCliente;
 import java.awt.BorderLayout;
 
 
@@ -9,7 +9,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import Conexion.DBManager;
+import db.DBManager;
 import model.Pelicula;
 
 import java.awt.Color;

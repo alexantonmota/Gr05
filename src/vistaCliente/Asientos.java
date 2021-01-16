@@ -1,4 +1,4 @@
-package VistaCliente;
+package vistaCliente;
 
 import java.awt.Color;
 

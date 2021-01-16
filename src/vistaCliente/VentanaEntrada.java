@@ -1,4 +1,4 @@
-package VistaCliente;
+package vistaCliente;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -28,8 +28,8 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import Conexion.Conexion;
-import Conexion.DBManager;
+import db.Conexion;
+import db.DBManager;
 import model.Pelicula;
 /**
  * Ventana donde se visualiza los datos de la entrada

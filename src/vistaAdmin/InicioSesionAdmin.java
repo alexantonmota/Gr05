@@ -1,4 +1,4 @@
-package VistaAdmin;
+package vistaAdmin;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -12,7 +12,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
 import model.Administrador;
-import VistaCliente.InicioSesion;
+import vistaCliente.InicioSesion;
 /**
  * Ventana de Inicio de sesión para Admins
  * @author alex

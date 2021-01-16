@@ -1,4 +1,4 @@
-package VistaAdmin;
+package vistaAdmin;
 import java.awt.BorderLayout;
 
 
@@ -24,6 +24,8 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
+import db.Conexion;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
@@ -34,7 +36,6 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 import model.Cliente;
-import Conexion.Conexion;
 
 import javax.swing.SwingConstants;
 import java.awt.event.KeyAdapter;

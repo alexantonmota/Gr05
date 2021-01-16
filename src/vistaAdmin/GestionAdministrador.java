@@ -1,4 +1,4 @@
-package VistaAdmin;
+package vistaAdmin;
 import java.awt.BorderLayout;
 
 import java.awt.Color;
@@ -28,6 +28,8 @@ import javax.swing.table.DefaultTableModel;
 
 import com.mysql.jdbc.ResultSetMetaData;
 
+import db.Conexion;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Connection;
@@ -36,7 +38,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 import model.Administrador;
-import Conexion.Conexion;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.SwingConstants;

@@ -1,4 +1,4 @@
-package VistaAdmin;
+package vistaAdmin;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -31,7 +31,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
-import Conexion.Conexion;
+import db.Conexion;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 /**

@@ -1,13 +1,7 @@
-package VistaCliente;
-import javax.swing.JFrame;
-
-import javax.swing.JOptionPane;
-import javax.swing.JLabel;
-import javax.swing.JButton;
-import javax.swing.JTextField;
-import java.awt.Font;
-import javax.swing.SwingUtilities;
+package vistaCliente;
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -17,11 +11,17 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.logging.Level;
-import java.awt.event.ActionEvent;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+
+import db.Conexion;
 import model.Cliente;
-import VistaAdmin.GestionClientes2;
-import Conexion.Conexion;
+import vistaAdmin.GestionClientes2;
 /**
  * Ventana de registro para clientes
  * @author alex
@@ -43,7 +43,7 @@ public class Registro {
 			"^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
 					+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
-	
+
 	/**
 	 * Create the application.
 	 */

@@ -1,4 +1,4 @@
-package Conexion;
+package db;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -10,11 +10,11 @@ import java.util.logging.Level;
 
 import javax.swing.JOptionPane;
 
-import VistaCliente.CambiarImagen;
-import VistaCliente.InicioSesion;
-import VistaCliente.Registro;
 import model.Cliente;
 import model.Pelicula;
+import vistaCliente.CambiarImagen;
+import vistaCliente.InicioSesion;
+import vistaCliente.Registro;
 
 /**
  * Clase Conexion que conecta con la base de datos

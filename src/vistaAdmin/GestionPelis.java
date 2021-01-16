@@ -1,4 +1,4 @@
-package VistaAdmin;
+package vistaAdmin;
 import java.awt.BorderLayout;
 
 
@@ -30,9 +30,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
-
-
-import Conexion.Conexion;
+import db.Conexion;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;

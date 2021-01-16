@@ -1,21 +1,10 @@
-package VistaCliente;
-import javax.swing.JFrame;
-
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
-import java.awt.Font;
-import java.awt.Image;
-import java.awt.List;
-
-import javax.swing.JTextField;
-import javax.swing.JButton;
+package vistaCliente;
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
@@ -27,25 +16,25 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
-import java.awt.event.ActionEvent;
-import javax.swing.JComboBox;
+
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
 import org.pdfbox.exceptions.COSVisitorException;
 import org.pdfbox.pdmodel.PDDocument;
 import org.pdfbox.pdmodel.PDPage;
-import org.pdfbox.pdmodel.common.PDRectangle;
 import org.pdfbox.pdmodel.edit.PDPageContentStream;
 import org.pdfbox.pdmodel.font.PDType1Font;
 import org.pdfbox.pdmodel.graphics.xobject.PDJpeg;
-import org.pdfbox.pdmodel.graphics.xobject.PDXObject;
-import org.pdfbox.pdmodel.graphics.xobject.PDXObjectImage;
 
-import Conexion.Conexion;
-import model.Entrada;
+import db.Conexion;
 import model.Pelicula;
 /**
  * Ventana de pago que genera un pdf (no terminado) al realizar una compra
@@ -66,7 +55,7 @@ public class Pago {
 	/**
 	 * Launch the application.
 	 */
-	
+
 
 	/**
 	 * Create the application.
@@ -165,117 +154,119 @@ public class Pago {
 		JButton btnPagar = new JButton("Aceptar");
 		btnPagar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+
 				VentanaEntrada ve= new VentanaEntrada(p);
 				ArrayList<Integer> numeros= new ArrayList<Integer>();
 				numeros.clear();
 				numeros.add(ve.numAleatorio);
-				
-				
+
+
 				FileWriter archivo=null;
 				PrintWriter escribir= null;
-				
+
 				try{
-					
+
 					String sql1= "SELECT cantidad, preciototal,horario from Otros"; 
-					
+
 					Conexion conexion1 = new Conexion();
 					Connection cn1 = conexion1.conectar();
 					PreparedStatement ps1= null;
 					try {
 						ps1 = cn1.prepareStatement(sql1);
 						ResultSet rs = ps1.executeQuery();
-						
+
 						while(rs.next()) {
-							
-							
+
+
 							PDDocument entrada = new PDDocument();
 							PDPage pagina= new PDPage();
 							entrada.addPage(pagina);
 							String nombre="entrada"+ String.valueOf(numeros.get(0))+".pdf";
-							
+
 							InputStream in = new FileInputStream(new File(p.getRutaFoto()));
 							PDJpeg img = new PDJpeg(entrada, in);
 							img.setHeight(400);
 							img.setWidth(200);
-							
+
 							int cant= rs.getInt("cantidad");
 							double prect =rs.getDouble("preciototal");
 							String horario= rs.getString("horario");
 							PDPageContentStream contenido= new PDPageContentStream(entrada,pagina);
-							
+
 							contenido.beginText();
 							contenido.setFont(PDType1Font.COURIER,18);
 							contenido.moveTextPositionByAmount(100,650);
 							contenido.drawString("CINE DEUSTO");
 							contenido.endText();
-							
+
 							contenido.beginText();
 							contenido.setFont(PDType1Font.COURIER,18);
 							contenido.moveTextPositionByAmount(100,650);		
 							contenido.drawString("___________");		 		 		
 							contenido.endText();
-							
+
 							contenido.beginText();
 							contenido.setFont(PDType1Font.COURIER,16);
 							contenido.moveTextPositionByAmount(100,580);		
 							contenido.drawString("Numero de compra: "+ numeros.get(0));	 		 		
 							contenido.endText();
-							
+
 							contenido.beginText();
 							contenido.setFont(PDType1Font.COURIER,16);
 							contenido.moveTextPositionByAmount(100,560);		
 							contenido.drawString("Nombre: " +textNombre.getText());	 		 		
 							contenido.endText();
-							
+
 							contenido.beginText();
 							contenido.setFont(PDType1Font.COURIER,16);
 							contenido.moveTextPositionByAmount(100,540);		
 							contenido.drawString("Pelicula: "+ p.getTitulo());		 		
 							contenido.endText();
-							
+
 							contenido.beginText();
 							contenido.setFont(PDType1Font.COURIER,16);
 							contenido.moveTextPositionByAmount(100,520);		
 							contenido.drawString("Sesion: "+ horario);		 		
 							contenido.endText();
-							
+
 							contenido.beginText();
 							contenido.setFont(PDType1Font.COURIER,16);
 							contenido.moveTextPositionByAmount(100,500);		
 							contenido.drawString("Sala: "+ p.getSala());	 		
 							contenido.endText();
-							
+
 							contenido.beginText();
 							contenido.setFont(PDType1Font.COURIER,16);
 							contenido.moveTextPositionByAmount(100,480);		
 							contenido.drawString("Numero de entradas: "+ cant);		
 							contenido.endText();
-							
+
 							contenido.beginText();
 							contenido.setFont(PDType1Font.COURIER,16);
 							contenido.moveTextPositionByAmount(100,460);		
 							contenido.drawString("Precio por entrada: "+ ve.txtPrecU.getText());
 							contenido.endText();
-							
+
 							contenido.beginText();
 							contenido.setFont(PDType1Font.COURIER,16);
 							contenido.moveTextPositionByAmount(100,440);		
 							contenido.drawString("Precio total: "+ prect);
 							contenido.endText();
-							
-						
-							
-							
+
+
+
+
 							contenido.beginText();
 							contenido.drawImage(img, 380, 250);
 							contenido.endText();
-							
-							
-							
+
+
+
 							contenido.close();
 							entrada.save(nombre);
-							
+
+							File f = new File("./"+nombre);
+
 							String sql= "INSERT INTO Entrada(idEntrada,titulo,horario,cantidad,sala,precioU,precioT,nombre ) VALUES (?,?,?,?,?,?,?,?)";
 							try {
 								PreparedStatement pst1 = cn1.prepareStatement(sql);
@@ -290,53 +281,35 @@ public class Pago {
 								pst1.setString(8, textNombre.getText());
 
 								int n = pst1.executeUpdate();
-								
+
 
 								//Una vez pulsado el boton de añadir deshabilitamos la edición de los campos y ocultamos el boton de añadir
-								
+
 
 							}catch (Exception e2) {
 								JOptionPane.showMessageDialog(null, "ERROR");
 							}
-							
-							
+
+
 						}
-						
-						
+
+
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					
-					
-					
-				
-			            
-					
-//					archivo = new FileWriter("entrada"+numeros.get(0)+".txt", true);
+
+
+
+
+
+
+
 					JOptionPane.showMessageDialog(frame3, "Entrada "+numeros.get(0)+" creada, gracias por su compra" , "Entrada creada"
 							+ "", JOptionPane.ERROR_MESSAGE);
-//					
-					
-					
-//
-//					escribir = new PrintWriter(archivo);
-//					
-//					escribir.println("CINE DEUSTO");
-//					escribir.println("___________");
-//					escribir.println("           ");
-//					escribir.println("Número de compra: "+ numeros.get(0));
-//					escribir.println("Nombre :" +textNombre.getText() );
-//					escribir.println("Película: "+ p.getPoster()+ p.getTitulo());
-//					escribir.println("Sesión: "+ ve.comboHor.getSelectedItem().toString()+ p.getTitulo());
-//					escribir.println("Sala "+ p.getSala());
-//					escribir.println("Número de entradas"+ ve.totalstring);
-//					escribir.println("Precio por entrada: "+ ve.txtPrecU.getText());
-//					escribir.println("Precio total: "+ ve.totalstring);
-					
-					
-					
-					
+
+
+
 
 
 
@@ -347,15 +320,15 @@ public class Pago {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} finally {
-			           try {
-			           // Nuevamente aprovechamos el finally para 
-			           // asegurarnos que se cierra el fichero.
-			           if (null != archivo)
-			              archivo.close();
-			           } catch (Exception e2) {
-			              e2.printStackTrace();
-			           }
-			        }}
+					try {
+						// Nuevamente aprovechamos el finally para 
+						// asegurarnos que se cierra el fichero.
+						if (null != archivo)
+							archivo.close();
+					} catch (Exception e2) {
+						e2.printStackTrace();
+					}
+				}}
 		});
 		btnPagar.setBackground(UIManager.getColor("Button.select"));
 		btnPagar.setForeground(Color.ORANGE);
@@ -423,5 +396,5 @@ public class Pago {
 		frame3.getContentPane().add(lblB);
 
 	}
-	
+
 } 
