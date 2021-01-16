@@ -244,7 +244,7 @@ public class GestionClientes extends JDialog {
 			}
 		});
 		lblEli.setHorizontalAlignment(SwingConstants.CENTER);
-		lblEli.setIcon(new ImageIcon("/Users/alex/eclipse-workspace5/G05/Imagenes/dsjn.png"));
+		lblEli.setIcon(new ImageIcon("./Imagenes/dsjn.png"));
 		lblEli.setOpaque(true);
 		lblEli.setBackground(Color.orange);
 		lblEli.setBorder(new LineBorder(new Color(255, 200, 0), 3, true));
@@ -335,7 +335,7 @@ public class GestionClientes extends JDialog {
 
 			}
 		});
-		lblAny.setIcon(new ImageIcon("/Users/alex/eclipse-workspace5/G05/Imagenes/vbalsd.png"));
+		lblAny.setIcon(new ImageIcon("./Imagenes/vbalsd.png"));
 		lblAny.setOpaque(true);
 		lblAny.setBackground(Color.orange);
 		lblAny.setBorder(new LineBorder(new Color(255, 200, 0), 3, true));
@@ -412,7 +412,7 @@ public class GestionClientes extends JDialog {
 			}
 		});
 		lblMod.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblMod.setIcon(new ImageIcon("/Users/alex/eclipse-workspace5/G05/Imagenes/ckvbn.png"));
+		lblMod.setIcon(new ImageIcon("./Imagenes/ckvbn.png"));
 		lblMod.setOpaque(true);
 		lblMod.setBackground(Color.orange);
 		lblMod.setBorder(new LineBorder(new Color(255, 200, 0), 3, true));

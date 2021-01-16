@@ -43,7 +43,7 @@ public class CambiarImagen {
 					
 					contador=1;
 					
-					ImageIcon im= new ImageIcon("/Users/alex/eclipse-workspace5/G05/Imagenes/PostersMenuPrincipal/suicide.jpg");
+					ImageIcon im= new ImageIcon("./Imagenes/PostersMenuPrincipal/suicide.jpg");
 					Icon ic= new ImageIcon(im.getImage().getScaledInstance(1445,597,Image.SCALE_DEFAULT));
 					
 					cartelera.lblPosM.setIcon(ic);
@@ -56,7 +56,7 @@ public class CambiarImagen {
 					
 					contador=2;
 					
-					ImageIcon im1= new ImageIcon("/Users/alex/eclipse-workspace5/G05/Imagenes/PostersMenuPrincipal/pokemon.jpg");
+					ImageIcon im1= new ImageIcon("./Imagenes/PostersMenuPrincipal/pokemon.jpg");
 					Icon ic1= new ImageIcon(im1.getImage().getScaledInstance(1445,597,Image.SCALE_DEFAULT));
 					cartelera.lblPosM.setIcon(ic1);
 					cartelera.repaint();
@@ -66,7 +66,7 @@ public class CambiarImagen {
 					
 				case 2:
 					contador=3;
-					ImageIcon im2= new ImageIcon("/Users/alex/eclipse-workspace5/G05/Imagenes/PostersMenuPrincipal/anabelle.jpg");
+					ImageIcon im2= new ImageIcon("./Imagenes/PostersMenuPrincipal/anabelle.jpg");
 					Icon ic2= new ImageIcon(im2.getImage().getScaledInstance(1445,597,Image.SCALE_DEFAULT));
 					cartelera.lblPosM.setIcon(ic2);
 					cartelera.repaint();
@@ -76,7 +76,7 @@ public class CambiarImagen {
 					
 				case 3:
 					contador=4;
-					ImageIcon im3= new ImageIcon("/Users/alex/eclipse-workspace5/G05/Imagenes/PostersMenuPrincipal/mulan.jpg");
+					ImageIcon im3= new ImageIcon("./Imagenes/PostersMenuPrincipal/mulan.jpg");
 					Icon ic3= new ImageIcon(im3.getImage().getScaledInstance(1445,597,Image.SCALE_DEFAULT));
 					cartelera.lblPosM.setIcon(ic3);
 					cartelera.repaint();
@@ -85,7 +85,7 @@ public class CambiarImagen {
 					break;
 				case 4:
 					contador=5;
-					ImageIcon im4= new ImageIcon("/Users/alex/eclipse-workspace5/G05/Imagenes/PostersMenuPrincipal/fantasy.jpg");
+					ImageIcon im4= new ImageIcon("./Imagenes/PostersMenuPrincipal/fantasy.jpg");
 					Icon ic4= new ImageIcon(im4.getImage().getScaledInstance(1445,597,Image.SCALE_DEFAULT));
 					cartelera.lblPosM.setIcon(ic4);
 					cartelera.repaint();
@@ -94,7 +94,7 @@ public class CambiarImagen {
 					break;
 				case 5:
 					contador=6;
-					ImageIcon im5= new ImageIcon("/Users/alex/eclipse-workspace5/G05/Imagenes/PostersMenuPrincipal/frozen.jpg");
+					ImageIcon im5= new ImageIcon("./Imagenes/PostersMenuPrincipal/frozen.jpg");
 					Icon ic5= new ImageIcon(im5.getImage().getScaledInstance(1445,597,Image.SCALE_DEFAULT));
 					cartelera.lblPosM.setIcon(ic5);
 					cartelera.repaint();
@@ -104,7 +104,7 @@ public class CambiarImagen {
 				
 				case 6:
 					contador=7;
-					ImageIcon im6= new ImageIcon("/Users/alex/eclipse-workspace5/G05/Imagenes/PostersMenuPrincipal/avatar.jpg");
+					ImageIcon im6= new ImageIcon("./Imagenes/PostersMenuPrincipal/avatar.jpg");
 					Icon ic6= new ImageIcon(im6.getImage().getScaledInstance(1445,597,Image.SCALE_DEFAULT));
 					cartelera.lblPosM.setIcon(ic6);
 					cartelera.repaint();
@@ -113,7 +113,7 @@ public class CambiarImagen {
 					break;
 				case 7:
 					contador=8;
-					ImageIcon im7= new ImageIcon("/Users/alex/eclipse-workspace5/G05/Imagenes/PostersMenuPrincipal/escape.jpg");
+					ImageIcon im7= new ImageIcon("./Imagenes/PostersMenuPrincipal/escape.jpg");
 					Icon ic7= new ImageIcon(im7.getImage().getScaledInstance(1445,597,Image.SCALE_DEFAULT));
 					cartelera.lblPosM.setIcon(ic7);
 					cartelera.repaint();
@@ -122,7 +122,7 @@ public class CambiarImagen {
 					break;
 				case 8:
 					contador=9;
-					ImageIcon im8= new ImageIcon("/Users/alex/eclipse-workspace5/G05/Imagenes/PostersMenuPrincipal/padre.jpg");
+					ImageIcon im8= new ImageIcon("./Imagenes/PostersMenuPrincipal/padre.jpg");
 					Icon ic8= new ImageIcon(im8.getImage().getScaledInstance(1445,597,Image.SCALE_DEFAULT));
 					cartelera.lblPosM.setIcon(ic8);
 					cartelera.repaint();
@@ -131,7 +131,7 @@ public class CambiarImagen {
 					break;
 				case 9:
 					contador=10;
-					ImageIcon im9= new ImageIcon("/Users/alex/eclipse-workspace5/G05/Imagenes/PostersMenuPrincipal/soul.jpg");
+					ImageIcon im9= new ImageIcon("./Imagenes/PostersMenuPrincipal/soul.jpg");
 					Icon ic9= new ImageIcon(im9.getImage().getScaledInstance(1445,597,Image.SCALE_DEFAULT));
 					cartelera.lblPosM.setIcon(ic9);
 					cartelera.repaint();
@@ -140,7 +140,7 @@ public class CambiarImagen {
 					break;
 				case 10:
 					contador=11;
-					ImageIcon im10= new ImageIcon("/Users/alex/eclipse-workspace5/G05/Imagenes/PostersMenuPrincipal/coro.jpg");
+					ImageIcon im10= new ImageIcon("./Imagenes/PostersMenuPrincipal/coro.jpg");
 					Icon ic10= new ImageIcon(im10.getImage().getScaledInstance(1445,597,Image.SCALE_DEFAULT));
 					cartelera.lblPosM.setIcon(ic10);
 					cartelera.repaint();
@@ -150,7 +150,7 @@ public class CambiarImagen {
 					
 				case 11:
 					contador=0;
-					ImageIcon im11= new ImageIcon("/Users/alex/eclipse-workspace5/G05/Imagenes/PostersMenuPrincipal/avengers.jpeg");
+					ImageIcon im11= new ImageIcon("./Imagenes/PostersMenuPrincipal/avengers.jpeg");
 					Icon ic11= new ImageIcon(im11.getImage().getScaledInstance(1445,597,Image.SCALE_DEFAULT));
 					cartelera.lblPosM.setIcon(ic11);
 					cartelera.repaint();

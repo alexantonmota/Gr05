@@ -173,7 +173,7 @@ public class GestionEntradas extends JDialog {
 		lblAny.setHorizontalAlignment(SwingConstants.CENTER);
 		lblAny.setBackground(Color.ORANGE);
 		lblAny.setOpaque(true);
-		lblAny.setIcon(new ImageIcon("/Users/alex/eclipse-workspace5/G05/Imagenes/gafuk.png"));
+		lblAny.setIcon(new ImageIcon("./Imagenes/gafuk.png"));
 		JButton btnModificar = new JButton("Modificar");
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -237,7 +237,7 @@ public class GestionEntradas extends JDialog {
 			}
 		});
 		lblMod.setHorizontalAlignment(SwingConstants.CENTER);
-		lblMod.setIcon(new ImageIcon("/Users/alex/eclipse-workspace5/G05/Imagenes/ckvbn.png"));
+		lblMod.setIcon(new ImageIcon("./Imagenes/ckvbn.png"));
 		lblMod.setBackground(Color.ORANGE);
 		lblMod.setOpaque(true);
 
@@ -283,7 +283,7 @@ public class GestionEntradas extends JDialog {
 		lblEli.setHorizontalAlignment(SwingConstants.CENTER);
 		lblEli.setBackground(Color.ORANGE);
 		lblEli.setOpaque(true);
-		lblEli.setIcon(new ImageIcon("/Users/alex/eclipse-workspace5/G05/Imagenes/dsjn.png"));
+		lblEli.setIcon(new ImageIcon("./Imagenes/dsjn.png"));
 
 		JLabel lblAnyE = new JLabel("Añadir Entrada");
 		lblAnyE.setForeground(Color.ORANGE);
