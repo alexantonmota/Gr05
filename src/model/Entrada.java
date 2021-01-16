@@ -9,17 +9,15 @@ public class Entrada{
 
 	private Pelicula infoPelicula;
 	private Sesion infoSesion;
-	private Sala infoSala;
 	private int precio;
 	private int cantidad;
 
 
 
-	public Entrada(Pelicula infoPelicula, Sesion infoSesion, Sala infoSala, int precio, int cantidad) {
+	public Entrada(Pelicula infoPelicula, Sesion infoSesion, int precio, int cantidad) {
 		super();
 		this.infoPelicula = infoPelicula;
 		this.infoSesion = infoSesion;
-		this.infoSala = infoSala;
 		this.precio = precio;
 		this.cantidad = cantidad;
 	}
@@ -39,13 +37,6 @@ public class Entrada{
 	public void setInfoSesion(Sesion infoSesion) {
 
 		this.infoSesion = infoSesion;
-	}
-	public Sala getInfoSala() {
-		return infoSala;
-	}
-
-	public void setInfoSala(Sala infoSala) {
-		this.infoSala = infoSala;
 	}
 
 	public int getPrecio() {
@@ -68,8 +59,6 @@ public class Entrada{
 		System.out.println();               
 		System.out.println("Película:" + "<" + infoPelicula.getTitulo() + ">");
 		System.out.println("Sesion:" + "<" + infoSesion.getHora() + ">");
-		System.out.println("Sala:" + "<" + infoSala.nombre + ">");
-		System.out.println("Asiento:" + "<" + infoSala.numAsientos+ ">");
 		System.out.println("Cantidad:" + "<" + cantidad + ">");
 		System.out.println("Precio:" + "<" + precio + ">");
 

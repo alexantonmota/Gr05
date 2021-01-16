@@ -5,14 +5,14 @@ package model;
  *
  */
 public class Cliente extends Usuario {
-	private int id;
-	private String email;
-	private String nombre;
-	private String apellido_1;
-	private String apellido_2;
-	private String fecha_nac;
+	public int id;
+	public String email;
+	public String nombre;
+	public String apellido_1;
+	public String apellido_2;
+	public String fecha_nac;
 
-	public Cliente( int id,String username, String password, String email, String nombre, String apellido_1, String apellido_2,
+	public Cliente(String username, String password, String email, String nombre, String apellido_1, String apellido_2,
 			String fecha_nac) {
 		super(username, password);
 		this.id=id;

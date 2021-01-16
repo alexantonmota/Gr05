@@ -163,7 +163,7 @@ public class GestionPelis extends JDialog {
 
 		JLabel lblEli = new JLabel("");
 		lblEli.setHorizontalAlignment(SwingConstants.CENTER);
-		lblEli.setIcon(new ImageIcon("/Users/alex/eclipse-workspace5/CineDeusto/Imagenes/dsjn.png"));
+		lblEli.setIcon(new ImageIcon("/Users/alex/eclipse-workspace5/G05/Imagenes/dsjn.png"));
 		lblEli.setOpaque(true);
 		lblEli.setBackground(Color.orange);
 		lblEli.setBorder(new LineBorder(new Color(255, 200, 0), 3, true));
@@ -179,7 +179,7 @@ public class GestionPelis extends JDialog {
 
 			}
 		});
-		lblAny.setIcon(new ImageIcon("/Users/alex/eclipse-workspace5/CineDeusto/Imagenes/gafuk.png"));
+		lblAny.setIcon(new ImageIcon("/Users/alex/eclipse-workspace5/G05/Imagenes/gafuk.png"));
 		lblAny.setOpaque(true);
 		lblAny.setBackground(Color.orange);
 		lblAny.setBorder(new LineBorder(new Color(255, 200, 0), 3, true));
@@ -237,7 +237,7 @@ public class GestionPelis extends JDialog {
 		btnSPos.setBackground(Color.ORANGE);
 		btnSPos.setOpaque(true);
 		btnSPos.setBorderPainted(false);
-		btnSPos.setIcon(new ImageIcon("/Users/alex/eclipse-workspace5/CineDeusto/Imagenes/fnnn.png"));
+		btnSPos.setIcon(new ImageIcon("/Users/alex/eclipse-workspace5/G05/Imagenes/fnnn.png"));
 
 		JButton btnSubPMenu = new JButton("");
 		btnSubPMenu.setEnabled(false);
@@ -289,7 +289,7 @@ public class GestionPelis extends JDialog {
 			}
 		});
 		lblMod.setHorizontalAlignment(SwingConstants.CENTER);
-		lblMod.setIcon(new ImageIcon("/Users/alex/eclipse-workspace5/CineDeusto/Imagenes/ckvbn.png"));
+		lblMod.setIcon(new ImageIcon("/Users/alex/eclipse-workspace5/G05/Imagenes/ckvbn.png"));
 		lblMod.setOpaque(true);
 		lblMod.setBackground(Color.orange);
 		lblMod.setBorder(new LineBorder(new Color(255, 200, 0), 3, true));
@@ -297,7 +297,7 @@ public class GestionPelis extends JDialog {
 		btnSubPMenu.setBackground(Color.ORANGE);
 		btnSubPMenu.setOpaque(true);
 		btnSubPMenu.setBorderPainted(false);
-		btnSubPMenu.setIcon(new ImageIcon("/Users/alex/eclipse-workspace5/CineDeusto/Imagenes/fnnn.png"));
+		btnSubPMenu.setIcon(new ImageIcon("/Users/alex/eclipse-workspace5/G05/Imagenes/fnnn.png"));
 
 		textPos = new JTextField();
 		textPos.setEditable(false);
@@ -522,7 +522,7 @@ public class GestionPelis extends JDialog {
 		Object[]datos= new Object[50];
 	    modelo= new DefaultTableModel(null,titulos);
 
-		String sql="select id,titulo, anyo, genero,sinopsis,duracion, trailer, nomPoster, poster, nomPMenu, pMenu from pelicula";
+		String sql="select id,titulo, anyo, genero,sinopsis,duracion, trailer, nomPoster, poster, nomPMenu, pMenu,sala from pelicula";
 
 		Conexion cc= new Conexion();
 		Connection conect= cc.conectar();
@@ -538,9 +538,11 @@ public class GestionPelis extends JDialog {
 				datos[3]= rs.getString("genero");
 				datos[4]= rs.getString("sinopsis");
 				datos[5]= rs.getInt("duracion");
+				
 				datos[6]= rs.getString("trailer");
 				datos[7]= rs.getString("nomPoster");
 				Blob blob=rs.getBlob("poster");
+				
 				byte[]data= blob.getBytes(1, (int)blob.length());
 				BufferedImage img= null;
 
@@ -564,6 +566,7 @@ public class GestionPelis extends JDialog {
 					System.out.println(e);				}
 				ImageIcon icono2= new ImageIcon(img2);
 				datos[10]= new JLabel(icono2);
+				datos[11]= rs.getInt("sala");
 				modelo.addRow(datos);
 
 

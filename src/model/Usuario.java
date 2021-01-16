@@ -6,8 +6,8 @@ package model;
  */
 abstract class Usuario {
 
-	protected String username;
-	protected String password;
+	public String username;
+	public String password;
 
 	public Usuario(String username, String password) {
 		super();

@@ -22,7 +22,7 @@ public class GestionClientes2 {
 			rs1 = pst1.executeQuery();
 
 			while(rs1.next()) {
-				cl1 = new Cliente(rs1.getInt(1),rs1.getString(2), rs1.getString(3), rs1.getString(4), rs1.getString(5), rs1.getString(6), rs1.getString(7), rs1.getString(8));
+				cl1 = new Cliente(rs1.getString(2), rs1.getString(3), rs1.getString(4), rs1.getString(5), rs1.getString(6), rs1.getString(7), rs1.getString(8));
 			}
 
 		}catch (Exception e) {

@@ -1,6 +1,7 @@
 package VistaCliente;
 import java.awt.BorderLayout;
 
+
 import java.awt.FlowLayout;
 
 import javax.swing.JButton;
@@ -8,20 +9,28 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import Conexion.Conexion;
+import Conexion.DBManager;
 import model.Pelicula;
 
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Font;
+import java.awt.Image;
+
 import javax.swing.JLabel;
 import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -29,6 +38,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
+import javax.swing.JTextPane;
+import javax.swing.JTextArea;
 
 /**
  * Ventana donde se visualiza los datos de la pelicula
@@ -38,11 +49,10 @@ import java.awt.event.ActionEvent;
 public class VentanaPelicula extends JDialog {
 
 
-	private static final long serialVersionUID = 1L;
+	public static final long serialVersionUID = 1L;
 	public final JPanel contentPanel = new JPanel();
 	public JTextField txtTit;
 	public JTextField txtAnyo;
-	public JTextField txtSinopsis;
 	public JTextField textDur;
 	public JTextField txtGenero;
 	public JLabel lblNewLabel;
@@ -50,20 +60,12 @@ public class VentanaPelicula extends JDialog {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		try {
-			VentanaPelicula dialog = new VentanaPelicula();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
+	
+		
 	/**
 	 * Create the dialog.
 	 */
-	public VentanaPelicula() {
+	public VentanaPelicula(Pelicula p) {
 		setResizable(false);
 		setForeground(Color.ORANGE);
 		setBackground(Color.GRAY);
@@ -74,34 +76,19 @@ public class VentanaPelicula extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 
-		 
-		String sql = "SELECT titulo, anyo, genero, sinopsis, duracion, trailer, nomPoster,nomPMenu FROM pelicula";
-		PreparedStatement stmt;
-		Conexion cc= new Conexion();
-		Connection conn= cc.conectar();
-		List<Pelicula> peliculas = new ArrayList<Pelicula>();
-		peliculas.clear();
-
-		try {
-			stmt = conn.prepareStatement(sql);
-
-			ResultSet rs = stmt.executeQuery();
-
-			while (rs.next()){
-
-				Pelicula p = new Pelicula(rs.getString("titulo"), rs.getString("genero"), rs.getInt("anyo"), rs.getString("sinopsis"), rs.getInt("duracion"), rs.getString("trailer"), rs.getString("nomPoster"),rs.getString("nomPMenu"));
-
-				peliculas.add(p);
-			}
-
-		} catch (SQLException e) {
-			System.out.println(e);
-			e.printStackTrace();
-		}
+		DBManager db= new DBManager();
+		List<Pelicula> peliculas= db.obtenerPeliculas();
+		db.desconectar();
 		
 		
 		lblNewLabel = new JLabel("");
 		lblNewLabel.setBorder(BorderFactory.createLineBorder(Color.ORANGE,4));
+		Image fotomenu;
+		 fotomenu= getToolkit().getImage(p.getRutaFoto());
+		fotomenu= fotomenu.getScaledInstance(300, 600, Image.SCALE_DEFAULT);
+		
+		
+		lblNewLabel.setIcon(new ImageIcon(fotomenu));
 		
 		
 		
@@ -134,6 +121,23 @@ public class VentanaPelicula extends JDialog {
 		lblTrailer.setFont(new Font(".AppleSystemUIFont", Font.BOLD, 15));
 
 		JButton btnTrailer = new JButton("Ver ahora");
+		btnTrailer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					   URL url = new URL(p.getTrailer());
+					    try {
+					        Desktop.getDesktop().browse(url.toURI());
+					    } catch (IOException e) {
+					        e.printStackTrace();
+					    } catch (URISyntaxException e) {
+					        e.printStackTrace();
+					    }
+					} catch (MalformedURLException e1) {
+					    e1.printStackTrace();
+					}
+					
+			}
+		});
 		btnTrailer.setBackground(Color.ORANGE);
 		btnTrailer.setForeground(Color.GRAY);
 		btnTrailer.setOpaque(true);
@@ -142,24 +146,19 @@ public class VentanaPelicula extends JDialog {
 		btnTrailer.setOpaque(true);
 		btnTrailer.setBorderPainted(false);
 
-		txtTit = new JTextField();
+		txtTit = new JTextField(p.getTitulo());
 		txtTit.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 13));
 		txtTit.setEditable(false);
 		txtTit.setColumns(10);
 		txtTit.setVisible(true);
 		
 
-		txtAnyo = new JTextField();
+		txtAnyo = new JTextField(String.valueOf(p.getAnyo()));
 		txtAnyo.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 13));
 		txtAnyo.setEditable(false);
 		txtAnyo.setColumns(10);
 
-		txtSinopsis = new JTextField();
-		txtSinopsis.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 13));
-		txtSinopsis.setEditable(false);
-		txtSinopsis.setColumns(10);
-
-		textDur = new JTextField();
+		textDur = new JTextField(String.valueOf(p.getDuracion()));
 		textDur.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 13));
 		textDur.setEditable(false);
 		textDur.setColumns(10);
@@ -169,70 +168,74 @@ public class VentanaPelicula extends JDialog {
 		lblGenero.setBorder(BorderFactory.createLineBorder(Color.ORANGE,2));
 		lblGenero.setFont(new Font(".AppleSystemUIFont", Font.BOLD, 15));
 
-		txtGenero = new JTextField();
+		txtGenero = new JTextField(p.getGenero());
 		txtGenero.setEditable(false);
 		txtGenero.setColumns(10);
+		
+		JTextArea textArea = new JTextArea(p.getSinopsis());
+		textArea.setEditable(false);
+		textArea.setLineWrap(true);
 
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
 		gl_contentPanel.setHorizontalGroup(
-				gl_contentPanel.createParallelGroup(Alignment.LEADING)
+			gl_contentPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPanel.createSequentialGroup()
-						.addContainerGap()
-						.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 304, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_contentPanel.createSequentialGroup()
-										.addGap(18)
-										.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-												.addComponent(lblTrailer)
-												.addComponent(lblTit)
-												.addComponent(txtTit, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-												.addComponent(textDur, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-												.addComponent(lblDur)
-												.addComponent(txtSinopsis, GroupLayout.PREFERRED_SIZE, 317, GroupLayout.PREFERRED_SIZE)
-												.addComponent(lblSinopsis)
-												.addComponent(txtAnyo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-												.addComponent(lblAnyo)
-												.addComponent(txtGenero, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-												.addComponent(lblGenero)))
-								.addGroup(gl_contentPanel.createSequentialGroup()
-										.addGap(80)
-										.addComponent(btnTrailer)))
-						.addContainerGap(172, Short.MAX_VALUE))
-				);
+					.addContainerGap()
+					.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 304, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGap(18)
+							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblTrailer)
+								.addComponent(lblTit)
+								.addComponent(txtTit, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(textDur, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblDur)
+								.addComponent(lblSinopsis)
+								.addComponent(txtAnyo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblAnyo)
+								.addComponent(txtGenero, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblGenero)
+								.addComponent(textArea, GroupLayout.PREFERRED_SIZE, 334, GroupLayout.PREFERRED_SIZE)))
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGap(80)
+							.addComponent(btnTrailer)))
+					.addContainerGap(328, Short.MAX_VALUE))
+		);
 		gl_contentPanel.setVerticalGroup(
-				gl_contentPanel.createParallelGroup(Alignment.LEADING)
+			gl_contentPanel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_contentPanel.createSequentialGroup()
-						.addGap(14)
-						.addComponent(lblTit)
-						.addPreferredGap(ComponentPlacement.UNRELATED)
-						.addComponent(txtTit, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addGap(18)
-						.addComponent(lblGenero)
-						.addPreferredGap(ComponentPlacement.UNRELATED)
-						.addComponent(txtGenero, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
-						.addComponent(lblAnyo)
-						.addPreferredGap(ComponentPlacement.UNRELATED)
-						.addComponent(txtAnyo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addGap(18)
-						.addComponent(lblSinopsis)
-						.addGap(18)
-						.addComponent(txtSinopsis, GroupLayout.PREFERRED_SIZE, 146, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.UNRELATED)
-						.addComponent(lblDur)
-						.addPreferredGap(ComponentPlacement.UNRELATED)
-						.addComponent(textDur, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addGap(18)
-						.addComponent(lblTrailer)
-						.addGap(12)
-						.addComponent(btnTrailer)
-						.addGap(31))
-				.addGroup(Alignment.TRAILING, gl_contentPanel.createSequentialGroup()
-						.addContainerGap()
-						.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, 581, Short.MAX_VALUE)
-						.addContainerGap())
-				);
+					.addGap(14)
+					.addComponent(lblTit)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(txtTit, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(lblGenero)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(txtGenero, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+					.addComponent(lblAnyo)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(txtAnyo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(lblSinopsis)
+					.addGap(18)
+					.addComponent(textArea, GroupLayout.PREFERRED_SIZE, 136, GroupLayout.PREFERRED_SIZE)
+					.addGap(22)
+					.addComponent(lblDur)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(textDur, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(lblTrailer)
+					.addGap(12)
+					.addComponent(btnTrailer)
+					.addGap(31))
+				.addGroup(gl_contentPanel.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, 611, Short.MAX_VALUE)
+					.addContainerGap())
+		);
 		contentPanel.setLayout(gl_contentPanel);
 		{
 			JPanel buttonPane = new JPanel();
@@ -244,7 +247,8 @@ public class VentanaPelicula extends JDialog {
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						dispose();
-						VentanaEntrada entrada= new VentanaEntrada();
+						VentanaEntrada entrada= new VentanaEntrada(p);
+						
 						entrada.setVisible(true);
 					}
 				});

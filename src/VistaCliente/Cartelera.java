@@ -94,7 +94,7 @@ public class Cartelera extends JFrame {
 		List<Pelicula> peliculas= db.obtenerPeliculas();
 		db.desconectar();
 		
-
+		
 		JLabel lblP1= new JLabel();
 		//Aplico el poster al label obtenido por la lista
 		lblP1.setIcon(peliculas.get(0).getPoster());
@@ -111,6 +111,7 @@ public class Cartelera extends JFrame {
 
 
 				VentanaPelicula vp= new VentanaPelicula(peliculas.get(0));
+				VentanaEntrada ve= new VentanaEntrada(peliculas.get(0));
 				vp.setVisible(true);
 
 
@@ -131,6 +132,7 @@ public class Cartelera extends JFrame {
 				List<Pelicula> peliculas= db.obtenerPeliculas();
 
 				VentanaPelicula vp= new VentanaPelicula(peliculas.get(1));
+				
 				vp.setVisible(true);
 
 			}

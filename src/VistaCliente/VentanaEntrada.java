@@ -1,26 +1,36 @@
 package VistaCliente;
 import java.awt.BorderLayout;
-
-import java.awt.FlowLayout;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Font;
-import javax.swing.JLabel;
-import javax.swing.BorderFactory;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JTextField;
-import javax.swing.SpinnerNumberModel;
-import java.awt.event.ActionListener;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
-import javax.swing.JComboBox;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.GroupLayout;
+import javax.swing.ImageIcon;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JSpinner;
-import VistaCliente.Pago;
+import javax.swing.JTextField;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+
+import Conexion.Conexion;
+import Conexion.DBManager;
+import model.Pelicula;
 /**
  * Ventana donde se visualiza los datos de la entrada
  * @author alex
@@ -31,30 +41,27 @@ public class VentanaEntrada extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
-	private JTextField textCod;
-	private JTextField txtPrecU;
+	public JTextField txtPrecU;
 	private JTextField txtPel;
-	private JTextField txtSala;
-	private JTextField txtPrecT;
+	public JTextField txtSala;
+	public JTextField txtPrecT;
 	public int numAleatorio;
+	public String n;
+	public String totalstring= "";
+	public JComboBox comboHor;
+	protected static int valor;
+	public List<Integer> almacenar;
+	public List<Integer> guardar;
+	public int spinnerValue = -1;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		try {
-			VentanaEntrada dialog = new VentanaEntrada();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
+	
 	/**
 	 * Create the dialog.
 	 */
-	public VentanaEntrada() {
+	public VentanaEntrada(Pelicula p) {
 		setResizable(false);
 		setForeground(Color.ORANGE);
 		setBackground(Color.GRAY);
@@ -67,12 +74,12 @@ public class VentanaEntrada extends JDialog {
 
 		JLabel lblPos = new JLabel("");
 		lblPos.setBorder(BorderFactory.createLineBorder(Color.ORANGE,4));
-
-
-		JLabel lblCod = new JLabel("Código");
-		lblCod.setForeground(Color.ORANGE);
-		lblCod.setBorder(BorderFactory.createLineBorder(Color.ORANGE,2));
-		lblCod.setFont(new Font(".AppleSystemUIFont", Font.BOLD, 15));
+		Image fotomenu;
+		 fotomenu= getToolkit().getImage(p.getRutaFoto());
+		fotomenu= fotomenu.getScaledInstance(300, 600, Image.SCALE_DEFAULT);
+		
+		
+		lblPos.setIcon(new ImageIcon(fotomenu));
 
 		JLabel lblHor = new JLabel("Horario");
 		lblHor.setForeground(Color.ORANGE);
@@ -89,16 +96,15 @@ public class VentanaEntrada extends JDialog {
 		lblPrecU.setForeground(Color.ORANGE);
 		lblPrecU.setBorder(BorderFactory.createLineBorder(Color.ORANGE,2));
 
-		textCod = new JTextField();
-		textCod.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 13));
-		textCod.setEditable(false);
-		textCod.setColumns(10);
-
 		//Genera un código aleatorio para la entrada
 		numAleatorio = (int)(Math.random()*10000+1);
-		textCod.setText(String.valueOf(numAleatorio));
+		
+		
+		
 
 		txtPrecU = new JTextField();
+		txtPrecU.setHorizontalAlignment(SwingConstants.CENTER);
+		txtPrecU.setText("9");
 		txtPrecU.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 13));
 		txtPrecU.setEditable(false);
 		txtPrecU.setColumns(10);
@@ -108,14 +114,14 @@ public class VentanaEntrada extends JDialog {
 		lblPel.setBorder(BorderFactory.createLineBorder(Color.ORANGE,2));
 		lblPel.setFont(new Font(".AppleSystemUIFont", Font.BOLD, 15));
 
-		txtPel = new JTextField();
+		txtPel = new JTextField(p.getTitulo());
 		txtPel.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 15));
 		txtPel.setEditable(false);
 		txtPel.setColumns(10);
 
 
 		//Seleccion de horario
-		JComboBox comboHor = new JComboBox();
+		comboHor = new JComboBox();
 		comboHor.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 13));
 		comboHor.setModel(new DefaultComboBoxModel(new String[] {"16:00", "18:00", "20:00", "22:00"}));
 
@@ -124,21 +130,27 @@ public class VentanaEntrada extends JDialog {
 		SpinnerNumberModel modeloSpinner = new SpinnerNumberModel();
 		modeloSpinner.setMaximum(10);
 		modeloSpinner.setMinimum(1);
+		modeloSpinner.setValue(1);
+		
 		spinnerCant.setModel(modeloSpinner);
 		spinnerCant.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 15));
-
-
+		
+		
+		
+		
 		//Se mostrará la sala
 		JLabel lblSala = new JLabel("Sala");
 		lblSala.setForeground(Color.ORANGE);
 		lblSala.setFont(new Font(".AppleSystemUIFont", Font.BOLD, 15));
 		lblSala.setBorder(BorderFactory.createLineBorder(Color.ORANGE,2));
 
-		txtSala = new JTextField();
+		txtSala = new JTextField(String.valueOf(p.getSala()));
 		txtSala.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 13));
 		txtSala.setColumns(10);
+		
+		
 
-		JLabel lblAsiento = new JLabel("Asiento");
+		JLabel lblAsiento = new JLabel("Ver sala");
 		lblAsiento.setForeground(Color.ORANGE);
 		lblAsiento.setFont(new Font(".AppleSystemUIFont", Font.BOLD, 15));
 		lblAsiento.setBorder(BorderFactory.createLineBorder(Color.ORANGE,2));
@@ -147,18 +159,32 @@ public class VentanaEntrada extends JDialog {
 		lblPrecT.setForeground(Color.ORANGE);
 		lblPrecT.setFont(new Font(".AppleSystemUIFont", Font.BOLD, 20));
 		lblPrecT.setBorder(BorderFactory.createLineBorder(Color.ORANGE,2));
-
+		
 		txtPrecT = new JTextField();
+		txtPrecT.setHorizontalAlignment(SwingConstants.CENTER);
+		int precio=9;
+		valor = (Integer)spinnerCant.getValue();
+		int total= precio*valor;
+		totalstring= String.valueOf(total);
 		txtPrecT.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 20));
+		txtPrecT.setText(totalstring);
 		txtPrecT.setEditable(false);
 		txtPrecT.setColumns(10);
 
-		JButton btnAsiento = new JButton("Seleccionar");
+		JButton btnAsiento = new JButton("Previsualización");
+		btnAsiento.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				Asientos as= new Asientos();
+				as.main();
+			}
+		});
 		btnAsiento.setBackground(Color.ORANGE);
 		btnAsiento.setOpaque(true);
 		btnAsiento.setBorderPainted(false);
 		btnAsiento.setForeground(Color.GRAY);
 		btnAsiento.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 15));
+		
 
 		JLabel lblE2 = new JLabel("€");
 		lblE2.setForeground(Color.ORANGE);
@@ -167,101 +193,153 @@ public class VentanaEntrada extends JDialog {
 		JLabel lblE1 = new JLabel("€");
 		lblE1.setForeground(Color.ORANGE);
 		lblE1.setFont(new Font(".AppleSystemUIFont", Font.BOLD, 23));
+		
+		JButton btnNewButton = new JButton(">");
+		almacenar= new ArrayList<Integer>();
+		guardar= new ArrayList<Integer>();
+		
+		
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				valor = (Integer)spinnerCant.getValue();
+				double total= precio*valor;
+				String horario=comboHor.getSelectedItem().toString();
+				
+				String sql= "DELETE FROM Otros";
+				String sql1= "INSERT INTO Otros(cantidad,preciototal,horario) values(?,?,?)"; 
+				Conexion conexion1 = new Conexion();
+				Connection cn1 = conexion1.conectar();
+				PreparedStatement ps1= null;
+				
+				
+				try {
+					PreparedStatement pst1 = cn1.prepareStatement(sql);
+					PreparedStatement ps2=cn1.prepareStatement(sql);
+					pst1.executeUpdate();
+					
+					try {
+						PreparedStatement pst2 = cn1.prepareStatement(sql1);
+						pst2.setInt(1,valor);
+						pst2.setDouble(2,total);
+						pst2.setString(3,horario);
+						
+						pst2.executeUpdate();
+						
+						
+						
+					} catch (Exception e) {
+						System.out.println(e);
+					}
+				
+					
+				} catch (Exception e) {
+					System.out.println(e);
+				}
+			
+				
+				
+				totalstring= String.valueOf(total);
+				txtPrecT.setText(totalstring);
+				
+				
+				
+				
+				
+			}
+		});
+		
+		btnNewButton.setForeground(Color.ORANGE);
 
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
 		gl_contentPanel.setHorizontalGroup(
-				gl_contentPanel.createParallelGroup(Alignment.LEADING)
+			gl_contentPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPanel.createSequentialGroup()
-						.addContainerGap()
-						.addComponent(lblPos, GroupLayout.PREFERRED_SIZE, 304, GroupLayout.PREFERRED_SIZE)
-						.addGap(18)
-						.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-								.addComponent(spinnerCant, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addGroup(gl_contentPanel.createSequentialGroup()
-										.addComponent(txtPrecU, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-										.addGap(18)
-										.addComponent(lblE1, GroupLayout.PREFERRED_SIZE, 18, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap()
+					.addComponent(lblPos, GroupLayout.PREFERRED_SIZE, 304, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGap(18)
+							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblAsiento, GroupLayout.PREFERRED_SIZE, 76, GroupLayout.PREFERRED_SIZE)
+								.addComponent(txtPel, GroupLayout.PREFERRED_SIZE, 210, GroupLayout.PREFERRED_SIZE)
 								.addComponent(lblPel)
 								.addComponent(lblHor)
-								.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
-										.addGroup(gl_contentPanel.createSequentialGroup()
-												.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-														.addComponent(lblAsiento, GroupLayout.PREFERRED_SIZE, 76, GroupLayout.PREFERRED_SIZE)
-														.addComponent(btnAsiento)
-														.addComponent(lblPrecU))
-												.addGap(238)
-												.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
-														.addGroup(gl_contentPanel.createSequentialGroup()
-																.addComponent(txtPrecT, 237, 237, 237)
-																.addPreferredGap(ComponentPlacement.UNRELATED)
-																.addComponent(lblE2)
-																.addGap(26))
-														.addGroup(gl_contentPanel.createSequentialGroup()
-																.addComponent(lblPrecT, GroupLayout.PREFERRED_SIZE, 174, GroupLayout.PREFERRED_SIZE)
-																.addGap(88))))
-										.addGroup(gl_contentPanel.createSequentialGroup()
-												.addPreferredGap(ComponentPlacement.UNRELATED)
-												.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-														.addComponent(txtPel, GroupLayout.PREFERRED_SIZE, 210, GroupLayout.PREFERRED_SIZE)
-														.addGroup(Alignment.TRAILING, gl_contentPanel.createSequentialGroup()
-																.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-																		.addComponent(textCod, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
-																		.addComponent(lblCod))
-																.addGap(570)))))
-								.addComponent(lblCant)
-								.addComponent(comboHor, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING, false)
-										.addComponent(txtSala, Alignment.LEADING, 0, 0, Short.MAX_VALUE)
-										.addComponent(lblSala, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)))
-						.addGap(26))
-				);
-		gl_contentPanel.setVerticalGroup(
-				gl_contentPanel.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_contentPanel.createSequentialGroup()
-						.addContainerGap()
-						.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+									.addComponent(lblCant, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+									.addComponent(comboHor, Alignment.LEADING, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+								.addComponent(spinnerCant, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblSala, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)
+								.addComponent(txtSala, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)
 								.addGroup(gl_contentPanel.createSequentialGroup()
-										.addGap(18)
-										.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
-												.addGroup(gl_contentPanel.createSequentialGroup()
-														.addComponent(lblCod)
-														.addPreferredGap(ComponentPlacement.RELATED)
-														.addComponent(textCod, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-														.addPreferredGap(ComponentPlacement.UNRELATED)
-														.addComponent(lblPel)
-														.addPreferredGap(ComponentPlacement.UNRELATED)
-														.addComponent(txtPel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-														.addGap(18)
-														.addComponent(lblHor)
-														.addGap(18)
-														.addComponent(comboHor, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-														.addGap(12)
-														.addComponent(lblCant)
-														.addGap(20)
-														.addComponent(spinnerCant, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-														.addGap(18)
-														.addComponent(lblSala, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
-														.addPreferredGap(ComponentPlacement.UNRELATED)
-														.addComponent(txtSala, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-														.addGap(18)
-														.addComponent(lblAsiento, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE))
-												.addComponent(lblPrecT, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE))
-										.addGap(18)
-										.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-												.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-														.addComponent(lblE2)
-														.addComponent(txtPrecT, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE))
-												.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
-														.addComponent(lblE1, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
-														.addGroup(gl_contentPanel.createSequentialGroup()
-																.addComponent(btnAsiento)
-																.addGap(17)
-																.addComponent(lblPrecU)
-																.addPreferredGap(ComponentPlacement.RELATED)
-																.addComponent(txtPrecU, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))))
-								.addComponent(lblPos, GroupLayout.DEFAULT_SIZE, 617, Short.MAX_VALUE))
-						.addContainerGap())
-				);
+									.addComponent(lblPrecU)
+									.addPreferredGap(ComponentPlacement.RELATED, 310, Short.MAX_VALUE)
+									.addComponent(txtPrecT, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)
+									.addGap(54))
+								.addGroup(gl_contentPanel.createSequentialGroup()
+									.addComponent(btnAsiento)
+									.addGap(156)
+									.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+										.addComponent(lblPrecT, GroupLayout.PREFERRED_SIZE, 190, GroupLayout.PREFERRED_SIZE)
+										.addGroup(gl_contentPanel.createSequentialGroup()
+											.addGap(139)
+											.addComponent(lblE2))))))
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGap(47)
+							.addComponent(txtPrecU, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(lblE1, GroupLayout.PREFERRED_SIZE, 18, GroupLayout.PREFERRED_SIZE)))
+					.addGap(83))
+		);
+		gl_contentPanel.setVerticalGroup(
+			gl_contentPanel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_contentPanel.createSequentialGroup()
+					.addGap(42)
+					.addComponent(lblPel)
+					.addGap(18)
+					.addComponent(txtPel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(lblHor)
+					.addGap(18)
+					.addComponent(comboHor, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(lblCant)
+					.addGap(18)
+					.addComponent(spinnerCant, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(28)
+					.addComponent(lblSala, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(txtSala, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(lblAsiento, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnAsiento)
+						.addComponent(lblPrecT)
+						.addComponent(btnNewButton))
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGap(18)
+							.addComponent(lblPrecU)
+							.addGap(18)
+							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_contentPanel.createSequentialGroup()
+									.addComponent(txtPrecU, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addGap(270)
+									.addComponent(lblE2))
+								.addComponent(lblE1, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)))
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGap(26)
+							.addComponent(txtPrecT, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap())
+				.addGroup(Alignment.LEADING, gl_contentPanel.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(lblPos, GroupLayout.PREFERRED_SIZE, 615, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(236, Short.MAX_VALUE))
+		);
 		contentPanel.setLayout(gl_contentPanel);
 		{
 			JPanel buttonPane = new JPanel();
@@ -275,7 +353,7 @@ public class VentanaEntrada extends JDialog {
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 
-						Pago pago= new Pago();
+						Pago pago= new Pago(p);
 					}
 				});
 				okButton.setForeground(Color.ORANGE);
@@ -304,4 +382,6 @@ public class VentanaEntrada extends JDialog {
 			}
 		}
 	}
+	
+
 }

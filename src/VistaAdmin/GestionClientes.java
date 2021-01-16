@@ -232,7 +232,7 @@ public class GestionClientes extends JDialog {
 						if(n>0) {
 							JOptionPane.showMessageDialog(null, "Cliente Eliminado");
 						}
-
+						mostrarTabla();
 					} catch (Exception e2) {
 						System.out.println(e2);					}
 					modelo.removeRow(fila);
@@ -244,7 +244,7 @@ public class GestionClientes extends JDialog {
 			}
 		});
 		lblEli.setHorizontalAlignment(SwingConstants.CENTER);
-		lblEli.setIcon(new ImageIcon("/Users/alex/eclipse-workspace5/CineDeusto/Imagenes/dsjn.png"));
+		lblEli.setIcon(new ImageIcon("/Users/alex/eclipse-workspace5/G05/Imagenes/dsjn.png"));
 		lblEli.setOpaque(true);
 		lblEli.setBackground(Color.orange);
 		lblEli.setBorder(new LineBorder(new Color(255, 200, 0), 3, true));
@@ -335,7 +335,7 @@ public class GestionClientes extends JDialog {
 
 			}
 		});
-		lblAny.setIcon(new ImageIcon("/Users/alex/eclipse-workspace5/CineDeusto/Imagenes/vbalsd.png"));
+		lblAny.setIcon(new ImageIcon("/Users/alex/eclipse-workspace5/G05/Imagenes/vbalsd.png"));
 		lblAny.setOpaque(true);
 		lblAny.setBackground(Color.orange);
 		lblAny.setBorder(new LineBorder(new Color(255, 200, 0), 3, true));
@@ -412,7 +412,7 @@ public class GestionClientes extends JDialog {
 			}
 		});
 		lblMod.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblMod.setIcon(new ImageIcon("/Users/alex/eclipse-workspace5/CineDeusto/Imagenes/ckvbn.png"));
+		lblMod.setIcon(new ImageIcon("/Users/alex/eclipse-workspace5/G05/Imagenes/ckvbn.png"));
 		lblMod.setOpaque(true);
 		lblMod.setBackground(Color.orange);
 		lblMod.setBorder(new LineBorder(new Color(255, 200, 0), 3, true));
@@ -680,32 +680,7 @@ public class GestionClientes extends JDialog {
 		scrollPane.add(table);
 	}
 
-	public Cliente obtenerusuario(Cliente cli) {
-
-		Cliente cliente= null;
-		Conexion conexion2 = new Conexion();
-		PreparedStatement pst = null;
-		ResultSet rs = null;
-
-		try {
-			Connection cn2 = conexion2.conectar();
-			String sql = "select * from usuario where Username = ? and contr = ?";
-			pst = cn2.prepareStatement(sql);
-			pst.setString(1, cli.getUsername());
-			pst.setString(2, cli.getPassword());
-			rs = pst.executeQuery();
-
-			while(rs.next()) {
-				cliente = new Cliente(rs.getInt(1),rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8));
-			}
-
-		}catch (Exception e) {
-			System.out.println("error en obtener usuario");
-		}
-
-		// TODO Auto-generated method stub
-		return cliente;
-	}
+	
 
 	//Creamos la tabla de usuario
 	static void mostrarTabla() {

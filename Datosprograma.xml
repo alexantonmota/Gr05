@@ -2,63 +2,39 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2020-12-29T18:40:09.768897Z</date>
-  <millis>1609267209768</millis>
-  <nanos>897000</nanos>
+  <date>2021-01-16T11:26:22.782816Z</date>
+  <millis>1610796382782</millis>
+  <nanos>816000</nanos>
   <sequence>0</sequence>
   <logger>logger</logger>
   <level>INFO</level>
   <class>VistaCliente.InicioSesion</class>
   <method>main</method>
   <thread>1</thread>
-  <message>Inicio del programa Tue Dec 29 19:40:09 CET 2020</message>
+  <message>Inicio del programa Sat Jan 16 12:26:22 CET 2021</message>
 </record>
 <record>
-  <date>2020-12-29T18:41:17.911289Z</date>
-  <millis>1609267277911</millis>
-  <nanos>289000</nanos>
+  <date>2021-01-16T11:28:14.639545Z</date>
+  <millis>1610796494639</millis>
+  <nanos>545000</nanos>
   <sequence>1</sequence>
   <logger>logger</logger>
   <level>FINER</level>
-  <class>VistaCliente.InicioSesion</class>
-  <method>ingresar</method>
+  <class>VistaCliente.Registro$6</class>
+  <method>actionPerformed</method>
   <thread>16</thread>
-  <message>Usuario conectado: alex</message>
+  <message>Usuario registrado: pepe</message>
 </record>
 <record>
-  <date>2020-12-29T18:43:19.276343Z</date>
-  <millis>1609267399276</millis>
-  <nanos>343000</nanos>
+  <date>2021-01-16T11:28:28.047469Z</date>
+  <millis>1610796508047</millis>
+  <nanos>469000</nanos>
   <sequence>2</sequence>
   <logger>logger</logger>
   <level>FINER</level>
   <class>VistaCliente.InicioSesion</class>
   <method>ingresar</method>
   <thread>16</thread>
-  <message>Usuario conectado: alex</message>
-</record>
-<record>
-  <date>2020-12-29T18:45:38.640243Z</date>
-  <millis>1609267538640</millis>
-  <nanos>243000</nanos>
-  <sequence>3</sequence>
-  <logger>logger</logger>
-  <level>FINER</level>
-  <class>VistaCliente.Registro$7</class>
-  <method>actionPerformed</method>
-  <thread>16</thread>
-  <message>Usuario registrado: unaitxo08</message>
-</record>
-<record>
-  <date>2020-12-29T18:46:10.682265Z</date>
-  <millis>1609267570682</millis>
-  <nanos>265000</nanos>
-  <sequence>4</sequence>
-  <logger>logger</logger>
-  <level>FINER</level>
-  <class>VistaCliente.InicioSesion</class>
-  <method>ingresar</method>
-  <thread>16</thread>
-  <message>Usuario conectado: unaitxo08</message>
+  <message>Usuario conectado: pepe</message>
 </record>
 </log>

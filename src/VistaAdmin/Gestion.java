@@ -70,7 +70,7 @@ public class Gestion extends JDialog {
 			lblCl.setBackground(Color.ORANGE);
 			lblCl.setOpaque(true);
 			lblCl.setHorizontalAlignment(SwingConstants.CENTER);
-			lblCl.setIcon(new ImageIcon("/Users/alex/eclipse-workspace5/CineDeusto/Imagenes/gfdj.png"));
+			lblCl.setIcon(new ImageIcon("/Users/alex/eclipse-workspace5/G05/Imagenes/gfdj.png"));
 			lblCl.setBorder(new LineBorder(new Color(255, 200, 0), 5, true));
 
 			lblCl.addMouseListener(new MouseAdapter() {
@@ -97,7 +97,7 @@ public class Gestion extends JDialog {
 			});
 			lblAd.setBackground(Color.ORANGE);
 			lblAd.setOpaque(true);
-			lblAd.setIcon(new ImageIcon("/Users/alex/eclipse-workspace5/CineDeusto/Imagenes/oli.png"));		
+			lblAd.setIcon(new ImageIcon("/Users/alex/eclipse-workspace5/G05/Imagenes/oli.png"));		
 			lblAd.setBorder(new LineBorder(new Color(255, 200, 0), 5, true));
 		}
 		//Abre GestionPeliculas
@@ -116,7 +116,7 @@ public class Gestion extends JDialog {
 		lblPe.setForeground(Color.ORANGE);
 		lblPe.setOpaque(true);
 		lblPe.setBorder(new LineBorder(new Color(255, 200, 0), 5, true));
-		lblPe.setIcon(new ImageIcon("/Users/alex/eclipse-workspace5/CineDeusto/Imagenes/hgj.png"));
+		lblPe.setIcon(new ImageIcon("/Users/alex/eclipse-workspace5/G05/Imagenes/hgj.png"));
 
 
 		JLabel lblGC = new JLabel("Gestionar Clientes");
@@ -133,15 +133,17 @@ public class Gestion extends JDialog {
 		lblG.setForeground(Color.ORANGE);
 		lblG.setFont(new Font(".AppleSystemUIFont", Font.BOLD, 25));
 
+		//Abre GestionEntradas
 		JLabel lblEn = new JLabel("");
 		lblEn.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				GestionEntradas gestionentradas= new GestionEntradas();
 				gestionentradas.setVisible(true);
+				gestionentradas.mostrarTabla();
 			}
 		});
-		lblEn.setIcon(new ImageIcon("/Users/alex/eclipse-workspace5/CineDeusto/Imagenes/cghck.png"));
+		lblEn.setIcon(new ImageIcon("/Users/alex/eclipse-workspace5/G05/Imagenes/cghck.png"));
 		lblEn.setBackground(Color.ORANGE);
 		lblEn.setOpaque(true);
 		lblEn.setBorder(new LineBorder(new Color(255, 200, 0), 5, true));

@@ -25,9 +25,9 @@ public class Pelicula
 	private String rutaFotoMenu;
 	private ImageIcon poster;
 	private ImageIcon cartel;
+	private int sala;
 
-
-	public Pelicula(String titulo, String genero, int anyo, String sinopsis, int duracion, String trailer,String rutaFoto, String rutaFotoMenu) {
+	public Pelicula(String titulo, String genero, int anyo, String sinopsis, int duracion, String trailer,String rutaFoto, String rutaFotoMenu,int sala) {
 		super();
 		this.titulo = titulo;
 		this.genero = genero;
@@ -39,6 +39,8 @@ public class Pelicula
 		this.rutaFotoMenu = rutaFotoMenu;
 		this.poster = posterPelicula(titulo);
 		this.cartel = cartelPelicula(titulo);
+		this.sala = sala;
+		
 		
 	}
 	public Pelicula(){
@@ -113,7 +115,12 @@ public class Pelicula
 	public void setCartel(ImageIcon cartel) {
 		this.cartel = cartel;
 	}
-	
+	public int getSala() {
+		return sala;
+	}
+	public void setSala(int sala) {
+		this.sala = sala;
+	}
 
 	public static ImageIcon posterPelicula(String titulo) {
 
@@ -138,11 +145,12 @@ public class Pelicula
 
 	}	
 
+	
 	@Override
 	public String toString() {
 		return "Pelicula [titulo=" + titulo + ", genero=" + genero + ", anyo=" + anyo + ", sinopsis=" + sinopsis
 				+ ", duracion=" + duracion + ", trailer=" + trailer + ", rutaFoto=" + rutaFoto + ", rutaFotoMenu="
-				+ rutaFotoMenu + ", poster=" + poster + ", cartel=" + cartel + "]";
+				+ rutaFotoMenu + ", poster=" + poster + ", cartel=" + cartel + ", sala=" + sala + "]";
 	}
 	public void mostrarInfoPelicula()
 	{

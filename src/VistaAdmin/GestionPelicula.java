@@ -399,13 +399,13 @@ public class GestionPelicula extends JDialog {
 
 						FileInputStream fi= null;
 						FileInputStream fi2= null;
-
+						int sala=12;
 
 
 
 						
 
-						sql1 = "INSERT INTO pelicula (titulo, anyo, genero, sinopsis, duracion, trailer, nomPoster, poster, nomPMenu, pMenu) VALUES(?,?,?,?,?,?,?,?,?,?)";
+						sql1 = "INSERT INTO pelicula (titulo, anyo, genero, sinopsis, duracion, trailer, nomPoster, poster, nomPMenu, pMenu,sala) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
 
 						PreparedStatement ps1= null;
 
@@ -428,6 +428,7 @@ public class GestionPelicula extends JDialog {
 							pst1.setBinaryStream(8, fi);
 							pst1.setString(9, fotoPosterMenu);
 							pst1.setBinaryStream(10, fi2);
+							pst1.setInt(11,sala++);
 
 
 

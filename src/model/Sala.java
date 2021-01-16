@@ -1,47 +1,36 @@
 package model;
-/**
- * Clase sala
- * @author alex
- *
- */
+
 public class Sala {
+	
+	public int numSala;
 
-	protected String nombre;
-
-	protected int numAsientos;
-
-	public Sala(String nombre, int numAsientos) {
+	public Sala(int numSala) {
 		super();
-		this.nombre = nombre;
-		this.numAsientos = numAsientos;
+		this.numSala = numSala;
 	}
-	public Sala() {
-		super();
-		this.nombre = "";
-		this.numAsientos = 0;
-	}
+
 	public Sala(Sala s) {
 		super();
-		this.nombre = s.nombre;
-		this.numAsientos = s.numAsientos;
+		this.numSala = s.numSala;
 	}
 
-	public String getNombre() {
-		return nombre;
+	public Sala() {
+		super();
 	}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public int getNumSala() {
+		return numSala;
 	}
 
-	public int getNumAsientos() {
-		return numAsientos;
+	public void setNumSala(int numSala) {
+		this.numSala = numSala;
 	}
 
-	public void setNumAsientos(int numAsientos) {
-		this.numAsientos = numAsientos;
+	@Override
+	public String toString() {
+		return "Sala [numSala=" + numSala + "]";
 	}
-
-
+	
+	
 
 }

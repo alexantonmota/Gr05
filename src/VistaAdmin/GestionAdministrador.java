@@ -202,7 +202,7 @@ public class GestionAdministrador extends JDialog {
 				}
 			}
 		});
-		lblEli.setIcon(new ImageIcon("/Users/alex/eclipse-workspace5/CineDeusto/Imagenes/dsjn.png"));
+		lblEli.setIcon(new ImageIcon("/Users/alex/eclipse-workspace5/G05/Imagenes/dsjn.png"));
 		lblEli.setOpaque(true);
 		lblEli.setBackground(Color.orange);
 		lblEli.setBorder(new LineBorder(new Color(255, 200, 0), 3, true));
@@ -222,7 +222,7 @@ public class GestionAdministrador extends JDialog {
 				btnAny.setBackground(Color.GRAY);
 			}
 		});
-		lblAny.setIcon(new ImageIcon("/Users/alex/eclipse-workspace5/CineDeusto/Imagenes/vbalsd.png"));
+		lblAny.setIcon(new ImageIcon("/Users/alex/eclipse-workspace5/G05/Imagenes/vbalsd.png"));
 		lblAny.setOpaque(true);
 		lblAny.setBackground(Color.orange);
 		lblAny.setBorder(new LineBorder(new Color(255, 200, 0), 3, true));

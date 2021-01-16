@@ -30,35 +30,20 @@ import Conexion.Conexion;
 public class Registro {
 
 	public JFrame frame1;
-	private JTextField txtUser;
-	private JTextField txtEmail;
-	private JTextField txtApe1;
-	private JTextField txtApe2;
-	private JTextField txtNombre;
-	private JTextField txtFecha;
-	private JPasswordField passContr;
+	public JTextField txtUser;
+	public JTextField txtEmail;
+	public JTextField txtApe1;
+	public JTextField txtApe2;
+	public JTextField txtNombre;
+	public JTextField txtFecha;
+	public JPasswordField passContr;
 	static PrintStream log;
-	HashMap<String, String> clientes = new HashMap<String, String>();
-	private static final String EMAIL_PATTER = 
+	public HashMap<String, String> clientes = new HashMap<String, String>();
+	public static final String EMAIL_PATTER = 
 			"^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
 					+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Registro window = new Registro();
-					window.frame1.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
+	
 	/**
 	 * Create the application.
 	 */

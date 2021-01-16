@@ -14,7 +14,7 @@ import Conexion.Conexion;
 public class GestionPeliculas {
 
 	public List<Pelicula> obtenerPeliculas(){
-		String sql = "SELECT titulo, genero, anyo, sinopsis, duracion, trailer, nomPoster,nomPMenu FROM prelicula";
+		String sql = "SELECT titulo, genero, anyo, sinopsis, duracion, trailer, nomPoster,nomPMenu,sala FROM prelicula";
 		PreparedStatement stmt;
 		Conexion cc= new Conexion();
 		Connection conn= cc.conectar();
@@ -27,7 +27,7 @@ public class GestionPeliculas {
 
 			while (rs.next()){
 
-				Pelicula p = new Pelicula(rs.getString("titulo"), rs.getString("genero"), rs.getInt("anyo"), rs.getString("sinopsis"), rs.getInt("duracion"), rs.getString("trailer"), rs.getString("nomPoster"),rs.getString("nomPMenu"));
+				Pelicula p = new Pelicula(rs.getString("titulo"), rs.getString("genero"), rs.getInt("anyo"), rs.getString("sinopsis"), rs.getInt("duracion"), rs.getString("trailer"), rs.getString("nomPoster"),rs.getString("nomPMenu"),rs.getInt("sala"));
 
 				peliculas.add(p);
 			}

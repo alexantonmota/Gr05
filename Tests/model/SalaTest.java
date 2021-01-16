@@ -19,31 +19,24 @@ public class SalaTest {
 	@Before
 	public void setUp() {
 
-		s=  new Sala("Sala 1",10);
+		s=  new Sala(10);
 		prueba=  new Sala(s);
 		empty= new Sala();
 
 	}
+	
+	
 	@Test
-	public void testGetNombre() {
-		assertEquals("Sala 1", s.getNombre());
-		assertEquals("Sala 1", prueba.getNombre());
-		assertEquals("", empty.getNombre());
-	}@Test
-	public void testSetNombre() {
-		s.setNombre("Sala 2");
-		assertEquals("Sala 2", s.getNombre());
-	}	
-
+	public void testGetNumSala() {
+		assertEquals(10, s.getNumSala());
+		assertEquals(10, prueba.getNumSala());
+		assertEquals(0, empty.getNumSala());
+	}
+	
 	@Test
-	public void testGetNumAsientos() {
-		assertEquals(10, s.getNumAsientos());
-		assertEquals(10, prueba.getNumAsientos());
-		assertEquals(0, empty.getNumAsientos());
-	}@Test
-	public void testSetNumAsientos() {
-		s.setNumAsientos(2);
-		assertEquals(2, s.getNumAsientos());
+	public void testSetNumSala() {
+		s.setNumSala(2);
+		assertEquals(2, s.getNumSala());
 	}
 
 }
