@@ -56,11 +56,11 @@ public class MenuPrincipal extends JDialog {
 		lblCine.setBackground(Color.ORANGE);
 		lblCine.setFont(new Font(".AppleSystemUIFont", Font.BOLD, 60));
 		lblCine.setHorizontalAlignment(SwingConstants.CENTER);
-		
-		
-		
-		
-		
+
+
+
+
+
 
 		JButton btnCartelera = new JButton("Ir a Cartelera");
 		btnCartelera.addActionListener(new ActionListener() {
@@ -81,7 +81,7 @@ public class MenuPrincipal extends JDialog {
 		lblPosM = new JLabel("");
 		lblPosM.setLabelFor(lblPosM);
 		lblPosM.setHorizontalAlignment(SwingConstants.TRAILING);
-		
+
 		ImageIcon im= new ImageIcon("/Users/alex/eclipse-workspace5/G05/Imagenes/PostersMenuPrincipal/avengers.jpeg");
 		Icon ic= new ImageIcon(im.getImage().getScaledInstance(1445,597,Image.SCALE_DEFAULT));
 		lblPosM.setIcon(ic);
@@ -116,9 +116,9 @@ public class MenuPrincipal extends JDialog {
 						.addContainerGap(41, Short.MAX_VALUE))
 				);
 		contentPanel.setLayout(gl_contentPanel);
-		
-		
-		
+
+
+
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setBackground(Color.ORANGE);
@@ -146,17 +146,17 @@ public class MenuPrincipal extends JDialog {
 
 
 	}
-	
-	
+
+
 	public static void main(String[] args) {
 		try {
 			MenuPrincipal dialog = new MenuPrincipal();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
-			
 
-			
-		
+
+
+
 
 		} catch (Exception e) {
 			e.printStackTrace();

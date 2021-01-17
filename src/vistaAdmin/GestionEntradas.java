@@ -90,6 +90,7 @@ public class GestionEntradas extends JDialog {
 
 				Thread t= new Thread(new Runnable() {
 					@Override
+					//LLamada a la base de datos para añadir una entrada nueva
 					public void run() {
 						Conexion conexion1 = new Conexion();
 						Connection cn1 = conexion1.conectar();
@@ -177,6 +178,7 @@ public class GestionEntradas extends JDialog {
 
 				Thread t= new Thread(new Runnable() {
 					@Override
+					//LLamo la base de datos para actualizar los valores de la entrada
 					public void run() {
 						Conexion conexion1 = new Conexion();
 						Connection cn1 = conexion1.conectar();
@@ -244,7 +246,7 @@ public class GestionEntradas extends JDialog {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 
-
+				//Al puslar llamamos a la base de datos para borrar la entrada en funcion del id de la fila seleccionada de la tabla
 				Conexion cc= new Conexion();
 				Connection conect= cc.conectar();
 
@@ -341,6 +343,7 @@ public class GestionEntradas extends JDialog {
 		txtPrecT = new JTextField();
 		txtPrecT.setEditable(false);
 		txtPrecT.setColumns(10);
+		//Establezco el mínimo y el máximo número de entrada en el spinner
 		SpinnerNumberModel modeloSpinner = new SpinnerNumberModel();
 		modeloSpinner.setMaximum(10);
 		modeloSpinner.setMinimum(1);
@@ -359,6 +362,8 @@ public class GestionEntradas extends JDialog {
 		textBus = new JTextField();
 		textBus.setBackground(Color.ORANGE);
 		textBus.addKeyListener(new KeyAdapter() {
+
+			//Barra de búsqueda en funcion del nombre, id, titulo, cantidad, precio total, horario o sala
 			@Override
 			public void keyPressed(KeyEvent e) {
 

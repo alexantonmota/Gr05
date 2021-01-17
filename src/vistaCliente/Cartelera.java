@@ -21,7 +21,7 @@ import javax.swing.SwingConstants;
 import db.DBManager;
 import model.Pelicula;
 /**
- * Ventana Cartelera donde se visualizan las películas
+ * Ventana Cartelera donde se visualizan las películas, se obtiene una lista de las películas de la base de datos y en funcion de su posicion se establecen en los labels, únicamente se visualizará en caso de haber 12 peliculas en la base de datos
  * @author alex
  *
  */
@@ -80,8 +80,8 @@ public class Cartelera extends JFrame {
 		DBManager db= new DBManager();
 		List<Pelicula> peliculas= db.obtenerPeliculas();
 		db.desconectar();
-		
-		
+
+
 		JLabel lblP1= new JLabel();
 		//Aplico el poster al label obtenido por la lista
 		lblP1.setIcon(peliculas.get(0).getPoster());
@@ -89,7 +89,7 @@ public class Cartelera extends JFrame {
 		lblP1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
+
 				//Abro ventana con la informacion de la lista
 				DBManager db= new DBManager();
 				List<Pelicula> peliculas= db.obtenerPeliculas();
@@ -107,9 +107,9 @@ public class Cartelera extends JFrame {
 			}
 		});
 
-	
+
 		JLabel lblP2= new JLabel();
-		
+
 		lblP2.setBorder(BorderFactory.createLineBorder(Color.ORANGE,4));
 		lblP2.setIcon(peliculas.get(1).getPoster());
 		lblP2.addMouseListener(new MouseAdapter() {
@@ -119,7 +119,7 @@ public class Cartelera extends JFrame {
 				List<Pelicula> peliculas= db.obtenerPeliculas();
 
 				VentanaPelicula vp= new VentanaPelicula(peliculas.get(1));
-				
+
 				vp.setVisible(true);
 
 			}
@@ -128,7 +128,7 @@ public class Cartelera extends JFrame {
 
 
 		JLabel lblP3 = new JLabel("");
-		
+
 		lblP3.setBorder(BorderFactory.createLineBorder(Color.ORANGE,4));
 		lblP3.setIcon(peliculas.get(2).getPoster());
 		lblP3.addMouseListener(new MouseAdapter() {
@@ -144,7 +144,7 @@ public class Cartelera extends JFrame {
 
 
 		JLabel lblP4 = new JLabel("");
-		
+
 		lblP4.setBorder(BorderFactory.createLineBorder(Color.ORANGE,4));
 		lblP4.setIcon(peliculas.get(3).getPoster());
 		lblP4.addMouseListener(new MouseAdapter() {
@@ -162,7 +162,7 @@ public class Cartelera extends JFrame {
 
 
 		JLabel lblP5 = new JLabel("");
-		
+
 		lblP5.setBorder(BorderFactory.createLineBorder(Color.ORANGE,4));
 		lblP5.setIcon(peliculas.get(4).getPoster());
 		lblP5.addMouseListener(new MouseAdapter() {
@@ -179,7 +179,7 @@ public class Cartelera extends JFrame {
 
 
 		JLabel lblP6 = new JLabel("");
-		
+
 		lblP6.setBorder(BorderFactory.createLineBorder(Color.ORANGE,4));
 		lblP6.setIcon(peliculas.get(5).getPoster());
 		lblP6.addMouseListener(new MouseAdapter() {
@@ -189,7 +189,7 @@ public class Cartelera extends JFrame {
 				List<Pelicula> peliculas= db.obtenerPeliculas();
 				VentanaPelicula vp= new VentanaPelicula(peliculas.get(5));
 				vp.setVisible(true);
-				
+
 
 
 			}
@@ -197,7 +197,7 @@ public class Cartelera extends JFrame {
 
 
 		JLabel lblP7 = new JLabel("");
-		
+
 		lblP7.setBorder(BorderFactory.createLineBorder(Color.ORANGE,4));
 		lblP7.setIcon(peliculas.get(6).getPoster());
 		lblP7.addMouseListener(new MouseAdapter() {
@@ -207,7 +207,7 @@ public class Cartelera extends JFrame {
 				List<Pelicula> peliculas= db.obtenerPeliculas();
 				VentanaPelicula vp= new VentanaPelicula(peliculas.get(6));
 				vp.setVisible(true);
-				
+
 
 			}
 		});
@@ -216,7 +216,7 @@ public class Cartelera extends JFrame {
 
 
 		JLabel lblP8 = new JLabel("");
-		
+
 		lblP8.setBorder(BorderFactory.createLineBorder(Color.ORANGE,4));
 		lblP8.setIcon(peliculas.get(7).getPoster());
 		lblP8.addMouseListener(new MouseAdapter() {
@@ -227,15 +227,15 @@ public class Cartelera extends JFrame {
 				VentanaPelicula vp= new VentanaPelicula(peliculas.get(7));
 				vp.setVisible(true);
 
-				
+
 
 
 			}
 		});
 
-	
+
 		JLabel lblP9 = new JLabel("");
-		
+
 		lblP9.setBorder(BorderFactory.createLineBorder(Color.ORANGE,4));
 		lblP9.setIcon(peliculas.get(8).getPoster());
 		lblP9.addMouseListener(new MouseAdapter() {
@@ -246,14 +246,14 @@ public class Cartelera extends JFrame {
 				VentanaPelicula vp= new VentanaPelicula(peliculas.get(8));
 				vp.setVisible(true);
 
-				
+
 
 			}
 		});
 
 
 		JLabel lblP10 = new JLabel("");
-		
+
 		lblP10.setBorder(BorderFactory.createLineBorder(Color.ORANGE,4));
 		lblP10.setIcon(peliculas.get(9).getPoster());
 		lblP10.addMouseListener(new MouseAdapter() {
@@ -264,7 +264,7 @@ public class Cartelera extends JFrame {
 				VentanaPelicula vp= new VentanaPelicula(peliculas.get(9));
 				vp.setVisible(true);
 
-				
+
 
 			}
 		});
@@ -272,7 +272,7 @@ public class Cartelera extends JFrame {
 
 
 		JLabel lblP11 = new JLabel("");
-		
+
 		lblP11.setBorder(BorderFactory.createLineBorder(Color.ORANGE,4));
 		lblP11.setIcon(peliculas.get(10).getPoster());
 		lblP11.addMouseListener(new MouseAdapter() {
@@ -283,14 +283,14 @@ public class Cartelera extends JFrame {
 				VentanaPelicula vp= new VentanaPelicula(peliculas.get(10));
 				vp.setVisible(true);
 
-				
+
 
 			}
 		});
 
 
 		JLabel lblP12 = new JLabel("");
-		
+
 		lblP12.setBorder(BorderFactory.createLineBorder(Color.ORANGE,4));
 		lblP12.setIcon(peliculas.get(11).getPoster());
 		lblP12.addMouseListener(new MouseAdapter() {
@@ -300,7 +300,7 @@ public class Cartelera extends JFrame {
 				List<Pelicula> peliculas= db.obtenerPeliculas();
 				VentanaPelicula vp= new VentanaPelicula(peliculas.get(11));
 				vp.setVisible(true);
-				
+
 			}
 		});
 

@@ -41,7 +41,7 @@ public class Cliente extends Usuario {
 		this.apellido_2 =c. apellido_2;
 		this.fecha_nac = c.fecha_nac;
 	}
-	
+
 	public int getId() {
 		return id;
 	}

@@ -23,7 +23,7 @@ import vistaAdmin.InicioSesionAdmin;
 import db.DBManager;
 import model.Cliente;
 /**
- * Ventana de Inicio de Sesion para clientes
+ * Ventana de Inicio de Sesion para Clientes
  * @author alex
  *
  */
@@ -167,7 +167,7 @@ public class InicioSesion {
 				if(cmd.equals("Open"))
 				{
 					frame.dispose();
-					new InicioSesionAdmin();
+					InicioSesionAdmin.abrirInicioSesionAdmin();
 
 				}
 			}
@@ -196,7 +196,7 @@ public class InicioSesion {
 				if(cmd.equals("Open"))
 				{
 					frame.dispose();
-					new Registro();
+					Registro.abrirRegistro();
 
 				}
 			}
@@ -240,7 +240,11 @@ public class InicioSesion {
 
 	}
 
-
+	//Método para abrir ventana
+	public static void abrirInicioSesion() {
+		InicioSesion login= new InicioSesion();
+		
+	}
 
 
 }

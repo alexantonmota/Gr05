@@ -54,7 +54,7 @@ public class GestionPelicula extends JDialog {
 
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private final JPanel contentPanel = new JPanel();
 	private JTextField textTitulo;
 	private JTextField textAnyo;
@@ -132,11 +132,11 @@ public class GestionPelicula extends JDialog {
 		lblTrailer.setBorder(BorderFactory.createLineBorder(Color.ORANGE,2));
 		lblTrailer.setFont(new Font(".AppleSystemUIFont", Font.BOLD, 15));
 		//TextField que se coloca la url
-				textTrailer = new JTextField();
-				textTrailer.setColumns(10);
+		textTrailer = new JTextField();
+		textTrailer.setColumns(10);
 
-			
-				JTextPane textSinopsis = new JTextPane();
+
+		JTextPane textSinopsis = new JTextPane();
 
 		JButton btnTrailer = new JButton("Ver Trailer");
 		btnTrailer.addActionListener(new ActionListener() {
@@ -145,21 +145,21 @@ public class GestionPelicula extends JDialog {
 
 
 			public void actionPerformed(ActionEvent arg0) {
-				
-			//Ejecución de URL
+
+				//Ejecución de URL
 				try {
-				   URL url = new URL(textTrailer.getText());
-				    try {
-				        Desktop.getDesktop().browse(url.toURI());
-				    } catch (IOException e) {
-				        e.printStackTrace();
-				    } catch (URISyntaxException e) {
-				        e.printStackTrace();
-				    }
+					URL url = new URL(textTrailer.getText());
+					try {
+						Desktop.getDesktop().browse(url.toURI());
+					} catch (IOException e) {
+						e.printStackTrace();
+					} catch (URISyntaxException e) {
+						e.printStackTrace();
+					}
 				} catch (MalformedURLException e1) {
-				    e1.printStackTrace();
+					e1.printStackTrace();
 				}
-				}
+			}
 
 		});
 		btnTrailer.setBackground(Color.ORANGE);
@@ -189,7 +189,7 @@ public class GestionPelicula extends JDialog {
 		comboBox.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 13));
 		comboBox.setModel(new DefaultComboBoxModel(Genero.values()));
 
-		
+
 
 		JLabel lblPosMenu = new JLabel("");
 		lblPosMenu.setBorder(BorderFactory.createLineBorder(Color.ORANGE,4));
@@ -391,8 +391,8 @@ public class GestionPelicula extends JDialog {
 						int sala=12;
 
 
+						//Añadimos una pelicula nueva
 
-						
 
 						sql1 = "INSERT INTO pelicula (titulo, anyo, genero, sinopsis, duracion, trailer, nomPoster, poster, nomPMenu, pMenu,sala) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
 
@@ -468,9 +468,9 @@ public class GestionPelicula extends JDialog {
 				cancelButton.setActionCommand("");
 				buttonPane.add(cancelButton);
 			}
-			
-			
-		
+
+
+
 
 
 		}}}

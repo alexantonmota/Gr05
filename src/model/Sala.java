@@ -1,7 +1,7 @@
 package model;
 
 public class Sala {
-	
+
 	public int numSala;
 
 	public Sala(int numSala) {
@@ -30,7 +30,7 @@ public class Sala {
 	public String toString() {
 		return "Sala [numSala=" + numSala + "]";
 	}
-	
-	
+
+
 
 }

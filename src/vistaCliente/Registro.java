@@ -106,7 +106,8 @@ public class Registro {
 				if(cmd.equals("Open70"))
 				{
 					frame1.dispose();
-					new InicioSesion();
+					//Abre Inicio de Sesion
+					InicioSesion.abrirInicioSesion();
 
 				}
 			}
@@ -326,5 +327,9 @@ public class Registro {
 			}});
 
 
+	}
+	public static void abrirRegistro() {
+		Registro registro= new Registro();
+		
 	}
 }

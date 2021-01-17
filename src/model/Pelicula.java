@@ -40,8 +40,8 @@ public class Pelicula
 		this.poster = posterPelicula(titulo);
 		this.cartel = cartelPelicula(titulo);
 		this.sala = sala;
-		
-		
+
+
 	}
 	public Pelicula(){
 
@@ -99,16 +99,16 @@ public class Pelicula
 		this.rutaFotoMenu = rutaFotoMenu;
 	}
 	public ImageIcon getPoster() {
-	
+
 		return poster;
 	}
 
 	public void setPoster(ImageIcon poster) {
 		this.poster = poster;
 	}
-	
+
 	public ImageIcon getCartel() {
-		
+
 		return cartel;
 	}
 
@@ -122,30 +122,32 @@ public class Pelicula
 		this.sala = sala;
 	}
 
+	//Asocia las imagenes a las peliculas si estas tienen el mismo nombre del título
 	public static ImageIcon posterPelicula(String titulo) {
 
 		ImageIcon imageIcon = new ImageIcon("./Imagenes/" + titulo + ".jpg");
 		Image image = imageIcon.getImage();
 		Image newimg = image.getScaledInstance(200, 277, java.awt.Image.SCALE_SMOOTH);
 		imageIcon = new ImageIcon(newimg);
-		
+
 
 		return imageIcon;
 
 	}
+	//Asocia las imagenes del menú a las peliculas si estas tienen el mismo nombre del título + Cartel
 	public static ImageIcon cartelPelicula(String titulo) {
 
 		ImageIcon imageIcon = new ImageIcon("./Imagenes/PostersMenuPrincipal/" + titulo + "Cartel.jpg");
 		Image image = imageIcon.getImage();
 		Image newimg = image.getScaledInstance(200, 277, java.awt.Image.SCALE_SMOOTH);
 		imageIcon = new ImageIcon(newimg);
-		
+
 
 		return imageIcon;
 
 	}	
 
-	
+
 	@Override
 	public String toString() {
 		return "Pelicula [titulo=" + titulo + ", genero=" + genero + ", anyo=" + anyo + ", sinopsis=" + sinopsis

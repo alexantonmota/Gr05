@@ -128,6 +128,7 @@ public class InicioSesionAdmin {
 		passContr.setBounds(235, 169, 163, 29);
 		frame.getContentPane().add(passContr);}
 
+	//Método para ingresar Admin
 	protected void ingresaradmin() {
 		String usuario = txtUser.getText();
 		String contraseña = String.valueOf(passContr.getPassword());
@@ -150,6 +151,11 @@ public class InicioSesionAdmin {
 		}
 	}
 
+	//Método para abrir ventana
+	public static void abrirInicioSesionAdmin() {
+		InicioSesionAdmin login= new InicioSesionAdmin();
+
+	}
 
 
 }

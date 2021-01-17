@@ -41,7 +41,7 @@ import org.pdfbox.pdmodel.graphics.xobject.PDJpeg;
 import db.Conexion;
 import model.Pelicula;
 /**
- * Ventana de pago que genera un pdf (no terminado) al realizar una compra
+ * Ventana de pago que genera un pdf al realizar una compra y añade una entrada a la base de datos
  * @author alex
  *
  */

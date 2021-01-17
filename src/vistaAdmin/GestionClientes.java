@@ -450,11 +450,11 @@ public class GestionClientes extends JDialog {
 				txtFecha.setText(String.valueOf(table.getValueAt(seleccion, 6)));
 				txtEmail.setText(String.valueOf(table.getValueAt(seleccion, 7)));
 				textID.setText(String.valueOf(table.getValueAt(seleccion,0)));
-				
+
 			}
 		});
 
-		
+
 
 		JLabel lblNewLabel = new JLabel("ID");
 		lblNewLabel.setForeground(Color.ORANGE);
@@ -669,14 +669,14 @@ public class GestionClientes extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
-		
+
 		ScrollPane scrollPane = new ScrollPane();
-		
+
 		getContentPane().add(scrollPane, BorderLayout.CENTER);
 		scrollPane.add(table);
 	}
 
-	
+
 
 	//Creamos la tabla de los clientes
 	static void mostrarTabla() {

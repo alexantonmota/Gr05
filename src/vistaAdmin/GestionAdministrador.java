@@ -106,7 +106,7 @@ public class GestionAdministrador extends JDialog {
 		textBus.setForeground(Color.GRAY);
 		textBus.setBackground(Color.ORANGE);
 		textBus.addKeyListener(new KeyAdapter() {
-
+			//barra de búsqueda en funcion del nombre de usuario y de la contraseña
 			@Override
 			public void keyPressed(KeyEvent e) {
 				String[]titulos= {"Nombre de usuario","Contraseña"};
@@ -288,6 +288,7 @@ public class GestionAdministrador extends JDialog {
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				//Edicion de anchura de columnas
 				int seleccion= table.rowAtPoint(e.getPoint());
 				textUsu.setText(String.valueOf(table.getValueAt(seleccion, 0)));
 				textCont.setText(String.valueOf(table.getValueAt(seleccion, 1)));
@@ -423,7 +424,7 @@ public class GestionAdministrador extends JDialog {
 		}
 
 	}
-
+	//Se obtienes los administradores
 	public Administrador obteneradministrador(Administrador admin) {
 		Administrador administrador = null;
 
@@ -481,7 +482,7 @@ public class GestionAdministrador extends JDialog {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-		// TODO: handle exception
+
 	}
 
 }
