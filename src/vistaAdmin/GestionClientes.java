@@ -678,7 +678,7 @@ public class GestionClientes extends JDialog {
 
 	
 
-	//Creamos la tabla de usuario
+	//Creamos la tabla de los clientes
 	static void mostrarTabla() {
 		DefaultTableModel modelo= new DefaultTableModel();
 		ResultSet rs= Conexion.getTabla("select id,Username, contr, nombre, apellido1, apellido2, Fechanac, email from Usuario");
@@ -695,7 +695,8 @@ public class GestionClientes extends JDialog {
 
 		try {
 			while(rs.next()) {
-				modelo.addRow(new Object[] {rs.getInt("id"),rs.getString("Username"),rs.getString("contr"),rs.getString("nombre"),rs.getString("apellido1"),rs.getString("apellido2"),rs.getString("Fechanac"),rs.getString("email")});
+				modelo.addRow(new Object[] {rs.getInt("id"),rs.getString("Username"),rs.getString("contr"),rs.getString("nombre"),rs.getString("apellido1"),
+						rs.getString("apellido2"),rs.getString("Fechanac"),rs.getString("email")});
 			}
 			table.setModel(modelo);
 			TableColumnModel columnmodel= table.getColumnModel();
