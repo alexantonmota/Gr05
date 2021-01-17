@@ -1,4 +1,4 @@
-package VistaAdmin;
+package vistaAdmin;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -267,10 +267,6 @@ public class GestionPelis extends JDialog {
 		lblAnyP.setForeground(Color.ORANGE);
 		lblAnyP.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 18));
 
-		JLabel lblModP = new JLabel("Modificar Película");
-		lblModP.setForeground(Color.ORANGE);
-		lblModP.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 18));
-
 		JLabel lblEliP = new JLabel("Eliminar Película");
 		lblEliP.setForeground(Color.ORANGE);
 		lblEliP.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 18));
@@ -343,32 +339,6 @@ public class GestionPelis extends JDialog {
 		btnGuardar.setOpaque(true);
 		btnGuardar.setBorderPainted(false);
 
-
-
-
-		JLabel lblMod = new JLabel("");
-		lblMod.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-
-				txtTit.setEditable(true);
-				txtAny.setEditable(true);
-				txtDur.setEditable(true);
-				txtTrailer.setEditable(true);
-				txtGenero.setEditable(true);
-				textSinopsis.setEditable(true);
-				btnSPos.setEnabled(true);
-				btnSubPMenu.setEnabled(true);
-				btnGuardar.setBackground(Color.GRAY);
-
-			}
-		});
-		lblMod.setHorizontalAlignment(SwingConstants.CENTER);
-		lblMod.setIcon(new ImageIcon("./Imagenes/ckvbn.png"));
-		lblMod.setOpaque(true);
-		lblMod.setBackground(Color.orange);
-		lblMod.setBorder(new LineBorder(new Color(255, 200, 0), 3, true));
-
 		btnSubPMenu.setBackground(Color.ORANGE);
 		btnSubPMenu.setOpaque(true);
 		btnSubPMenu.setBorderPainted(false);
@@ -391,6 +361,7 @@ public class GestionPelis extends JDialog {
 		lblRPostM.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 18));
 		
 		table = new JTable();
+		table.setForeground(Color.BLACK);
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			//Autorrelleno de los campos al seccionar fila de la tabla
@@ -437,6 +408,46 @@ public class GestionPelis extends JDialog {
 		textSala = new JTextField();
 		textSala.setEditable(false);
 		textSala.setColumns(10);
+		
+		JLabel lblNewLabel = new JLabel("Id");
+		lblNewLabel.setForeground(Color.ORANGE);
+		lblNewLabel.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 13));
+		
+		JLabel lblNewLabel_1 = new JLabel("Título");
+		lblNewLabel_1.setForeground(Color.ORANGE);
+		lblNewLabel_1.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 13));
+		
+		JLabel lblNewLabel_2 = new JLabel("Género");
+		lblNewLabel_2.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 13));
+		lblNewLabel_2.setForeground(Color.ORANGE);
+		
+		JLabel lblNewLabel_3 = new JLabel("Año");
+		lblNewLabel_3.setForeground(Color.ORANGE);
+		lblNewLabel_3.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 13));
+		
+		JLabel lblNewLabel_4 = new JLabel("Sinopsis");
+		lblNewLabel_4.setForeground(Color.ORANGE);
+		lblNewLabel_4.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 13));
+		
+		JLabel lblNewLabel_5 = new JLabel("Duracion");
+		lblNewLabel_5.setForeground(Color.ORANGE);
+		lblNewLabel_5.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 13));
+		
+		JLabel lblNewLabel_6 = new JLabel("Trailer");
+		lblNewLabel_6.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 13));
+		lblNewLabel_6.setForeground(Color.ORANGE);
+		
+		JLabel lblNewLabel_7 = new JLabel("Ruta P");
+		lblNewLabel_7.setForeground(Color.ORANGE);
+		lblNewLabel_7.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 13));
+		
+		JLabel lblNewLabel_8 = new JLabel("Ruta M");
+		lblNewLabel_8.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 13));
+		lblNewLabel_8.setForeground(Color.ORANGE);
+		
+		JLabel lblNewLabel_9 = new JLabel("Sala");
+		lblNewLabel_9.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 13));
+		lblNewLabel_9.setForeground(Color.ORANGE);
 
 
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
@@ -448,24 +459,45 @@ public class GestionPelis extends JDialog {
 							.addContainerGap()
 							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_contentPanel.createSequentialGroup()
-									.addComponent(lblPosMenu, GroupLayout.PREFERRED_SIZE, 207, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(btnSubPMenu, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_contentPanel.createSequentialGroup()
-									.addComponent(table, GroupLayout.PREFERRED_SIZE, 683, GroupLayout.PREFERRED_SIZE)
-									.addGap(68)
-									.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
-										.addGroup(gl_contentPanel.createSequentialGroup()
-											.addPreferredGap(ComponentPlacement.RELATED)
-											.addComponent(lblEli, GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE))
-										.addComponent(lblMod, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-										.addComponent(lblAny, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+									.addComponent(table, GroupLayout.PREFERRED_SIZE, 658, GroupLayout.PREFERRED_SIZE)
+									.addGap(31)
+									.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING, false)
+										.addComponent(lblEli, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+										.addComponent(lblAny, GroupLayout.DEFAULT_SIZE, 67, Short.MAX_VALUE))
 									.addGap(32)
 									.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
 										.addComponent(lblAnyP)
-										.addComponent(lblModP)
-										.addComponent(lblEliP))))
-							.addGap(46))
+										.addComponent(lblEliP)))
+								.addGroup(gl_contentPanel.createSequentialGroup()
+									.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
+										.addComponent(lblPosMenu, GroupLayout.PREFERRED_SIZE, 207, GroupLayout.PREFERRED_SIZE)
+										.addGroup(gl_contentPanel.createSequentialGroup()
+											.addComponent(lblNewLabel)
+											.addGap(18)
+											.addComponent(lblNewLabel_1)
+											.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+											.addComponent(lblNewLabel_3)
+											.addGap(37)))
+									.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+										.addGroup(gl_contentPanel.createSequentialGroup()
+											.addGap(14)
+											.addComponent(btnSubPMenu, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE))
+										.addGroup(gl_contentPanel.createSequentialGroup()
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addComponent(lblNewLabel_2)
+											.addPreferredGap(ComponentPlacement.UNRELATED)
+											.addComponent(lblNewLabel_4)
+											.addGap(18)
+											.addComponent(lblNewLabel_5)
+											.addGap(26)
+											.addComponent(lblNewLabel_6)
+											.addPreferredGap(ComponentPlacement.UNRELATED)
+											.addComponent(lblNewLabel_7)
+											.addGap(18)
+											.addComponent(lblNewLabel_8)
+											.addGap(18)
+											.addComponent(lblNewLabel_9)))))
+							.addGap(60))
 						.addGroup(gl_contentPanel.createSequentialGroup()
 							.addContainerGap(239, Short.MAX_VALUE)
 							.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
@@ -587,30 +619,41 @@ public class GestionPelis extends JDialog {
 						.addGroup(gl_contentPanel.createSequentialGroup()
 							.addComponent(btnSubPMenu)
 							.addGap(53)))
-					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING, false)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
 								.addGroup(gl_contentPanel.createSequentialGroup()
+									.addGap(92)
 									.addComponent(lblAny, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addComponent(lblMod, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE)
-									.addGap(30))
+									.addPreferredGap(ComponentPlacement.RELATED, 79, Short.MAX_VALUE))
 								.addGroup(gl_contentPanel.createSequentialGroup()
-									.addGap(33)
 									.addComponent(lblAnyP)
-									.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addComponent(lblModP)
-									.addGap(59)))
+									.addGap(103)))
 							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_contentPanel.createSequentialGroup()
 									.addGap(35)
 									.addComponent(lblEliP))
 								.addGroup(gl_contentPanel.createSequentialGroup()
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(lblEli, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE))))
-						.addComponent(table, GroupLayout.PREFERRED_SIZE, 326, GroupLayout.PREFERRED_SIZE))
-					.addGap(49))
+									.addComponent(lblEli, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE)))
+							.addGap(49))
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGap(39)
+							.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblNewLabel)
+								.addComponent(lblNewLabel_1)
+								.addComponent(lblNewLabel_4)
+								.addComponent(lblNewLabel_6)
+								.addComponent(lblNewLabel_7)
+								.addComponent(lblNewLabel_8)
+								.addComponent(lblNewLabel_9)
+								.addComponent(lblNewLabel_2)
+								.addComponent(lblNewLabel_3)
+								.addComponent(lblNewLabel_5))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(table, GroupLayout.PREFERRED_SIZE, 271, GroupLayout.PREFERRED_SIZE)
+							.addContainerGap())))
 		);
 		contentPanel.setLayout(gl_contentPanel);
 		{

@@ -1,5 +1,6 @@
 package vistaCliente;
 import java.awt.Color;
+
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,7 +19,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
-import VistaAdmin.InicioSesionAdmin;
+import vistaAdmin.InicioSesionAdmin;
 import db.DBManager;
 import model.Cliente;
 /**

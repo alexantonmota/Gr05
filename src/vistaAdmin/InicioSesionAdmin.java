@@ -1,4 +1,4 @@
-package VistaAdmin;
+package vistaAdmin;
 
 import java.awt.Color;
 import java.awt.EventQueue;

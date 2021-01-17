@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2021-01-14T20:53:32.681814Z</date>
+  <millis>1610657612681</millis>
+  <nanos>814000</nanos>
+  <sequence>0</sequence>
+  <logger>logger</logger>
+  <level>INFO</level>
+  <class>VistaCliente.InicioSesion</class>
+  <method>main</method>
+  <thread>1</thread>
+  <message>Inicio del programa Thu Jan 14 21:53:32 CET 2021</message>
+</record>
+<record>
+  <date>2021-01-14T20:53:41.806581Z</date>
+  <millis>1610657621806</millis>
+  <nanos>581000</nanos>
+  <sequence>1</sequence>
+  <logger>logger</logger>
+  <level>FINER</level>
+  <class>VistaCliente.InicioSesion</class>
+  <method>ingresar</method>
+  <thread>16</thread>
+  <message>Usuario conectado: alex</message>
+</record>
+</log>

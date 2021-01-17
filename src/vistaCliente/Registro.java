@@ -22,7 +22,7 @@ import javax.swing.JTextField;
 
 import db.Conexion;
 import model.Cliente;
-import VistaAdmin.GestionClientes2;
+import vistaAdmin.GestionClientes2;
 /**
  * Ventana de registro para clientes
  * @author alex
