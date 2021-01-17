@@ -124,7 +124,7 @@ public class Pelicula
 
 	public static ImageIcon posterPelicula(String titulo) {
 
-		ImageIcon imageIcon = new ImageIcon("../Imagenes/" + titulo + ".jpg");
+		ImageIcon imageIcon = new ImageIcon("./Imagenes/" + titulo + ".jpg");
 		Image image = imageIcon.getImage();
 		Image newimg = image.getScaledInstance(200, 277, java.awt.Image.SCALE_SMOOTH);
 		imageIcon = new ImageIcon(newimg);
