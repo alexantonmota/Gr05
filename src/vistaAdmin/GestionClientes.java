@@ -1,33 +1,14 @@
-package vistaAdmin;
+package VistaAdmin;
 import java.awt.BorderLayout;
-
-
-import java.awt.FlowLayout;
-
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.JTable;
-import javax.swing.border.EmptyBorder;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.FlowLayout;
 import java.awt.Font;
-import javax.swing.JLabel;
-import javax.swing.DefaultListModel;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JTextField;
-import javax.swing.ImageIcon;
-import javax.swing.border.LineBorder;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumnModel;
-
-import db.Conexion;
-
-import java.awt.event.ActionListener;
+import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Connection;
@@ -35,13 +16,25 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-import model.Cliente;
-
+import javax.swing.DefaultListModel;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.Component;
-import java.awt.ScrollPane;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
+
+import db.Conexion;
 /**
  * Ventana donde se gestionan los clientes, en la tabla aparecerán los valores que contenga la tabla de usuarios de la base de datos,
  *  con esta se podra: añadir, modificar o eliminar clickando sus respectivos botones,
@@ -376,6 +369,7 @@ public class GestionClientes extends JDialog {
 						txtFecha.setEditable(false);
 						txtEmail.setEditable(false);
 						btnModificar.setBackground(Color.ORANGE);
+						mostrarTabla();
 
 					}
 				});
@@ -429,6 +423,14 @@ public class GestionClientes extends JDialog {
 		JLabel lblEliC = new JLabel("Eliminar cliente");
 		lblEliC.setForeground(Color.ORANGE);
 		lblEliC.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 18));
+		textID = new JTextField();
+		textID.setBackground(Color.GRAY);
+		textID.setForeground(Color.GRAY);
+		textID.setOpaque(true);
+		textID.setBorder(null);
+
+		textID.setEditable(false);
+		textID.setColumns(10);
 
 		table= new JTable();
 		table.setAlignmentY(Component.BOTTOM_ALIGNMENT);
@@ -452,14 +454,7 @@ public class GestionClientes extends JDialog {
 			}
 		});
 
-		textID = new JTextField();
-		textID.setBackground(Color.GRAY);
-		textID.setForeground(Color.GRAY);
-		textID.setOpaque(true);
-		textID.setBorder(null);
-
-		textID.setEditable(false);
-		textID.setColumns(10);
+		
 
 		JLabel lblNewLabel = new JLabel("ID");
 		lblNewLabel.setForeground(Color.ORANGE);

@@ -2,26 +2,14 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2021-01-16T16:59:36.462041Z</date>
-  <millis>1610816376462</millis>
-  <nanos>41000</nanos>
+  <date>2021-01-17T12:24:43.593864Z</date>
+  <millis>1610886283593</millis>
+  <nanos>864000</nanos>
   <sequence>0</sequence>
   <logger>logger</logger>
   <level>INFO</level>
-  <class>vistaCliente.InicioSesion</class>
+  <class>InicioSesion</class>
   <method>main</method>
   <thread>1</thread>
-  <message>Inicio del programa Sat Jan 16 17:59:36 CET 2021</message>
-</record>
-<record>
-  <date>2021-01-16T16:59:44.360780Z</date>
-  <millis>1610816384360</millis>
-  <nanos>780000</nanos>
-  <sequence>1</sequence>
-  <logger>logger</logger>
-  <level>FINER</level>
-  <class>vistaCliente.InicioSesion</class>
-  <method>ingresar</method>
-  <thread>16</thread>
-  <message>Usuario conectado: alex</message>
+  <message>Inicio del programa Sun Jan 17 13:24:43 CET 2021</message>
 </record>

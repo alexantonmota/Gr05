@@ -1,6 +1,5 @@
-package vistaAdmin;
+package VistaAdmin;
 import java.sql.Connection;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 

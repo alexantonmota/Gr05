@@ -1,54 +1,43 @@
-package vistaAdmin;
+package VistaAdmin;
 import java.awt.BorderLayout;
-
-
+import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.File;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
+import javax.swing.BorderFactory;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Font;
-import java.awt.Image;
-import java.awt.ScrollPane;
-
 import javax.swing.JLabel;
-import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.JList;
-import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.ImageIcon;
+import javax.swing.JTextPane;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
 import db.Conexion;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.sql.Blob;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
-
-import javax.swing.SwingConstants;
-import javax.swing.JComboBox;
-import javax.swing.JTextPane;
-import model.Genero;
-import javax.swing.JTable;
 /**
  * Ventana para gestionar peliculas
  * @author alex
@@ -71,6 +60,8 @@ public class GestionPelis extends JDialog {
 	private JTextField textPosM;
 	static DefaultTableModel modelo;
 	private static JTable table;
+	private JTextField txtGenero;
+	private JTextField textSala;
 
 
 	/**
@@ -125,6 +116,63 @@ public class GestionPelis extends JDialog {
 
 
 		txtBus = new JTextField();
+		txtBus.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+
+				String[]titulos= {"ID","Título","Año","Género","Sinopsis","Duracion", "Trailer","Ruta Poster","Ruta Cartel", "Sala"};
+				String[]datos= new String[50];
+			    modelo= new DefaultTableModel(null,titulos);
+
+
+				String sql= "SELECT *FROM Pelicula WHERE titulo LIKE '%"+ txtBus.getText()+ "%'" +
+						"OR genero LIKE '%"+ txtBus.getText()+"%'"+
+								"OR anyo LIKE '%"+ txtBus.getText()+"%'"+
+										"OR duracion LIKE '%"+ txtBus.getText()+"%'";
+				
+				Conexion cc= new Conexion();
+				Connection conect= cc.conectar();
+
+
+
+				try {
+					Statement stmt= (Statement) conect.createStatement();
+					ResultSet rs= stmt.executeQuery(sql);
+					while(rs.next()) {
+						datos[0]= rs.getString("id");
+						datos[1]= rs.getString("titulo");
+						datos[2]= rs.getString("anyo");
+						datos[3]= rs.getString("genero");
+						datos[4]= rs.getString("sinopsis");
+						datos[5]= String.valueOf(rs.getInt("duracion"));			
+						datos[6]= rs.getString("trailer");
+						datos[7]= rs.getString("nomPoster");
+						datos[8]= rs.getString("nomPMenu");		
+						datos[9]= String.valueOf(rs.getInt("sala"));
+						
+						
+						modelo.addRow(datos);
+
+
+
+					}
+					table.setModel(modelo);
+					table.setSelectionBackground(Color.ORANGE);
+					TableColumnModel columnmodel= table.getColumnModel();
+					columnmodel.getColumn(0).setPreferredWidth(20);
+					columnmodel.getColumn(1).setPreferredWidth(140);
+					
+					
+				} catch (Exception ex) {
+					System.out.println(ex);
+				}
+			
+			}
+			
+			
+		});
+		
+		txtBus.setBackground(Color.ORANGE);
 		txtBus.setColumns(10);
 
 		JLabel lblTit = new JLabel("Titulo");
@@ -160,6 +208,37 @@ public class GestionPelis extends JDialog {
 		lblBus.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 18));
 
 		JLabel lblEli = new JLabel("");
+		lblEli.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				
+				Conexion cc= new Conexion();
+				Connection conect= cc.conectar();
+
+				int fila= table.getSelectedRow();
+				int codigo= Integer.parseInt(table.getValueAt(fila, 0).toString());
+
+
+				if(fila>0) {
+					PreparedStatement ps=null;
+
+					try {
+
+						ps= conect.prepareStatement("Delete from Pelicula where id=?");
+						ps.setInt(1, codigo);
+						ps.execute();
+						JOptionPane.showMessageDialog(null, "Película Eliminada");
+
+					} catch (Exception e2) {
+						System.out.println(e2);					}
+					modelo.removeRow(fila);
+
+				}else {
+
+				}
+			}
+			
+		});
 		lblEli.setHorizontalAlignment(SwingConstants.CENTER);
 		lblEli.setIcon(new ImageIcon("./Imagenes/dsjn.png"));
 		lblEli.setOpaque(true);
@@ -196,10 +275,8 @@ public class GestionPelis extends JDialog {
 		lblEliP.setForeground(Color.ORANGE);
 		lblEliP.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 18));
 
-		JComboBox comboGen = new JComboBox();
-		comboGen.setModel(new DefaultComboBoxModel(Genero.values()));
-
 		JTextPane textSinopsis = new JTextPane();
+		textSinopsis.setEditable(false);
 
 		JLabel lblPos = new JLabel("");
 		lblPos.setBorder(BorderFactory.createLineBorder(Color.ORANGE,4));
@@ -278,7 +355,7 @@ public class GestionPelis extends JDialog {
 				txtAny.setEditable(true);
 				txtDur.setEditable(true);
 				txtTrailer.setEditable(true);
-				comboGen.setEditable(true);
+				txtGenero.setEditable(true);
 				textSinopsis.setEditable(true);
 				btnSPos.setEnabled(true);
 				btnSubPMenu.setEnabled(true);
@@ -314,6 +391,52 @@ public class GestionPelis extends JDialog {
 		lblRPostM.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 18));
 		
 		table = new JTable();
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			//Autorrelleno de los campos al seccionar fila de la tabla
+			public void mouseClicked(MouseEvent e) {
+				int seleccion= table.rowAtPoint(e.getPoint());
+				txtTit.setText(String.valueOf(table.getValueAt(seleccion, 1)));
+				txtAny.setText(String.valueOf(table.getValueAt(seleccion, 2)));
+				txtGenero.setText(String.valueOf(table.getValueAt(seleccion, 3)));
+				textSinopsis.setText(String.valueOf(table.getValueAt(seleccion, 4)));
+				txtDur.setText(String.valueOf(table.getValueAt(seleccion, 5)));
+				txtTrailer.setText(String.valueOf(table.getValueAt(seleccion, 6)));
+				textPos.setText(String.valueOf(table.getValueAt(seleccion, 7)));
+				textPosM.setText(String.valueOf(table.getValueAt(seleccion, 8)));
+				textSala.setText(String.valueOf(table.getValueAt(seleccion, 9)));
+				ImageIcon image = new ImageIcon((String.valueOf(table.getValueAt(seleccion, 7))));
+				
+				Image img=image.getImage();
+				ImageIcon img2=new ImageIcon(img.getScaledInstance(98, 150, Image.SCALE_SMOOTH));
+				
+				lblPos.setIcon(img2);
+				
+				ImageIcon image2 = new ImageIcon((String.valueOf(table.getValueAt(seleccion, 8))));
+				
+				Image img3=image2.getImage();
+				ImageIcon img4=new ImageIcon(img3.getScaledInstance(200, 120, Image.SCALE_SMOOTH));
+				
+				lblPosMenu.setIcon(img4);
+				
+				
+				
+				
+				
+			}
+		});
+		
+		txtGenero = new JTextField();
+		txtGenero.setEditable(false);
+		txtGenero.setColumns(10);
+		
+		JLabel lblSala = new JLabel("Sala");
+		lblSala.setForeground(Color.ORANGE);
+		lblSala.setFont(new Font(".AppleSystemUIFont", Font.PLAIN, 18));
+		
+		textSala = new JTextField();
+		textSala.setEditable(false);
+		textSala.setColumns(10);
 
 
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
@@ -331,10 +454,12 @@ public class GestionPelis extends JDialog {
 								.addGroup(gl_contentPanel.createSequentialGroup()
 									.addComponent(table, GroupLayout.PREFERRED_SIZE, 683, GroupLayout.PREFERRED_SIZE)
 									.addGap(68)
-									.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-										.addComponent(lblMod)
-										.addComponent(lblAny)
-										.addComponent(lblEli))
+									.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
+										.addGroup(gl_contentPanel.createSequentialGroup()
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addComponent(lblEli, GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE))
+										.addComponent(lblMod, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+										.addComponent(lblAny, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 									.addGap(32)
 									.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
 										.addComponent(lblAnyP)
@@ -358,42 +483,39 @@ public class GestionPelis extends JDialog {
 										.addComponent(lblDur))
 									.addGap(47)
 									.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-										.addGroup(gl_contentPanel.createSequentialGroup()
-											.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-												.addComponent(lblContr)
-												.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
-													.addComponent(comboGen, 0, 140, Short.MAX_VALUE)
-													.addComponent(txtTit, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-													.addComponent(txtAny, 140, 140, 140)))
-											.addGap(85))
-										.addGroup(gl_contentPanel.createSequentialGroup()
-											.addComponent(txtDur, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-											.addGap(89))))
-								.addGroup(gl_contentPanel.createSequentialGroup()
-									.addComponent(lblAnyo)
-									.addGap(319)))
+										.addComponent(txtGenero, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addComponent(lblContr)
+										.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
+											.addComponent(txtTit, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+											.addComponent(txtAny, 140, 140, 140))
+										.addComponent(txtDur, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+								.addComponent(lblAnyo))
+							.addGap(170)
 							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
 								.addComponent(lblNomU)
 								.addComponent(lblTrai)
-								.addComponent(lblRutaP))
+								.addComponent(lblRutaP)
+								.addComponent(lblSala))
 							.addPreferredGap(ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
 							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-								.addComponent(txtTrailer, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
-									.addGroup(gl_contentPanel.createSequentialGroup()
-										.addComponent(textPos, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
-										.addComponent(lblRPostM)
-										.addGap(18)
-										.addComponent(textPosM, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-									.addComponent(textSinopsis, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 416, GroupLayout.PREFERRED_SIZE)))))
+								.addComponent(textSala, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addGroup(Alignment.TRAILING, gl_contentPanel.createParallelGroup(Alignment.LEADING)
+									.addComponent(txtTrailer, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
+										.addGroup(gl_contentPanel.createSequentialGroup()
+											.addComponent(textPos, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+											.addPreferredGap(ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+											.addComponent(lblRPostM)
+											.addGap(18)
+											.addComponent(textPosM, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+										.addComponent(textSinopsis, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 416, GroupLayout.PREFERRED_SIZE))))))
 					.addGap(49))
 				.addGroup(gl_contentPanel.createSequentialGroup()
 					.addGap(347)
 					.addComponent(lblGP, GroupLayout.PREFERRED_SIZE, 432, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(522, Short.MAX_VALUE))
+					.addContainerGap(607, Short.MAX_VALUE))
 				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addContainerGap(523, Short.MAX_VALUE)
+					.addContainerGap(608, Short.MAX_VALUE)
 					.addComponent(lblBus)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(txtBus, GroupLayout.PREFERRED_SIZE, 281, GroupLayout.PREFERRED_SIZE)
@@ -422,18 +544,22 @@ public class GestionPelis extends JDialog {
 											.addComponent(txtTit, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 											.addComponent(lblNomU))
 										.addPreferredGap(ComponentPlacement.UNRELATED)
-										.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
+										.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
 											.addComponent(lblGen)
-											.addComponent(comboGen, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+											.addComponent(txtGenero, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 										.addGap(18)
 										.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
 											.addComponent(lblAnyo)
 											.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
 												.addComponent(txtAny, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 												.addComponent(lblTrai)))))
-								.addPreferredGap(ComponentPlacement.UNRELATED)
-								.addComponent(btnSPos)
-								.addPreferredGap(ComponentPlacement.RELATED)))
+								.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+									.addGroup(gl_contentPanel.createSequentialGroup()
+										.addPreferredGap(ComponentPlacement.UNRELATED)
+										.addComponent(btnSPos))
+									.addGroup(gl_contentPanel.createSequentialGroup()
+										.addGap(11)
+										.addComponent(lblSala)))))
 						.addGroup(gl_contentPanel.createSequentialGroup()
 							.addComponent(textSinopsis, GroupLayout.PREFERRED_SIZE, 73, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -444,21 +570,21 @@ public class GestionPelis extends JDialog {
 								.addComponent(textPosM, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addComponent(lblRutaP)
 								.addComponent(lblRPostM))
-							.addGap(28)))
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
-						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_contentPanel.createSequentialGroup()
-									.addGap(39)
-									.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
-										.addComponent(txtBus, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-										.addComponent(lblBus)))
-								.addGroup(gl_contentPanel.createSequentialGroup()
-									.addGap(30)
-									.addComponent(lblPosMenu, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE)))
-							.addPreferredGap(ComponentPlacement.RELATED, 42, Short.MAX_VALUE))
-						.addGroup(gl_contentPanel.createSequentialGroup()
 							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(textSala, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)))
+					.addGap(26)
+					.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+							.addGroup(gl_contentPanel.createSequentialGroup()
+								.addGap(39)
+								.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
+									.addComponent(txtBus, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+									.addComponent(lblBus)))
+							.addGroup(gl_contentPanel.createSequentialGroup()
+								.addGap(30)
+								.addComponent(lblPosMenu, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE)))
+						.addGroup(gl_contentPanel.createSequentialGroup()
 							.addComponent(btnSubPMenu)
 							.addGap(53)))
 					.addPreferredGap(ComponentPlacement.RELATED)
@@ -467,7 +593,7 @@ public class GestionPelis extends JDialog {
 							.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING, false)
 								.addGroup(gl_contentPanel.createSequentialGroup()
 									.addComponent(lblAny, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE)
-									.addGap(26)
+									.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 									.addComponent(lblMod, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE)
 									.addGap(30))
 								.addGroup(gl_contentPanel.createSequentialGroup()
@@ -477,10 +603,12 @@ public class GestionPelis extends JDialog {
 									.addComponent(lblModP)
 									.addGap(59)))
 							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblEli, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE)
 								.addGroup(gl_contentPanel.createSequentialGroup()
 									.addGap(35)
-									.addComponent(lblEliP))))
+									.addComponent(lblEliP))
+								.addGroup(gl_contentPanel.createSequentialGroup()
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(lblEli, GroupLayout.PREFERRED_SIZE, 87, GroupLayout.PREFERRED_SIZE))))
 						.addComponent(table, GroupLayout.PREFERRED_SIZE, 326, GroupLayout.PREFERRED_SIZE))
 					.addGap(49))
 		);
@@ -516,11 +644,12 @@ public class GestionPelis extends JDialog {
 	static void mostrarTabla() {
 		
 
-		String[]titulos= {"ID","Título","Año","Género","Sinopsis","Duracion", "Trailer","Ruta Poster","Poster","Ruta Cartel","Cartel"};
-		Object[]datos= new Object[50];
+		String[]titulos= {"ID","Título","Año","Género","Sinopsis","Duracion", "Trailer","Ruta Poster","Ruta Cartel", "Sala"};
+		String[]datos= new String[50];
 	    modelo= new DefaultTableModel(null,titulos);
+	  
 
-		String sql="select id,titulo, anyo, genero,sinopsis,duracion, trailer, nomPoster, poster, nomPMenu, pMenu,sala from pelicula";
+		String sql="select id,titulo, anyo, genero,sinopsis,duracion, trailer, nomPoster, nomPMenu,sala from pelicula";
 
 		Conexion cc= new Conexion();
 		Connection conect= cc.conectar();
@@ -530,41 +659,16 @@ public class GestionPelis extends JDialog {
 			Statement stmt= (Statement) conect.createStatement();
 			ResultSet rs= stmt.executeQuery(sql);
 			while(rs.next()) {
-				datos[0]= rs.getInt("id");
+				datos[0]= String.valueOf(rs.getInt("id"));
 				datos[1]= rs.getString("titulo");
-				datos[2]= rs.getInt("anyo");
+				datos[2]= String.valueOf(rs.getInt("anyo"));
 				datos[3]= rs.getString("genero");
 				datos[4]= rs.getString("sinopsis");
-				datos[5]= rs.getInt("duracion");
-				
+				datos[5]= String.valueOf(rs.getInt("duracion"));			
 				datos[6]= rs.getString("trailer");
 				datos[7]= rs.getString("nomPoster");
-				Blob blob=rs.getBlob("poster");
-				
-				byte[]data= blob.getBytes(1, (int)blob.length());
-				BufferedImage img= null;
-
-				try {
-					img= ImageIO.read(new ByteArrayInputStream(data));
-
-				} catch (Exception e) {
-					System.out.println(e);
-				}
-				ImageIcon icono= new ImageIcon(img);
-				datos[8]= new JLabel(icono);
-				datos[9]= rs.getString("nomPMenu");
-				Blob blob2=rs.getBlob("pMenu");
-				byte[]data2= blob2.getBytes(1, (int)blob2.length());
-				BufferedImage img2= null;
-
-				try {
-					img2= ImageIO.read(new ByteArrayInputStream(data2));
-
-				} catch (Exception e) {
-					System.out.println(e);				}
-				ImageIcon icono2= new ImageIcon(img2);
-				datos[10]= new JLabel(icono2);
-				datos[11]= rs.getInt("sala");
+				datos[8]= rs.getString("nomPMenu");		
+				datos[9]= String.valueOf(rs.getInt("sala"));
 				modelo.addRow(datos);
 
 
@@ -572,10 +676,12 @@ public class GestionPelis extends JDialog {
 
 			}
 			table.setModel(modelo);
-			
+			table.setSelectionBackground(Color.ORANGE);
 			TableColumnModel columnmodel= table.getColumnModel();
-			columnmodel.getColumn(0).setPreferredWidth(15);
-			columnmodel.getColumn(0).setPreferredWidth(15);
+			columnmodel.getColumn(0).setPreferredWidth(20);
+			columnmodel.getColumn(1).setPreferredWidth(140);
+			
+			
 		} catch (Exception e) {
 			System.out.println(e);
 		}

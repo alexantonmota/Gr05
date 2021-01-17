@@ -1,5 +1,6 @@
 package vistaCliente;
 import java.awt.Color;
+
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,7 +22,7 @@ import javax.swing.JTextField;
 
 import db.Conexion;
 import model.Cliente;
-import vistaAdmin.GestionClientes2;
+import VistaAdmin.GestionClientes2;
 /**
  * Ventana de registro para clientes
  * @author alex

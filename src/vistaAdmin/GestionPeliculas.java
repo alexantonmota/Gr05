@@ -1,6 +1,5 @@
-package vistaAdmin;
+package VistaAdmin;
 import java.sql.Connection;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,7 +8,6 @@ import java.util.List;
 
 import db.Conexion;
 import model.Pelicula;
-import model.Genero;
 
 public class GestionPeliculas {
 
