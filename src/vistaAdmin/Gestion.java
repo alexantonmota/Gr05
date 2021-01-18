@@ -107,6 +107,7 @@ public class Gestion extends JDialog {
 			public void mouseClicked(MouseEvent e) {
 				GestionPelis gestionpeliculas= new GestionPelis();
 				gestionpeliculas.setVisible(true);
+				gestionpeliculas.mostrarTabla();
 
 
 
