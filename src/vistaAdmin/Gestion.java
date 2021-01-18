@@ -108,6 +108,7 @@ public class Gestion extends JDialog {
 				GestionPelis gestionpeliculas= new GestionPelis();
 				gestionpeliculas.setVisible(true);
 				gestionpeliculas.mostrarTabla();
+				
 
 
 
